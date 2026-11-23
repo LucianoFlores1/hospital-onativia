@@ -1,0 +1,770 @@
+<title>Oñativia: Centro de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+<style>
+/* Dirección C. Patrones de sitios de hospitales de alta complejidad (Mayo Clinic, Cleveland Clinic, Hospital Italiano):
+   menú por audiencia, buscador de atención con pestañas, ficha de servicio con pestañas y tarjeta de turno fija. */
+:root{
+  --ink:#0C2B33;--text:#1B2B30;--muted:#566A70;--line:#DCE5E7;--bg:#FFFFFF;--soft:#F1F6F7;
+  --teal:#0D6E78;--teal-dark:#095660;--teal-tint:#E0F0F1;--on-teal:#FFFFFF;
+  --font:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;--r:12px;--r-s:8px;
+  --shadow:0 1px 2px rgba(12,43,51,.06),0 10px 30px -12px rgba(12,43,51,.22);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--ink:#E4EEF0;--text:#D5E2E5;--muted:#9DB2B8;--line:#28393E;--bg:#0F1A1D;--soft:#162428;--teal:#5BC2CB;--teal-dark:#48AEB7;--teal-tint:#15353A;--on-teal:#04262A;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -12px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{color-scheme:dark;--ink:#E4EEF0;--text:#D5E2E5;--muted:#9DB2B8;--line:#28393E;--bg:#0F1A1D;--soft:#162428;--teal:#5BC2CB;--teal-dark:#48AEB7;--teal-tint:#15353A;--on-teal:#04262A;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -12px rgba(0,0,0,.6)}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--teal-tint)}
+.ic{width:1.2em;height:1.2em;fill:currentColor;flex:none}
+a{color:var(--teal);text-underline-offset:.2em}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+h1,h2,h3{margin:0;color:var(--ink);line-height:1.12;letter-spacing:-.02em;text-wrap:balance;font-weight:600}
+p{margin:0;max-width:62ch}
+.w{max-width:1240px;margin-inline:auto;padding-inline:16px}
+@media (min-width:768px){.w{padding-inline:32px}}
+.tbc{text-decoration:underline dotted #C9A227 2px;text-underline-offset:.25em;cursor:help}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:600;font-size:1rem;border-radius:999px;padding:12px 22px;border:1px solid transparent;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background-color .15s ease,transform .16s cubic-bezier(.23,1,.32,1)}
+.btn:active{transform:scale(.97)}
+.btn-p{background:var(--teal);color:var(--on-teal)}
+.btn-p:hover{background:var(--teal-dark)}
+.btn-g{border-color:var(--line);color:var(--ink);background:var(--bg)}
+.btn-g:hover{background:var(--soft)}
+
+/* header + mega menu */
+.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+.hd .w{display:flex;align-items:center;gap:8px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:600;margin-right:24px;line-height:1.15}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:var(--teal);color:var(--on-teal);display:grid;place-items:center}
+.logo small{display:block;font-weight:400;color:var(--muted);font-size:.8125rem}
+.menu{display:flex;gap:2px;margin-right:auto}
+.menu>button{white-space:nowrap;flex:none;font:inherit;font-size:.9375rem;font-weight:500;color:var(--text);background:none;border:0;padding:10px 12px;border-radius:var(--r-s);cursor:pointer;display:flex;align-items:center;gap:4px}
+.menu>button:hover,.menu>button[aria-expanded="true"]{background:var(--soft);color:var(--ink)}
+.menu>button .ic{width:14px;height:14px;transition:transform .2s ease}
+.menu>button[aria-expanded="true"] .ic{transform:rotate(180deg)}
+.icon-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+@media (max-width:1000px){.hd .w{flex-wrap:wrap;height:auto;padding-block:10px;row-gap:4px}.menu{order:5;width:100%;overflow-x:auto;margin:0 -8px}.logo{margin-right:auto}.mega .w{grid-template-columns:1fr;gap:16px}}
+@media (max-width:560px){.hd .btn-p span{display:none}.hd .btn-p{padding:12px}}
+.mega{position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:var(--shadow);opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .18s ease,transform .22s cubic-bezier(.23,1,.32,1)}
+.mega.open{opacity:1;transform:none;pointer-events:auto}
+.mega .w{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:40px;padding-block:32px 36px}
+.mega h2{font-size:1.25rem}
+.mega p{color:var(--muted);margin-top:8px;font-size:.9375rem}
+.mega ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.mega a{color:var(--ink);text-decoration:none;font-weight:500}
+.mega a:hover{color:var(--teal);text-decoration:underline}
+@media (prefers-reduced-motion:reduce){.mega{transition:opacity .1s ease;transform:none}}
+
+/* hero */
+.hero .w{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center;padding-block:48px 56px}
+.hero h1{font-size:clamp(2.25rem,4.4vw,3.5rem)}
+.hero p{font-size:1.1875rem;color:var(--muted);margin-top:20px;max-width:34em}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero img{height:auto;border-radius:var(--r);width:100%;aspect-ratio:4/3;object-fit:cover;object-position:58% 50%;max-width:100%}
+@media (max-width:860px){.hero .w{grid-template-columns:1fr;gap:28px;padding-block:28px 40px}.hero img{aspect-ratio:16/10}}
+
+/* finder */
+.finder{background:var(--soft)}
+.finder .w{padding-block:48px}
+.finder h2{font-size:clamp(1.5rem,2.6vw,2rem)}
+.fbox{margin-top:20px;background:var(--bg);border-radius:var(--r);box-shadow:var(--shadow);padding:8px}
+.tabs{display:flex;gap:4px;padding:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{font:inherit;font-size:.9375rem;font-weight:500;color:var(--muted);background:none;border:0;border-radius:var(--r-s);padding:8px 14px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--teal-tint);color:var(--teal)}
+.frow{display:flex;gap:8px;padding:12px 8px 8px}
+.frow input{flex:1;min-width:0;font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:999px;padding:12px 18px}
+.frow input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-tint)}
+.fres{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;padding:4px 12px 8px}
+@media (max-width:700px){.fres{grid-template-columns:1fr}}
+.fres a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 4px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+.fres a:hover{color:var(--teal)}
+.fres small{display:block;color:var(--muted);font-size:.875rem}
+.fres .empty{grid-column:1/-1;padding:16px 4px;color:var(--muted)}
+
+/* centros */
+.sec{padding-block:64px}
+.sec>.w>h2{font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:28px}
+.centers{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px}
+@media (max-width:860px){.centers{grid-template-columns:1fr}}
+.feature{display:flex;flex-direction:column;border-radius:var(--r);overflow:hidden;background:var(--ink);color:#E9F2F3;text-decoration:none}
+:root[data-theme="dark"] .feature{background:#16343B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .feature{background:#16343B}}
+.feature .ph{aspect-ratio:16/9;background:#1D4650;display:grid;place-items:center;color:#A9C7CC;text-align:center;padding:16px;font-size:.9375rem;max-width:100%}
+.feature div.t{padding:24px 28px 28px}
+.feature h3{color:#fff;font-size:1.625rem}
+.feature p{margin-top:8px;color:#C7DADD}
+.feature .more{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-weight:600;color:#fff}
+.feature:hover .more{text-decoration:underline}
+.clist{display:grid;align-content:start}
+.clist a{display:grid;grid-template-columns:44px 1fr auto;gap:4px 16px;align-items:start;padding:20px 0;border-bottom:1px solid var(--line);color:var(--text);text-decoration:none}
+.clist a:first-child{padding-top:0}
+.clist .ib{width:44px;height:44px;border-radius:var(--r-s);background:var(--teal-tint);color:var(--teal);display:grid;place-items:center}
+.clist h3{font-size:1.1875rem}
+.clist p{grid-column:2;color:var(--muted);font-size:.96875rem}
+.clist .go{grid-row:1;grid-column:3;color:var(--muted);transition:transform .2s ease}
+.clist a:hover h3{color:var(--teal)}
+.clist a:hover .go{transform:translateX(3px);color:var(--teal)}
+
+/* visita */
+.visit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+@media (max-width:860px){.visit{grid-template-columns:1fr}}
+.visit>div{padding:24px 24px 8px 0}
+.visit>div+div{padding-left:24px;border-left:1px solid var(--line)}
+@media (max-width:860px){.visit>div+div{padding-left:0;border-left:0;border-top:1px solid var(--line)}}
+.visit h3{font-size:1.125rem;display:flex;gap:10px;align-items:center}
+.visit h3 .ic{color:var(--teal)}
+.visit p{color:var(--muted);margin-top:8px;font-size:.96875rem}
+.visit a{display:inline-block;margin-top:10px;font-weight:600}
+
+/* investigación */
+.research{background:var(--soft)}
+.research .w{display:grid;grid-template-columns:auto minmax(0,1fr);gap:40px;align-items:center;padding-block:56px}
+.research img{height:auto;width:150px;border-radius:var(--r);filter:grayscale(1)}
+.research h2{font-size:clamp(1.5rem,2.6vw,2rem)}
+.research p{color:var(--muted);margin-top:12px}
+@media (max-width:640px){.research .w{grid-template-columns:1fr}.research img{width:110px}}
+.ft{border-top:1px solid var(--line);padding-block:40px;font-size:.9375rem;color:var(--muted)}
+.ft .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+@media (max-width:820px){.ft .cols{grid-template-columns:1fr 1fr}}
+.ft h2{font-size:.9375rem;color:var(--ink);margin-bottom:12px;letter-spacing:0}
+.ft ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ft a{color:var(--muted);text-decoration:none}
+.ft a:hover{color:var(--teal);text-decoration:underline}
+
+/* ficha */
+.fh{background:var(--soft);border-bottom:1px solid var(--line)}
+.fh .w{padding-block:20px 0}
+.crumbs{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px;padding:0;font-size:.875rem;color:var(--muted)}
+.crumbs li+li::before{content:"/";margin-right:6px}
+.fh h1{font-size:clamp(2rem,4vw,3rem)}
+.fh p{font-size:1.1875rem;color:var(--muted);margin-top:12px}
+.ftabs{display:flex;gap:4px;margin-top:28px;overflow-x:auto}
+.ftabs button{font:inherit;font-weight:500;font-size:.96875rem;color:var(--muted);background:none;border:0;border-bottom:2px solid transparent;padding:12px 14px;cursor:pointer;white-space:nowrap}
+.ftabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--teal)}
+.fbody{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:48px;padding-block:40px 64px}
+@media (max-width:900px){.fbody{grid-template-columns:1fr}}
+.fbody h2{font-size:1.5rem;margin:32px 0 12px}
+.fbody h2:first-child{margin-top:0}
+.fbody p+p{margin-top:12px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:24px}
+@media (max-width:640px){.facts{grid-template-columns:1fr}}
+.facts div{background:var(--soft);border-radius:var(--r-s);padding:16px}
+.facts b{display:block;font-size:1.75rem;color:var(--ink);font-weight:600;letter-spacing:-.02em}
+.facts span{font-size:.875rem;color:var(--muted)}
+.ol{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.ol li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px}
+.ol li::before{content:counter(s);width:32px;height:32px;border-radius:999px;background:var(--teal-tint);color:var(--teal);display:grid;place-items:center;font-weight:600;font-size:.9375rem}
+.ol b{display:block;color:var(--ink)}
+.team{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.team{grid-template-columns:1fr}}
+.team div{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:var(--r-s);padding:14px}
+.team .av{width:44px;height:44px;border-radius:999px;background:var(--teal-tint);color:var(--teal);display:grid;place-items:center;flex:none}
+.team b{display:block;color:var(--ink);font-weight:600}
+.team span{font-size:.875rem;color:var(--muted)}
+.book{position:sticky;top:96px;border-radius:var(--r);padding:24px;box-shadow:var(--shadow);background:var(--bg)}
+.book h2{font-size:1.25rem!important;margin:0 0 8px!important}
+.book .phone{font-size:2.5rem;font-weight:600;color:var(--ink);letter-spacing:-.02em;line-height:1.1;margin:12px 0 4px}
+.book p{color:var(--muted);font-size:.9375rem}
+.book .btn{width:100%;justify-content:center;margin-top:20px}
+.book hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.book dl{margin:0;display:grid;gap:10px;font-size:.9375rem}
+.book dt{color:var(--muted)}
+.book dd{margin:0;color:var(--ink);font-weight:500}
+.pslot{aspect-ratio:16/9;max-width:100%;border-radius:var(--r);background:var(--soft);border:1px dashed var(--line);display:grid;place-items:center;text-align:center;color:var(--muted);padding:16px;margin-top:24px;font-size:.9375rem}
+</style>
+<style>/* ===== Sistema móvil compartido. Cada propuesta define --m-* con sus tokens. ===== */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+@media (min-width:721px){.m-only,.mbar,.mtabs,.maction,.msheet{display:none!important}}
+@media (max-width:720px){
+  .d-only{display:none!important}
+  body{background:var(--m-page);padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  a,button,summary,label{touch-action:manipulation}
+  button,summary,.mtab,.m-row,.m-chip,.m-tile{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  input,select,textarea{font-size:16px!important}
+}
+
+/* barra superior */
+.mbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:56px;display:flex;align-items:center;gap:2px;padding:0 6px 0 12px;background:var(--m-bar-bg);color:var(--m-bar-ink);border-bottom:1px solid var(--m-bar-line)}
+.mbar .mlogo{width:32px;height:32px;border-radius:var(--m-r-s);background:var(--m-bar-mark);color:var(--m-bar-mark-ink);display:grid;place-items:center;flex:none;margin-right:8px}
+.mbar .mlogo .ic{width:20px;height:20px}
+.mtitle{flex:1;min-width:0;font-weight:700;font-size:17px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mtitle small{display:block;font-weight:400;font-size:12px;opacity:.75}
+.mbtn{width:44px;height:44px;flex:none;display:grid;place-items:center;border:0;background:none;color:inherit;border-radius:12px;cursor:pointer;transition:background-color .1s ease}
+.mbtn:active{background:var(--m-bar-press)}
+.mbtn .ic{width:24px;height:24px}
+.mback{display:none;margin-left:-6px}
+body[data-view="ficha"] .mback{display:grid}
+body[data-view="ficha"] .mbar .mlogo{display:none}
+
+/* pestañas inferiores */
+.mtabs{position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:repeat(4,1fr);background:var(--m-surface);border-top:1px solid var(--m-line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.mtab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:60px;font-size:12px;font-weight:600;color:var(--m-muted);text-decoration:none;transition:color .1s ease}
+.mtab .ic{width:24px;height:24px}
+.mtab[aria-current="true"]{color:var(--m-accent-ink,var(--m-accent))}
+.mtab:active .ic{transform:scale(.9)}
+.maction{position:fixed;left:0;right:0;bottom:0;z-index:50;display:none;grid-template-columns:1fr 1.4fr;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--m-surface);border-top:1px solid var(--m-line)}
+@media (max-width:720px){body[data-view="ficha"] .mtabs{display:none}body[data-view="ficha"] .maction{display:grid}}
+.mact{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:var(--m-r-btn);font-weight:700;font-size:16px;text-decoration:none;transition:transform .12s cubic-bezier(.23,1,.32,1)}
+.mact:active{transform:scale(.97)}
+.mact.p{background:var(--m-accent);color:var(--m-on-accent)}
+.mact.s{background:var(--m-tint);color:var(--m-ink)}
+
+/* hojas (menú y búsqueda) */
+.msheet{position:fixed;inset:0;z-index:90;visibility:hidden;pointer-events:none}
+.msheet.open{visibility:visible;pointer-events:auto}
+.msheet .scrim{position:absolute;inset:0;background:rgba(8,14,20,.45);opacity:0;transition:opacity .25s ease}
+.msheet.open .scrim{opacity:1}
+.msheet .panel{position:absolute;left:0;right:0;bottom:0;max-height:88dvh;display:flex;flex-direction:column;background:var(--m-page);border-radius:16px 16px 0 0;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);padding-bottom:env(safe-area-inset-bottom,0px)}
+.msheet.open .panel{transform:none}
+.msheet .grab{width:36px;height:5px;border-radius:3px;background:var(--m-line);margin:8px auto 4px;flex:none}
+.msheet .ph{display:flex;align-items:center;justify-content:space-between;padding:4px 8px 8px 16px;flex:none}
+.msheet .ph h2{font-size:20px;margin:0;color:var(--m-ink)}
+.msheet .body{overflow-y:auto;overscroll-behavior:contain;padding:0 16px 24px}
+.msheet.full .panel{top:0;max-height:none;border-radius:0}
+.msheet.full .panel{padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-reduced-motion:reduce){.msheet .panel{transition:none}}
+.msearch{display:flex;align-items:center;gap:4px;padding:8px 8px 8px 12px;border-bottom:1px solid var(--m-line);background:var(--m-surface);flex:none}
+.msearch input{flex:1;min-width:0;height:44px;border:1px solid var(--m-line);border-radius:var(--m-r-btn);padding:0 14px;background:var(--m-page);color:var(--m-ink);font:inherit}
+.msearch input:focus{outline:none;border-color:var(--m-accent);box-shadow:0 0 0 3px var(--m-tint)}
+.mhint{color:var(--m-muted);font-size:14px;margin:16px 0 8px}
+
+/* componentes */
+.m-sec{padding:28px 16px 0}
+.m-sec>h2,.m-h2{font-size:20px;line-height:1.2;margin:0 0 12px;color:var(--m-ink);letter-spacing:-.01em}
+.m-group{background:var(--m-surface);border:1px solid var(--m-line);border-radius:var(--m-r);overflow:hidden}
+.m-row{display:flex;align-items:center;gap:12px;min-height:56px;padding:10px 14px;color:var(--m-ink);text-decoration:none;position:relative;background:none;border:0;width:100%;font:inherit;text-align:left;cursor:pointer}
+.m-row+.m-row::before{content:"";position:absolute;top:0;right:0;left:14px;border-top:1px solid var(--m-line)}
+.m-group.ico .m-row+.m-row::before{left:58px}
+.m-row:active{background:var(--m-press)}
+.m-row .mi{width:32px;height:32px;flex:none;border-radius:var(--m-r-s);background:var(--m-tint);color:var(--m-accent-ink,var(--m-accent));display:grid;place-items:center}
+.m-row .mi .ic{width:20px;height:20px}
+.m-row .tx{flex:1;min-width:0}
+.m-row b{display:block;font-weight:600;font-size:16px;line-height:1.3}
+.m-row small{display:block;color:var(--m-muted);font-size:14px;line-height:1.35;margin-top:1px}
+.m-row .chev{color:var(--m-muted);width:18px;height:18px;flex:none}
+.m-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 16px;margin:0 -16px;scroll-snap-type:x proximity}
+.m-chips::-webkit-scrollbar{display:none}
+.m-chip{flex:none;scroll-snap-align:start;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--m-line);background:var(--m-surface);color:var(--m-ink);font:inherit;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer}
+.m-chip[aria-pressed="true"]{background:var(--m-ink);border-color:var(--m-ink);color:var(--m-page)}
+.m-chip:active{transform:scale(.97)}
+.m-fakesearch{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:0 16px;border-radius:var(--m-r-btn);border:1px solid var(--m-line);background:var(--m-surface);color:var(--m-muted);font:inherit;font-size:16px;text-align:left;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.m-fakesearch .ic{color:var(--m-ink)}
+.m-acc{background:var(--m-surface);border:1px solid var(--m-line);border-radius:var(--m-r);overflow:hidden}
+.m-acc details+details{border-top:1px solid var(--m-line)}
+.m-acc summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:56px;padding:0 14px;font-weight:600;color:var(--m-ink);cursor:pointer}
+.m-acc summary::-webkit-details-marker{display:none}
+.m-acc summary .n{margin-left:auto;color:var(--m-muted);font-weight:400;font-size:14px}
+.m-acc summary .chev{color:var(--m-muted);width:18px;height:18px;transition:transform .2s ease}
+.m-acc details[open] summary .chev{transform:rotate(180deg)}
+.m-acc details .m-row{padding-left:14px}
+.m-acc details>div{border-top:1px solid var(--m-line)}
+.m-foot{padding:32px 16px 16px;color:var(--m-muted);font-size:14px;line-height:1.5}
+.m-foot b{color:var(--m-ink)}
+.m-phslot{aspect-ratio:16/9;max-width:100%;display:grid;place-items:center;text-align:center;padding:12px;font-size:14px;color:var(--m-muted);background:var(--m-tint)}
+
+:root{--m-page:var(--soft);--m-surface:var(--bg);--m-ink:var(--ink);--m-muted:var(--muted);--m-line:var(--line);--m-accent:var(--teal);--m-on-accent:var(--on-teal);--m-tint:var(--teal-tint);--m-press:var(--soft);--m-r:16px;--m-r-s:10px;--m-r-btn:999px;--m-bar-bg:var(--bg);--m-bar-ink:var(--ink);--m-bar-line:var(--line);--m-bar-mark:var(--teal);--m-bar-mark-ink:var(--on-teal);--m-bar-press:var(--soft)}
+@media (max-width:720px){
+  .c-mhero{background:var(--bg);padding:16px 16px 24px;border-bottom:1px solid var(--line)}
+  .c-mhero img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:60% 50%;border-radius:16px;max-width:100%}
+  .c-mhero h1{font-size:28px;margin-top:20px}
+  .c-mhero p{color:var(--muted);margin-top:8px;font-size:17px}
+  .c-cta{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;margin-top:20px}
+  .c-cta .mact{cursor:pointer}
+  .c-rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px;padding:0 16px 4px;scroll-padding-inline:16px}
+  .c-rail::-webkit-scrollbar{display:none}
+  .c-card{flex:none;width:78%;scroll-snap-align:start;display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);border-radius:16px;overflow:hidden;color:var(--ink);text-decoration:none}
+  .c-card:active{transform:scale(.99)}
+  .c-card .ih{aspect-ratio:16/9;display:grid;place-items:center;background:var(--teal-tint);color:var(--teal);max-width:100%}
+  .c-card .ih .ic{width:40px;height:40px}
+  .c-card .t{padding:14px 16px 16px}
+  .c-card b{display:block;font-size:18px;font-weight:600}
+  .c-card span{display:block;color:var(--muted);font-size:15px;margin-top:4px;line-height:1.4}
+  .c-card.dark{background:#0C2B33;border-color:#0C2B33;color:#fff}
+  .c-card.dark .m-phslot{background:#1D4650;color:#A9C7CC}
+  .c-card.dark b{color:#fff}
+  .c-card.dark span{color:#C7DADD}
+  .c-place{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:14px}
+  .c-place b{display:block;font-size:18px;color:var(--ink)}
+  .c-place span{display:block;color:var(--muted);font-size:15px;margin-top:2px}
+  .c-res{display:flex;gap:14px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .c-res img{width:64px;height:auto;border-radius:10px;filter:grayscale(1)}
+  .c-res b{display:block;color:var(--ink)}
+  .c-res span{display:block;color:var(--muted);font-size:15px;line-height:1.4;margin-top:2px}
+  /* ficha */
+  .fh .w{padding-top:16px}
+  .fh .crumbs{display:none}
+  .fh h1{font-size:30px}
+  .fh p{font-size:17px}
+  .ftabs{margin:16px -16px 0;padding:0 8px;scrollbar-width:none}
+  .ftabs::-webkit-scrollbar{display:none}
+  .ftabs button{min-height:48px}
+  .fbody{grid-template-columns:1fr;gap:0;padding:20px 16px 24px}
+  .fbody aside{display:none}
+  .fbody h2{font-size:22px}
+  .facts{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .facts div{padding:12px;background:var(--bg);border:1px solid var(--line)}
+  .facts b{font-size:22px}
+  .facts span{font-size:13px}
+  .team{grid-template-columns:1fr}
+}
+</style>
+
+<style>
+.pbar{position:relative;z-index:100;background:#111;color:#eee;font:500 13px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
+.pbar>div{max-width:1240px;margin-inline:auto;padding:8px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.pbar a{color:#9fe0c7}
+.pbar b{color:#fff}
+.pbar .seg{display:inline-flex;background:#2a2a2a;border-radius:8px;padding:2px;margin-left:auto}
+.pbar .seg button{font:inherit;color:#ccc;background:none;border:0;border-radius:6px;padding:5px 10px;cursor:pointer}
+.pbar .seg button[aria-pressed="true"]{background:#fff;color:#111}
+.pbar .lg{display:inline-flex;align-items:center;gap:6px;color:#bbb}
+.pbar .lg i{width:18px;border-bottom:2px dotted #F5B400}
+@media (max-width:640px){.pbar .lg{display:none}}
+</style>
+<div class="pbar" role="region" aria-label="Controles del prototipo"><div>
+<a href="index.html">Todas las propuestas</a><span><b>Propuesta C:</b> Centro de referencia</span><span class="lg"><i></i>Dato a confirmar</span>
+<span class="seg" role="group" aria-label="Página"><button data-view="inicio" aria-pressed="true">Inicio</button><button data-view="ficha" aria-pressed="false">Ficha de servicio</button></span>
+</div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="ph-arrow-left" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></symbol>
+<symbol id="ph-arrow-right" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol>
+<symbol id="ph-arrow-square-out" viewBox="0 0 256 256"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/></symbol>
+<symbol id="ph-bed" viewBox="0 0 256 256"><path d="M216,72H32V48a8,8,0,0,0-16,0V208a8,8,0,0,0,16,0V176H240v32a8,8,0,0,0,16,0V112A40,40,0,0,0,216,72ZM32,88h72v72H32Zm88,72V88h96a24,24,0,0,1,24,24v48Z"/></symbol>
+<symbol id="ph-buildings" viewBox="0 0 256 256"><path d="M240,208H224V96a16,16,0,0,0-16-16H144V32a16,16,0,0,0-24.88-13.32L39.12,72A16,16,0,0,0,32,85.34V208H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM208,96V208H144V96ZM48,85.34,128,32V208H48ZM112,112v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm-32,0v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm0,56v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Zm32,0v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Z"/></symbol>
+<symbol id="ph-bus" viewBox="0 0 256 256"><path d="M184,32H72A32,32,0,0,0,40,64V208a16,16,0,0,0,16,16H80a16,16,0,0,0,16-16V192h64v16a16,16,0,0,0,16,16h24a16,16,0,0,0,16-16V64A32,32,0,0,0,184,32ZM56,176V120H200v56Zm0-96H200v24H56ZM72,48H184a16,16,0,0,1,16,16H56A16,16,0,0,1,72,48Zm8,160H56V192H80Zm96,0V192h24v16Zm-72-60a12,12,0,1,1-12-12A12,12,0,0,1,104,148Zm72,0a12,12,0,1,1-12-12A12,12,0,0,1,176,148Zm72-68v24a8,8,0,0,1-16,0V80a8,8,0,0,1,16,0ZM24,80v24a8,8,0,0,1-16,0V80a8,8,0,0,1,16,0Z"/></symbol>
+<symbol id="ph-calendar-check" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-38.34-85.66a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L116,164.69l42.34-42.35A8,8,0,0,1,169.66,122.34Z"/></symbol>
+<symbol id="ph-caret-down" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></symbol>
+<symbol id="ph-caret-right" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></symbol>
+<symbol id="ph-chat-circle-text" viewBox="0 0 256 256"><path d="M168,112a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,112Zm-8,24H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm72-8A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"/></symbol>
+<symbol id="ph-check-circle" viewBox="0 0 256 256"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></symbol>
+<symbol id="ph-clock" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></symbol>
+<symbol id="ph-copy" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></symbol>
+<symbol id="ph-drop" viewBox="0 0 256 256"><path d="M174,47.75a254.19,254.19,0,0,0-41.45-38.3,8,8,0,0,0-9.18,0A254.19,254.19,0,0,0,82,47.75C54.51,79.32,40,112.6,40,144a88,88,0,0,0,176,0C216,112.6,201.49,79.32,174,47.75ZM128,216a72.08,72.08,0,0,1-72-72c0-57.23,55.47-105,72-118,16.53,13,72,60.75,72,118A72.08,72.08,0,0,1,128,216Zm55.89-62.66a57.6,57.6,0,0,1-46.56,46.55A8.75,8.75,0,0,1,136,200a8,8,0,0,1-1.32-15.89c16.57-2.79,30.63-16.85,33.44-33.45a8,8,0,0,1,15.78,2.68Z"/></symbol>
+<symbol id="ph-envelope-simple" viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/></symbol>
+<symbol id="ph-file-text" viewBox="0 0 256 256"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-32-80a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,136Zm0,32a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,168Z"/></symbol>
+<symbol id="ph-first-aid" viewBox="0 0 256 256"><path d="M216,88H168V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V88H40a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16H88v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V168h48a16,16,0,0,0,16-16V104A16,16,0,0,0,216,88Zm0,64H160a8,8,0,0,0-8,8v56H104V160a8,8,0,0,0-8-8H40V104H96a8,8,0,0,0,8-8V40h48V96a8,8,0,0,0,8,8h56Z"/></symbol>
+<symbol id="ph-flask" viewBox="0 0 256 256"><path d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"/></symbol>
+<symbol id="ph-graduation-cap" viewBox="0 0 256 256"><path d="M251.76,88.94l-120-64a8,8,0,0,0-7.52,0l-120,64a8,8,0,0,0,0,14.12L32,117.87v48.42a15.91,15.91,0,0,0,4.06,10.65C49.16,191.53,78.51,216,128,216a130,130,0,0,0,48-8.76V240a8,8,0,0,0,16,0V199.51a115.63,115.63,0,0,0,27.94-22.57A15.91,15.91,0,0,0,224,166.29V117.87l27.76-14.81a8,8,0,0,0,0-14.12ZM128,200c-43.27,0-68.72-21.14-80-33.71V126.4l76.24,40.66a8,8,0,0,0,7.52,0L176,143.47v46.34C163.4,195.69,147.52,200,128,200Zm80-33.75a97.83,97.83,0,0,1-16,14.25V134.93l16-8.53ZM188,118.94l-.22-.13-56-29.87a8,8,0,0,0-7.52,14.12L171,128l-43,22.93L25,96,128,41.07,231,96Z"/></symbol>
+<symbol id="ph-hand-heart" viewBox="0 0 256 256"><path d="M230.33,141.06a24.34,24.34,0,0,0-18.61-4.77C230.5,117.33,240,98.48,240,80c0-26.47-21.29-48-47.46-48A47.58,47.58,0,0,0,156,48.75,47.58,47.58,0,0,0,119.46,32C93.29,32,72,53.53,72,80c0,11,3.24,21.69,10.06,33a31.87,31.87,0,0,0-14.75,8.4L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM119.46,48A31.15,31.15,0,0,1,148.6,67a8,8,0,0,0,14.8,0,31.15,31.15,0,0,1,29.14-19C209.59,48,224,62.65,224,80c0,19.51-15.79,41.58-45.66,63.9l-11.09,2.55A28,28,0,0,0,140,112H100.68C92.05,100.36,88,90.12,88,80,88,62.65,102.41,48,119.46,48ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9Z"/></symbol>
+<symbol id="ph-heartbeat" viewBox="0 0 256 256"><path d="M72,144H32a8,8,0,0,1,0-16H67.72l13.62-20.44a8,8,0,0,1,13.32,0l25.34,38,9.34-14A8,8,0,0,1,136,128h24a8,8,0,0,1,0,16H140.28l-13.62,20.44a8,8,0,0,1-13.32,0L88,126.42l-9.34,14A8,8,0,0,1,72,144ZM178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,.75,0,1.5,0,2.25a8,8,0,1,0,16-.5c0-.58,0-1.17,0-1.75A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46c0,53.61-77.76,102.15-96,112.8-10.83-6.31-42.63-26-66.68-52.21a8,8,0,1,0-11.8,10.82c31.17,34,72.93,56.68,74.69,57.63a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/></symbol>
+<symbol id="ph-house-line" viewBox="0 0 256 256"><path d="M240,208H224V136l2.34,2.34A8,8,0,0,0,237.66,127L139.31,28.68a16,16,0,0,0-22.62,0L18.34,127a8,8,0,0,0,11.32,11.31L32,136v72H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM48,120l80-80,80,80v88H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48Zm96,88H112V160h32Z"/></symbol>
+<symbol id="ph-identification-card" viewBox="0 0 256 256"><path d="M200,112a8,8,0,0,1-8,8H152a8,8,0,0,1,0-16h40A8,8,0,0,1,200,112Zm-8,24H152a8,8,0,0,0,0,16h40a8,8,0,0,0,0-16Zm40-80V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Zm-80.26-34a8,8,0,1,1-15.5,4c-2.63-10.26-13.06-18-24.25-18s-21.61,7.74-24.25,18a8,8,0,1,1-15.5-4,39.84,39.84,0,0,1,17.19-23.34,32,32,0,1,1,45.12,0A39.76,39.76,0,0,1,135.75,166ZM96,136a16,16,0,1,0-16-16A16,16,0,0,0,96,136Z"/></symbol>
+<symbol id="ph-info" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></symbol>
+<symbol id="ph-list" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></symbol>
+<symbol id="ph-magnifying-glass" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></symbol>
+<symbol id="ph-map-pin" viewBox="0 0 256 256"><path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"/></symbol>
+<symbol id="ph-microscope" viewBox="0 0 256 256"><path d="M224,208H203.94A88.05,88.05,0,0,0,144,64.37V32a16,16,0,0,0-16-16H80A16,16,0,0,0,64,32V136a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V80.46A72,72,0,0,1,181.25,208H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16Zm-96-72H80V32h48V136ZM72,184a8,8,0,0,1,0-16h64a8,8,0,0,1,0,16Z"/></symbol>
+<symbol id="ph-navigation-arrow" viewBox="0 0 256 256"><path d="M237.33,106.21,61.41,41l-.16-.05A16,16,0,0,0,40.9,61.25a1,1,0,0,0,.05.16l65.26,175.92A15.77,15.77,0,0,0,121.28,248h.3a15.77,15.77,0,0,0,15-11.29l.06-.2,21.84-78,78-21.84.2-.06a16,16,0,0,0,.62-30.38ZM149.84,144.3a8,8,0,0,0-5.54,5.54L121.3,232l-.06-.17L56,56l175.82,65.22.16.06Z"/></symbol>
+<symbol id="ph-phone-call" viewBox="0 0 256 256"><path d="M144.27,45.93a8,8,0,0,1,9.8-5.66,86.22,86.22,0,0,1,61.66,61.66,8,8,0,0,1-5.66,9.8A8.23,8.23,0,0,1,208,112a8,8,0,0,1-7.73-5.94,70.35,70.35,0,0,0-50.33-50.33A8,8,0,0,1,144.27,45.93Zm-2.33,41.8c13.79,3.68,22.65,12.54,26.33,26.33A8,8,0,0,0,176,120a8.23,8.23,0,0,0,2.07-.27,8,8,0,0,0,5.66-9.8c-5.12-19.16-18.5-32.54-37.66-37.66a8,8,0,1,0-4.13,15.46Zm81.94,95.35A56.26,56.26,0,0,1,168,232C88.6,232,24,167.4,24,88A56.26,56.26,0,0,1,72.92,32.12a16,16,0,0,1,16.62,9.52l21.12,47.15,0,.12A16,16,0,0,1,109.39,104c-.18.27-.37.52-.57.77L88,129.45c7.49,15.22,23.41,31,38.83,38.51l24.34-20.71a8.12,8.12,0,0,1,.75-.56,16,16,0,0,1,15.17-1.4l.13.06,47.11,21.11A16,16,0,0,1,223.88,183.08Zm-15.88-2s-.07,0-.11,0h0l-47-21.05-24.35,20.71a8.44,8.44,0,0,1-.74.56,16,16,0,0,1-15.75,1.14c-18.73-9.05-37.4-27.58-46.46-46.11a16,16,0,0,1,1-15.7,6.13,6.13,0,0,1,.57-.77L96,95.15l-21-47a.61.61,0,0,1,0-.12A40.2,40.2,0,0,0,40,88,128.14,128.14,0,0,0,168,216,40.21,40.21,0,0,0,208,181.07Z"/></symbol>
+<symbol id="ph-phone" viewBox="0 0 256 256"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/></symbol>
+<symbol id="ph-squares-four" viewBox="0 0 256 256"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/></symbol>
+<symbol id="ph-stethoscope" viewBox="0 0 256 256"><path d="M220,160a12,12,0,1,1-12-12A12,12,0,0,1,220,160Zm-4.55,39.29A48.08,48.08,0,0,1,168,240H144a48.05,48.05,0,0,1-48-48V151.49A64,64,0,0,1,40,88V40a8,8,0,0,1,8-8H72a8,8,0,0,1,0,16H56V88a48,48,0,0,0,48.64,48c26.11-.34,47.36-22.25,47.36-48.83V48H136a8,8,0,0,1,0-16h24a8,8,0,0,1,8,8V87.17c0,32.84-24.53,60.29-56,64.31V192a32,32,0,0,0,32,32h24a32.06,32.06,0,0,0,31.22-25,40,40,0,1,1,16.23.27ZM232,160a24,24,0,1,0-24,24A24,24,0,0,0,232,160Z"/></symbol>
+<symbol id="ph-user" viewBox="0 0 256 256"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"/></symbol>
+<symbol id="ph-users-three" viewBox="0 0 256 256"><path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"/></symbol>
+<symbol id="ph-warning" viewBox="0 0 256 256"><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z"/></symbol>
+<symbol id="ph-wheelchair" viewBox="0 0 256 256"><path d="M255.59,189.47a8,8,0,0,0-10.12-5.06l-17.42,5.81-28.9-57.8A8,8,0,0,0,192,128H112V104h56a8,8,0,0,0,0-16H112V79a32,32,0,1,0-16,0V89.81A72,72,0,0,0,112,232c33.52,0,63.69-22.71,71.75-54a8,8,0,1,0-15.5-4C162.09,198,137.91,216,112,216A56,56,0,0,1,96,106.34V136a8,8,0,0,0,8,8h83.05l29.79,59.58a8,8,0,0,0,9.69,4l24-8A8,8,0,0,0,255.59,189.47ZM88,48a16,16,0,1,1,16,16A16,16,0,0,1,88,48Z"/></symbol>
+<symbol id="ph-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol>
+</svg><header class="mbar">
+  <button class="mbtn mback" data-go="inicio" aria-label="Volver al inicio"><svg class="ic"><use href="#ph-arrow-left"/></svg></button>
+  <span class="mlogo" aria-hidden="true"><svg class="ic"><use href="#ph-first-aid"/></svg></span>
+  <span class="mtitle" id="mTitle">Hospital Oñativia<small>Salta</small></span>
+  <button class="mbtn" data-sheet="mSearch" aria-label="Buscar"><svg class="ic"><use href="#ph-magnifying-glass"/></svg></button>
+  <button class="mbtn" data-sheet="mMenu" aria-label="Menú"><svg class="ic"><use href="#ph-list"/></svg></button>
+</header>
+
+<nav class="mtabs" aria-label="Navegación principal">
+  <a class="mtab" href="#m-top" data-go="inicio" aria-current="true"><svg class="ic"><use href="#ph-house-line"/></svg>Inicio</a>
+  <a class="mtab" href="#m-turnos" data-go="inicio"><svg class="ic"><use href="#ph-calendar-check"/></svg>Turnos</a>
+  <a class="mtab" href="#m-servicios" data-go="inicio"><svg class="ic"><use href="#ph-stethoscope"/></svg>Servicios</a>
+  <a class="mtab" href="#m-llegar" data-go="inicio"><svg class="ic"><use href="#ph-map-pin"/></svg>Cómo llegar</a>
+</nav>
+
+<div class="maction">
+  <a class="mact s" href="https://www.google.com/maps/search/?api=1&query=Hospital+Arturo+O%C3%B1ativia+Salta" target="_blank" rel="noopener"><svg class="ic"><use href="#ph-navigation-arrow"/></svg>Cómo llegar</a>
+  <a class="mact p" href="tel:148"><svg class="ic"><use href="#ph-phone"/></svg>Llamar al 148</a>
+</div>
+
+<div class="msheet full" id="mSearch" role="dialog" aria-modal="true" aria-label="Buscar">
+  <div class="scrim" data-close></div>
+  <div class="panel">
+    <div class="msearch">
+      <label for="mq" class="sr">Buscar un servicio o trámite</label>
+      <input id="mq" type="search" placeholder="Servicio, estudio o trámite" autocomplete="off" enterkeyhint="search">
+      <button class="mbtn" data-close aria-label="Cerrar búsqueda" style="color:var(--m-ink)"><svg class="ic"><use href="#ph-x"/></svg></button>
+    </div>
+    <div class="body">
+      <p class="mhint" id="mqHint">Búsquedas frecuentes</p>
+      <div class="m-group" id="mqRes"></div>
+    </div>
+  </div>
+</div>
+
+<div class="msheet" id="mMenu" role="dialog" aria-modal="true" aria-labelledby="mMenuT">
+  <div class="scrim" data-close></div>
+  <div class="panel">
+    <div class="grab"></div>
+    <div class="ph"><h2 id="mMenuT">Menú</h2><button class="mbtn" data-close aria-label="Cerrar menú" style="color:var(--m-ink)"><svg class="ic"><use href="#ph-x"/></svg></button></div>
+    <div class="body">
+      <p class="mhint" style="margin-top:0">Pacientes</p>
+      <div class="m-group">
+        <a class="m-row" href="#m-turnos" data-go="inicio" data-close><span class="tx"><b>Pedir un turno</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-servicios" data-go="inicio" data-close><span class="tx"><b>Servicios</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-llegar" data-go="inicio" data-close><span class="tx"><b>Internación y visitas</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-llegar" data-go="inicio" data-close><span class="tx"><b>Reclamos y sugerencias</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+      </div>
+      <p class="mhint">Profesionales</p>
+      <div class="m-group">
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Residencias y concurrencias</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Investigación</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+      </div>
+      <p class="mhint">El hospital</p>
+      <div class="m-group">
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Historia</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Autoridades</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Calidad y transparencia</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<header class="hd d-only">
+  <div class="w">
+    <a class="logo" href="#inicio" data-go="inicio"><span class="logo-mark"><svg class="ic"><use href="#ph-first-aid"/></svg></span><span>Hospital Oñativia<small>Salta, Argentina</small></span></a>
+    <nav class="menu" aria-label="Principal">
+      <button aria-expanded="false" aria-controls="m-pac">Pacientes y familias <svg class="ic"><use href="#ph-caret-down"/></svg></button>
+      <button aria-expanded="false" aria-controls="m-esp">Especialidades <svg class="ic"><use href="#ph-caret-down"/></svg></button>
+      <button aria-expanded="false" aria-controls="m-pro">Profesionales <svg class="ic"><use href="#ph-caret-down"/></svg></button>
+      <button aria-expanded="false" aria-controls="m-hos">El hospital <svg class="ic"><use href="#ph-caret-down"/></svg></button>
+    </nav>
+    <button class="icon-btn" aria-label="Buscar" id="toFinder"><svg class="ic"><use href="#ph-magnifying-glass"/></svg></button>
+    <a class="btn btn-p" href="#visita" data-go="inicio"><svg class="ic"><use href="#ph-calendar-check"/></svg><span>Pedir turno</span></a>
+  </div>
+  <div class="mega" id="m-pac"><div class="w">
+    <div><h2>Pacientes y familias</h2><p>Todo lo que necesitás antes, durante y después de tu atención.</p></div>
+    <ul><li><a href="#visita">Pedir un turno</a></li><li><a href="#visita">Qué llevar</a></li><li><a href="#visita">Preparación para estudios</a></li><li><a href="#visita">Retirar resultados</a></li></ul>
+    <ul><li><a href="#visita">Internación y visitas</a></li><li><a href="#visita">Atención sin obra social</a></li><li><a href="#visita">Derechos del paciente</a></li><li><a href="#visita">Reclamos y sugerencias</a></li></ul>
+  </div></div>
+  <div class="mega" id="m-esp"><div class="w">
+    <div><h2>Especialidades</h2><p>31 servicios, de Anatomía Patológica a Vacunatorio.</p><p><a href="#finder" class="btn btn-g" style="margin-top:12px">Ver todas</a></p></div>
+    <ul><li><a href="#finder">Endocrinología</a></li><li><a href="#finder">Diabetes</a></li><li><a href="#finder">Cirugía tiroidea</a></li><li><a href="#finder">Medicina Nuclear</a></li></ul>
+    <ul><li><a href="#ficha" data-go="ficha">Hemodiálisis</a></li><li><a href="#finder">Nefrología</a></li><li><a href="#finder">Trasplante Renal</a></li><li><a href="#finder">Laboratorio</a></li></ul>
+  </div></div>
+  <div class="mega" id="m-pro"><div class="w">
+    <div><h2>Profesionales</h2><p>Formación de posgrado, derivaciones e investigación.</p></div>
+    <ul><li><a href="#research">Residencias</a></li><li><a href="#research">Concurrencias y pasantías</a></li><li><a href="#research">Rotaciones y visitas</a></li></ul>
+    <ul><li><a href="#research">Unidad de Conocimiento Traslacional</a></li><li><a href="#research">Convenio con CONICET</a></li><li><a href="#research">Derivar un paciente</a></li></ul>
+  </div></div>
+  <div class="mega" id="m-hos"><div class="w">
+    <div><h2>El hospital</h2><p>Hospital público de gestión descentralizada desde 2000.</p></div>
+    <ul><li><a href="#research">Historia</a></li><li><a href="#research">Misión y valores</a></li><li><a href="#research">Autoridades</a></li></ul>
+    <ul><li><a href="#research">Calidad</a></li><li><a href="#research">Carta de servicios</a></li><li><a href="#research">Cooperadora</a></li></ul>
+  </div></div>
+</header>
+
+<main data-page="inicio" class="d-only">
+  <section class="hero">
+    <div class="w">
+      <div>
+        <h1>Alta complejidad en endocrinología, diabetes y riñón</h1>
+        <p>Hospital público de Salta. Atendemos con o sin obra social, desde 1956.</p>
+        <div class="cta"><a class="btn btn-p" href="#visita">Pedir turno</a><a class="btn btn-g" href="#finder">Buscar especialidad</a></div>
+      </div>
+      <img src="img/fachada.jpg" alt="Fachada del Hospital Dr. Arturo Oñativia sobre calle Paz Chaín" width="1800" height="792" fetchpriority="high">
+    </div>
+  </section>
+
+  <section class="finder" id="finder">
+    <div class="w">
+      <h2>Encontrá tu atención</h2>
+      <div class="fbox">
+        <div class="tabs" role="tablist" aria-label="Buscar por">
+          <button role="tab" aria-selected="true" data-t="all">Especialidad</button>
+          <button role="tab" aria-selected="false" data-t="Diagnóstico">Estudio</button>
+          <button role="tab" aria-selected="false" data-t="Cirugía">Cirugía</button>
+          <button role="tab" aria-selected="false" data-t="Apoyo">Apoyo al paciente</button>
+        </div>
+        <div class="frow"><label for="fq" class="sr">Buscar</label><input id="fq" type="search" placeholder="Ej.: tiroides, diálisis, análisis de sangre" autocomplete="off"></div>
+        <div class="fres" id="fres"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="w">
+      <h2>Centros de referencia</h2>
+      <div class="centers">
+        <a class="feature" href="#ficha" data-go="ficha">
+          <div class="ph">Foto a producir: sala de hemodiálisis (16:9)</div>
+          <div class="t"><h3>Hemodiálisis</h3><p>El único centro de hemodiálisis en un hospital público de Salta. 17 puestos en tres turnos.</p><span class="more">Conocé el servicio <svg class="ic"><use href="#ph-arrow-right"/></svg></span></div>
+        </a>
+        <div class="clist">
+          <a href="#finder"><span class="ib"><svg class="ic"><use href="#ph-heartbeat"/></svg></span><h3>Medicina Nuclear</h3><svg class="ic go"><use href="#ph-caret-right"/></svg><p>Único servicio del NOA en un hospital público.</p></a>
+          <a href="#finder"><span class="ib"><svg class="ic"><use href="#ph-stethoscope"/></svg></span><h3>Endocrinología y cirugía tiroidea</h3><svg class="ic go"><use href="#ph-caret-right"/></svg><p>Referencia provincial para adultos.</p></a>
+          <a href="#finder"><span class="ib"><svg class="ic"><use href="#ph-drop"/></svg></span><h3>Trasplante renal</h3><svg class="ic go"><use href="#ph-caret-right"/></svg><p>Desde 2010, con o sin obra social.</p></a>
+          <a href="#finder"><span class="ib"><svg class="ic"><use href="#ph-flask"/></svg></span><h3>Diabetes</h3><svg class="ic go"><use href="#ph-caret-right"/></svg><p>Diagnóstico, control y educación.</p></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="visita" style="padding-top:0">
+    <div class="w">
+      <h2>Antes de venir</h2>
+      <div class="visit">
+        <div><h3><svg class="ic"><use href="#ph-identification-card"/></svg>Qué llevar</h3><p>DNI, orden médica y estudios previos. <span class="tbc" title="Dato a confirmar">Credencial de obra social si tenés.</span></p><a href="#visita">Ver lista completa</a></div>
+        <div><h3><svg class="ic"><use href="#ph-map-pin"/></svg>Cómo llegar</h3><p>Paz Chaín 30, Salta Capital. Ingreso por el Centro Ambulatorio para consultorios y extracciones.</p><a href="https://www.google.com/maps/search/?api=1&query=Hospital+Arturo+O%C3%B1ativia+Salta" target="_blank" rel="noopener">Abrir en el mapa</a></div>
+        <div><h3><svg class="ic"><use href="#ph-bed"/></svg>Internación y visitas</h3><p>Horarios de visita, acompañantes e informes médicos.</p><a href="#visita">Ver horarios</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="research" id="research">
+    <div class="w">
+      <img src="img/arturo-onativia.jpg" alt="Dr. Arturo Oñativia" width="209" height="300" loading="lazy">
+      <div>
+        <h2>Investigación y docencia desde la fundación</h2>
+        <p>El Dr. Arturo Oñativia dirigió el Instituto del Bocio desde 1958. Hoy el hospital forma residentes en tres especialidades y tiene la primera Unidad de Conocimiento Traslacional del NOA, junto al CONICET.</p>
+        <p style="margin-top:20px"><a class="btn btn-g" href="#research">Docencia e investigación</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main data-page="inicio" class="m-only" id="m-top">
+  <div class="c-mhero">
+    <img src="img/fachada.jpg" alt="Fachada del Hospital Dr. Arturo Oñativia" width="1800" height="792">
+    <h1>Alta complejidad en endocrinología, diabetes y riñón</h1>
+    <p>Hospital público de Salta. Con o sin obra social.</p>
+    <div class="c-cta">
+      <a class="mact p" href="#m-turnos" data-go="inicio"><svg class="ic"><use href="#ph-calendar-check"/></svg>Pedir turno</a>
+      <button class="mact s" data-sheet="mSearch" style="border:0;font:inherit;font-weight:700"><svg class="ic"><use href="#ph-magnifying-glass"/></svg>Buscar</button>
+    </div>
+  </div>
+  <section class="m-sec" id="m-servicios">
+    <h2>Encontrá tu atención</h2>
+    <div class="m-chips" id="cChips" role="group" aria-label="Filtrar">
+      <button class="m-chip" data-t="ref" aria-pressed="true">De referencia</button>
+      <button class="m-chip" data-t="Especialidad" aria-pressed="false">Especialidades</button>
+      <button class="m-chip" data-t="Diagnóstico" aria-pressed="false">Estudios</button>
+      <button class="m-chip" data-t="Cirugía" aria-pressed="false">Cirugía</button>
+      <button class="m-chip" data-t="Tratamiento" aria-pressed="false">Tratamiento</button>
+      <button class="m-chip" data-t="Apoyo" aria-pressed="false">Apoyo</button>
+    </div>
+    <div class="m-group" id="cRes" style="margin-top:12px"></div>
+  </section>
+  <section class="m-sec">
+    <h2>Centros de referencia</h2>
+    <div class="c-rail">
+      <a class="c-card dark" href="#ficha" data-go="ficha"><div class="m-phslot">Foto a producir: sala de hemodiálisis</div><div class="t"><b>Hemodiálisis</b><span>Único centro en un hospital público de Salta. 17 puestos.</span></div></a>
+      <a class="c-card" href="#m-servicios"><div class="ih"><svg class="ic"><use href="#ph-heartbeat"/></svg></div><div class="t"><b>Medicina Nuclear</b><span>Único servicio del NOA en un hospital público.</span></div></a>
+      <a class="c-card" href="#m-servicios"><div class="ih"><svg class="ic"><use href="#ph-stethoscope"/></svg></div><div class="t"><b>Endocrinología y tiroides</b><span>Referencia provincial para adultos.</span></div></a>
+      <a class="c-card" href="#m-servicios"><div class="ih"><svg class="ic"><use href="#ph-drop"/></svg></div><div class="t"><b>Trasplante renal</b><span>Desde 2010, con o sin obra social.</span></div></a>
+    </div>
+  </section>
+  <section class="m-sec" id="m-turnos">
+    <h2>Antes de venir</h2>
+    <div class="m-group ico">
+      <a class="m-row" href="tel:148"><span class="mi"><svg class="ic"><use href="#ph-phone"/></svg></span><span class="tx"><b>Pedí turno al 148</b><small>Línea provincial. También en Admisión.</small></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+      <div class="m-row"><span class="mi"><svg class="ic"><use href="#ph-identification-card"/></svg></span><span class="tx"><b>Qué llevar</b><small>DNI, orden médica y estudios previos</small></span></div>
+      <a class="m-row" href="#m-llegar"><span class="mi"><svg class="ic"><use href="#ph-bed"/></svg></span><span class="tx"><b>Internación y visitas</b><small>Horarios y acompañantes</small></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+    </div>
+  </section>
+  <section class="m-sec" id="m-llegar">
+    <h2>Cómo llegar</h2>
+    <div class="c-place">
+      <div><b>Paz Chaín 30</b><span>Salta Capital. Ingreso por el Centro Ambulatorio para consultorios y extracciones.</span></div>
+      <a class="mact s" href="https://www.google.com/maps/search/?api=1&query=Hospital+Arturo+O%C3%B1ativia+Salta" target="_blank" rel="noopener"><svg class="ic"><use href="#ph-navigation-arrow"/></svg>Abrir en el mapa</a>
+    </div>
+  </section>
+  <section class="m-sec">
+    <div class="c-res">
+      <img src="img/arturo-onativia.jpg" alt="Dr. Arturo Oñativia" width="209" height="300" loading="lazy">
+      <div><b>Investigación y docencia</b><span>Tres residencias y la primera Unidad de Conocimiento Traslacional del NOA, con el CONICET.</span></div>
+    </div>
+  </section>
+  <footer class="m-foot"><b>Hospital Dr. Arturo Oñativia</b><br>Hospital Público de Gestión Descentralizada. Ministerio de Salud Pública de Salta.</footer>
+</main>
+
+
+<main data-page="ficha" hidden>
+  <section class="fh">
+    <div class="w">
+      <ol class="crumbs"><li><a href="#inicio" data-go="inicio">Inicio</a></li><li><a href="#finder" data-go="inicio">Especialidades</a></li><li>Hemodiálisis</li></ol>
+      <h1>Hemodiálisis</h1>
+      <p>Tratamiento para personas con insuficiencia renal crónica.</p>
+      <div class="ftabs" role="tablist" aria-label="Secciones del servicio">
+        <button role="tab" aria-selected="true" data-p="gen">Generalidades</button>
+        <button role="tab" aria-selected="false" data-p="acc">Cómo acceder</button>
+        <button role="tab" aria-selected="false" data-p="eq">Equipo</button>
+      </div>
+    </div>
+  </section>
+  <div class="w fbody">
+    <div>
+      <div data-panel="gen">
+        <h2>Sobre el servicio</h2>
+        <p>Es el único centro de hemodiálisis en un hospital público de Salta. Atiende a pacientes con y sin obra social, y prioriza a las personas sin cobertura.</p>
+        <p>La Unidad de Hemodiálisis funciona desde 1976. En 2011 se inauguró el nuevo centro, que amplió la cantidad de puestos.</p>
+        <div class="facts"><div><b>17</b><span>puestos de diálisis</span></div><div><b>3</b><span>turnos por día</span></div><div><b>100</b><span>pacientes en tratamiento</span></div></div>
+        <div class="pslot">Foto a producir: sala de hemodiálisis (16:9)</div>
+      </div>
+      <div data-panel="acc" hidden>
+        <h2>Cómo empezar el tratamiento</h2>
+        <ol class="ol">
+          <li><div><b>Consulta con Nefrología</b>Pedí turno al 148. Llevá estudios previos y la derivación si venís de otro centro.</div></li>
+          <li><div><b>Evaluación</b>El nefrólogo define si necesitás diálisis.</div></li>
+          <li><div><b>Turno fijo de diálisis</b>Te asignan un puesto y un turno.</div></li>
+          <li><div><b>Trasplante renal</b>Si corresponde, empezás los estudios para trasplante en el mismo hospital.</div></li>
+        </ol>
+      </div>
+      <div data-panel="eq" hidden>
+        <h2>Equipo</h2>
+        <div class="team">
+          <div><span class="av"><svg class="ic"><use href="#ph-user"/></svg></span><span><b>Dr. Raúl Pidoux</b><span>Programa de Nefrología y Hemodiálisis</span></span></div>
+          <div><span class="av"><svg class="ic"><use href="#ph-user"/></svg></span><span><b>Dr. Jorge Zapata</b><span>Sector Hemodiálisis</span></span></div>
+          <div><span class="av"><svg class="ic"><use href="#ph-user"/></svg></span><span><b>Dr. Antonio Moya</b><span>Sector Nefrología</span></span></div>
+          <div><span class="av"><svg class="ic"><use href="#ph-user"/></svg></span><span><b>Lic. Susana Ríos</b><span>Jefa de Enfermería de Nefrología</span></span></div>
+        </div>
+      </div>
+    </div>
+    <aside>
+      <div class="book">
+        <h2>Pedir turno con Nefrología</h2>
+        <p>Línea provincial de turnos</p>
+        <div class="phone">148</div>
+        <p>O en Admisión, Centro Ambulatorio.</p>
+        <hr>
+        <dl><div><dt>Dónde</dt><dd>Paz Chaín 30, Salta</dd></div><div><dt>Consultas</dt><dd>0387 431-5042</dd></div><div><dt>Cobertura</dt><dd>Con o sin obra social</dd></div></dl>
+        <a class="btn btn-g" href="https://www.google.com/maps/search/?api=1&query=Hospital+Arturo+O%C3%B1ativia+Salta" target="_blank" rel="noopener"><svg class="ic"><use href="#ph-map-pin"/></svg>Cómo llegar</a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="ft d-only">
+  <div class="w cols">
+    <div><h2>Hospital Dr. Arturo Oñativia</h2><p>Hospital Público de Gestión Descentralizada. Ministerio de Salud Pública de Salta.</p><p style="margin-top:12px">Paz Chaín 30, Salta Capital<br>Turnos: 148 · Conmutador: 0387 431-5042</p></div>
+    <div><h2>Pacientes</h2><ul><li><a href="#visita">Turnos</a></li><li><a href="#finder">Especialidades</a></li><li><a href="#visita">Derechos del paciente</a></li></ul></div>
+    <div><h2>Profesionales</h2><ul><li><a href="#research">Residencias</a></li><li><a href="#research">Investigación</a></li></ul></div>
+    <div><h2>El hospital</h2><ul><li><a href="#research">Autoridades</a></li><li><a href="#research">Calidad</a></li><li><a href="#research">Cooperadora</a></li></ul></div>
+  </div>
+</footer>
+
+<script>
+// Datos reales de servicios (fuente: investigacion/inventario-contenido.md)
+var SERVICIOS=[
+  ["Anatomía Patológica y Biología Molecular","Diagnóstico","Biopsias, citologías y marcadores moleculares en tumores endocrinos.","biopsia puncion"],
+  ["Cardiología","Especialidad","Consultorios y Unidad de Monitoreo Intensivo.","corazon presion"],
+  ["Cirugía bariátrica","Cirugía","Gastrectomía vertical y bypass gástrico, con equipo interdisciplinario.","obesidad manga"],
+  ["Cirugía endocrina y tiroidea","Cirugía","Cirugía de tiroides, paratiroides y suprarrenales. Centro de referencia.","tiroides bocio nodulo"],
+  ["Cirugía general y anestesia","Cirugía","Cirugías programadas.","operacion quirofano"],
+  ["Cirugía Percutánea e Imágenes","Diagnóstico","Ecografías y procedimientos guiados por imágenes.","ecografia"],
+  ["Cirugía vascular y traumatológica","Cirugía","Patología vascular y traumatológica.","venas huesos"],
+  ["Clínica Médica","Especialidad","Atención clínica de adultos, guardia y sala de internación.","medico clinico"],
+  ["Cooperadora Asistencial","Apoyo","Medicamentos, estudios y traslados para pacientes sin recursos.","ayuda donar"],
+  ["Diabetes","Especialidad","Diagnóstico, control y educación. Centro de referencia.","azucar insulina glucemia"],
+  ["Endocrinología","Especialidad","Tiroides, hipófisis y suprarrenales. Centro de referencia.","hormonas tiroides"],
+  ["Enfermería","Apoyo","Cuidados en todos los turnos y sectores.","enfermera"],
+  ["Farmacia y Esterilización","Apoyo","Medicamentos para pacientes del hospital.","remedios"],
+  ["Fonoaudiología","Tratamiento","Voz, deglución y audición.","voz habla"],
+  ["Genética Clínica y Citogenética","Diagnóstico","Asesoramiento a familias con riesgo genético.","cariotipo"],
+  ["Hemodiálisis","Tratamiento","17 puestos en tres turnos. Único centro en un hospital público de Salta.","dialisis riñon renal"],
+  ["Hemoterapia","Tratamiento","Transfusiones y donación de sangre.","sangre donar"],
+  ["Hepatitis Virales (UNHEVI)","Especialidad","Diagnóstico y tratamiento de hepatitis virales.","higado"],
+  ["Kinesiología","Tratamiento","Rehabilitación y fisioterapia.","rehabilitacion gimnasio"],
+  ["Laboratorio Bioquímico","Diagnóstico","Análisis clínicos y hormonales.","analisis sangre extraccion"],
+  ["Medicina Nuclear","Diagnóstico","Centellogramas y tratamientos con radioisótopos. Único servicio público del NOA.","centellograma yodo"],
+  ["Nefrología","Especialidad","Enfermedades del riñón e insuficiencia renal.","riñon renal"],
+  ["Nutrición","Especialidad","Obesidad, alimentación y nutrición clínica.","dieta peso"],
+  ["Odontología","Especialidad","Atención odontológica.","dientes dentista"],
+  ["Patología mamaria y ginecológica","Cirugía","Diagnóstico y cirugía de mama y ginecológica.","mama"],
+  ["Salud Mental","Especialidad","Psicología y acompañamiento.","psicologia"],
+  ["Servicio Social","Apoyo","Orientación y ayuda para pacientes y familias.","tramites ayuda"],
+  ["Trasplante Renal","Tratamiento","Evaluación, trasplante y seguimiento, con o sin obra social.","riñon trasplante"],
+  ["Unidad de Cuidados Intensivos","Tratamiento","Pacientes críticos.","terapia intensiva"],
+  ["Urología","Cirugía","Patología urológica y trasplante.","prostata riñon"],
+  ["Vacunatorio","Apoyo","Vacunación en el Centro Ambulatorio.","vacuna"]
+];
+function norm(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}
+function buscar(q){q=norm(q.trim());if(!q)return[];return SERVICIOS.filter(function(s){var h=norm(s.join(' '));return q.split(/\s+/).every(function(w){return h.indexOf(w)>-1})})}
+// Vistas del prototipo: inicio / ficha
+function vistas(){
+  var btns=document.querySelectorAll('[data-view]');
+  function show(v,keep){
+    document.querySelectorAll('[data-page]').forEach(function(p){p.hidden=p.dataset.page!==v});
+    btns.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.view===v)});
+    document.body.dataset.view=v;
+    var t=document.getElementById('mTitle');
+    if(t)t.innerHTML=v==='ficha'?'Hemodiálisis<small>Servicio</small>':'Hospital Oñativia<small>Salta</small>';
+    try{history.replaceState(null,'',v==='ficha'?'#ficha':'#inicio')}catch(e){}
+    if(!keep)window.scrollTo(0,0);
+  }
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('[data-go]');if(!t)return;
+    e.preventDefault();show(t.dataset.go);
+    var h=t.getAttribute('href');
+    if(h&&h.length>1&&h!=='#inicio'&&h!=='#ficha'){var el=document.querySelector(h);if(el&&el.offsetParent!==null)el.scrollIntoView()}
+    if(t.classList.contains('mtab')){document.querySelectorAll('.mtab').forEach(function(x){x.setAttribute('aria-current',x===t)})}
+  });
+  btns.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.view)})});
+  show(location.hash==='#ficha'?'ficha':'inicio');
+  mobile();
+}
+function mobile(){
+  var open=null,last=null;
+  function openS(id){var s=document.getElementById(id);if(!s)return;last=document.activeElement;s.classList.add('open');open=s;document.documentElement.style.overflow='hidden';
+    var i=s.querySelector('input');setTimeout(function(){(i||s.querySelector('[data-close].mbtn')).focus()},60);if(i)render()}
+  function closeS(){if(!open)return;open.classList.remove('open');open=null;document.documentElement.style.overflow='';if(last&&last.focus)last.focus()}
+  document.addEventListener('click',function(e){
+    var o=e.target.closest('[data-sheet]');if(o){openS(o.dataset.sheet);return}
+    if(open&&e.target.closest('[data-close]'))closeS();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeS()});
+  var q=document.getElementById('mq'),res=document.getElementById('mqRes'),hint=document.getElementById('mqHint');
+  if(!q)return;
+  function row(s){var f=s[0]==='Hemodiálisis';return '<a class="m-row" href="'+(f?'#ficha" data-go="ficha':'#m-servicios" data-go="inicio')+'" data-close><span class="tx"><b>'+s[0]+'</b><small>'+s[2]+'</small></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>'}
+  function render(){
+    var v=q.value.trim();
+    if(!v){hint.textContent='Búsquedas frecuentes';res.hidden=false;res.innerHTML=SERVICIOS.filter(function(s){return /^(Hemodiálisis|Laboratorio Bioquímico|Endocrinología|Vacunatorio|Medicina Nuclear)$/.test(s[0])}).map(row).join('');return}
+    var r=buscar(v);
+    hint.textContent=r.length?r.length+(r.length===1?' resultado':' resultados'):'No encontramos “'+v+'”. Probá con otra palabra o llamá al 0387 431-5042.';
+    res.hidden=!r.length;res.innerHTML=r.map(row).join('');
+  }
+  q.addEventListener('input',render);
+}
+
+(function(){
+  vistas();
+  (function(){
+    var out=document.getElementById('cRes'),t='ref';
+    function run(){
+      var l=t==='ref'?SERVICIOS.filter(function(s){return /referencia|nico/.test(s[2])}):SERVICIOS.filter(function(s){return s[1]===t});
+      out.innerHTML=l.map(function(s){var f=s[0]==='Hemodiálisis';return '<a class="m-row" href="'+(f?'#ficha" data-go="ficha':'#m-servicios')+'"><span class="tx"><b>'+s[0]+'</b><small>'+s[2]+'</small></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>'}).join('');
+    }
+    document.querySelectorAll('#cChips .m-chip').forEach(function(b){b.addEventListener('click',function(){t=b.dataset.t;document.querySelectorAll('#cChips .m-chip').forEach(function(x){x.setAttribute('aria-pressed',x===b)});run()})});
+    run();
+  })();
+
+  // mega menu
+  var btns=[].slice.call(document.querySelectorAll('.menu>button'));
+  function closeAll(except){btns.forEach(function(b){if(b!==except){b.setAttribute('aria-expanded','false');document.getElementById(b.getAttribute('aria-controls')).classList.remove('open')}})}
+  btns.forEach(function(b){b.addEventListener('click',function(){var o=b.getAttribute('aria-expanded')!=='true';closeAll(b);b.setAttribute('aria-expanded',o);document.getElementById(b.getAttribute('aria-controls')).classList.toggle('open',o)})});
+  document.addEventListener('click',function(e){if(!e.target.closest('.hd')||e.target.closest('.mega a'))closeAll()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+  // finder
+  var t='all',q=document.getElementById('fq'),out=document.getElementById('fres');
+  function run(){
+    var list=q.value.trim()?buscar(q.value):SERVICIOS;
+    if(t!=='all')list=list.filter(function(s){return s[1]===t});
+    if(!q.value.trim()&&t==='all')list=list.filter(function(s){return /referencia|Único|único/.test(s[2])});
+    out.innerHTML=list.length?list.slice(0,8).map(function(s){return '<a href="'+(s[0]==='Hemodiálisis'?'#ficha" data-go="ficha':'#finder')+'"><span>'+s[0]+'<small>'+s[2]+'</small></span><svg class="ic"><use href="#ph-caret-right"/></svg></a>'}).join(''):'<p class="empty">No encontramos resultados para “'+q.value.replace(/</g,'&lt;')+'”. Probá con otra palabra.</p>';
+  }
+  document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){t=b.dataset.t;document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-selected',x===b)});run()})});
+  q.addEventListener('input',run);run();
+  document.getElementById('toFinder').addEventListener('click',function(){document.querySelector('[data-view="inicio"]').click();setTimeout(function(){document.getElementById('finder').scrollIntoView();q.focus()},30)});
+  // tabs ficha
+  document.querySelectorAll('.ftabs button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.ftabs button').forEach(function(x){x.setAttribute('aria-selected',x===b)});document.querySelectorAll('[data-panel]').forEach(function(p){p.hidden=p.dataset.panel!==b.dataset.p})})});
+})();
+</script>

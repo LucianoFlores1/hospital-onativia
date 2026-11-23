@@ -1,0 +1,105 @@
+<title>Oñativia: tres direcciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#F5F6F5;--surface:#FFFFFF;--text:#161B19;--muted:#56605C;--line:#DADFDC;--accent:#0B5D46;--font:"Atkinson Hyperlegible Next",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#111614;--surface:#1A201E;--text:#E9EEEC;--muted:#A8B3AE;--line:#2E3734;--accent:#7FD3B4}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#111614;--surface:#1A201E;--text:#E9EEEC;--muted:#A8B3AE;--line:#2E3734;--accent:#7FD3B4}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:1.0625rem;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:.2em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.w{max-width:1120px;margin-inline:auto;padding-inline:16px;padding-block:40px 64px}
+@media (min-width:768px){.w{padding-inline:32px}}
+h1{font-size:clamp(1.75rem,3.6vw,2.5rem);line-height:1.15;margin:0;font-weight:700;text-wrap:balance}
+.lead{color:var(--muted);max-width:44em;margin:12px 0 0}
+.grid{display:grid;gap:24px;margin-top:36px}
+.dir{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+@media (max-width:860px){.dir{grid-template-columns:1fr}}
+.dir img{width:100%;height:100%;object-fit:cover;object-position:top left;max-width:100%;border-right:1px solid var(--line);aspect-ratio:10/7}
+@media (max-width:860px){.dir img{border-right:0;border-bottom:1px solid var(--line);height:auto}}
+.dir .t{padding:24px 28px;display:flex;flex-direction:column;gap:12px}
+.dir h2{margin:0;font-size:1.5rem;line-height:1.2}
+.dir h2 small{display:block;font-size:.9375rem;color:var(--muted);font-weight:500;margin-bottom:4px}
+.dir p{margin:0;color:var(--muted)}
+.dir dl{margin:4px 0 0;display:grid;gap:10px;font-size:.96875rem}
+.dir dt{font-weight:700}
+.dir dd{margin:0;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px}
+.btn{display:inline-flex;align-items:center;font-weight:700;text-decoration:none;border-radius:8px;padding:10px 16px;border:1px solid var(--line);color:var(--text);background:var(--surface);transition:transform .14s ease}
+.btn:active{transform:scale(.97)}
+.btn.p{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .btn.p{color:#06231B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.p{color:#06231B}}
+.common{margin-top:40px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px 28px}
+.common h2{margin:0 0 12px;font-size:1.25rem}
+.common ul{margin:0;padding-left:1.2em;display:grid;gap:6px;color:var(--muted)}
+.common b{color:var(--text)}
+.foot{margin-top:24px;color:var(--muted);font-size:.9375rem}
+.shots{position:relative;border-right:1px solid var(--line);background:var(--bg);min-height:100%}
+.shots .dk{width:100%;height:100%;object-fit:cover;object-position:top left;aspect-ratio:10/7;max-width:100%;display:block}
+.dir .shots img{border-right:0;border-bottom:0}
+.shots .ph{aspect-ratio:auto;object-fit:fill;position:absolute;right:16px;bottom:16px;width:30%;max-width:170px;height:auto;border-radius:18px;border:5px solid #111;box-shadow:0 2px 4px rgba(0,0,0,.12),0 16px 32px -8px rgba(0,0,0,.35)}
+@media (max-width:860px){.shots{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+
+<div class="w">
+  <h1>Rediseño del Hospital Oñativia: tres direcciones</h1>
+  <p class="lead">Cada propuesta parte de un sistema de patrones probado y usa el contenido real del sitio actual. Todas incluyen la página de inicio y una ficha de servicio (Hemodiálisis), navegables. En celular cada una tiene estructura de app: barra de pestañas, buscador y menú en hojas deslizables y una barra fija para llamar al 148. Para verlas así, abrilas desde el teléfono o achicá la ventana.</p>
+
+  <div class="grid">
+    <article class="dir">
+      <div class="shots"><img class="dk" src="img/thumb-a.jpg" alt="Captura en escritorio de la propuesta A" width="1000" height="694"><img class="ph" src="img/mob-a.jpg" alt="Captura en celular de la propuesta A" width="390" height="780" loading="lazy"></div>
+      <div class="t">
+        <h2><small>Propuesta A</small>Guía de atención</h2>
+        <p>Basada en NHS.UK y el sistema de diseño de GOV.UK. Prioriza resolver trámites rápido y la accesibilidad.</p>
+        <dl>
+          <div><dt>Patrones</dt><dd>Buscador en el encabezado con sugerencias, enlaces de acción, servicios de la A a la Z, pasos numerados y "¿Esta página te fue útil?".</dd></div>
+          <div><dt>Fuerte en</dt><dd>Adultos mayores y baja visión. Es la más clara y la más fácil de mantener.</dd></div>
+          <div><dt>Débil en</dt><dd>Imagen institucional. Se ve sobria y casi sin fotos.</dd></div>
+        </dl>
+        <div class="links"><a class="btn p" href="propuesta-a.html">Ver inicio</a><a class="btn" href="propuesta-a.html#ficha">Ver ficha de servicio</a></div>
+      </div>
+    </article>
+
+    <article class="dir">
+      <div class="shots"><img class="dk" src="img/thumb-b.jpg" alt="Captura en escritorio de la propuesta B" width="1000" height="694"><img class="ph" src="img/mob-b.jpg" alt="Captura en celular de la propuesta B" width="390" height="780" loading="lazy"></div>
+      <div class="t">
+        <h2><small>Propuesta B</small>Portal provincial</h2>
+        <p>Basada en Poncho, el sistema de diseño de argentina.gob.ar, con Encode Sans, la tipografía oficial del Estado.</p>
+        <dl>
+          <div><dt>Patrones</dt><dd>Buscador sobre foto como portada, grilla de accesos a trámites, servicios por área, ficha con requisitos, tabla de horarios y preguntas frecuentes.</dd></div>
+          <div><dt>Fuerte en</dt><dd>Se reconoce de inmediato como sitio del Estado argentino. Encaja con otros portales públicos.</dd></div>
+          <div><dt>Débil en</dt><dd>Menos personalidad propia del hospital.</dd></div>
+        </dl>
+        <div class="links"><a class="btn p" href="propuesta-b.html">Ver inicio</a><a class="btn" href="propuesta-b.html#ficha">Ver ficha de servicio</a></div>
+      </div>
+    </article>
+
+    <article class="dir">
+      <div class="shots"><img class="dk" src="img/thumb-c.jpg" alt="Captura en escritorio de la propuesta C" width="1000" height="694"><img class="ph" src="img/mob-c.jpg" alt="Captura en celular de la propuesta C" width="390" height="780" loading="lazy"></div>
+      <div class="t">
+        <h2><small>Propuesta C</small>Centro de referencia</h2>
+        <p>Basada en sitios de hospitales de alta complejidad como Mayo Clinic, Cleveland Clinic y Hospital Italiano.</p>
+        <dl>
+          <div><dt>Patrones</dt><dd>Menú desplegable por audiencia, buscador de atención con pestañas, centros de referencia destacados y ficha con pestañas y tarjeta de turno fija.</dd></div>
+          <div><dt>Fuerte en</dt><dd>Posiciona al hospital como referencia regional. Es la más atractiva para una presentación.</dd></div>
+          <div><dt>Débil en</dt><dd>Necesita fotos profesionales de los servicios para lucir como debe.</dd></div>
+        </dl>
+        <div class="links"><a class="btn p" href="propuesta-c.html">Ver inicio</a><a class="btn" href="propuesta-c.html#ficha">Ver ficha de servicio</a></div>
+      </div>
+    </article>
+  </div>
+
+  <section class="common">
+    <h2>Lo que comparten las tres</h2>
+    <ul>
+      <li><b>Contenido real:</b> 31 servicios, autoridades, historia y datos de contacto tomados del sitio actual.</li>
+      <li><b>Datos a confirmar marcados:</b> horarios y requisitos que el sitio actual no publica aparecen resaltados.</li>
+      <li><b>Fotos pendientes:</b> los espacios rotulados "Foto a producir" indican dónde hacen falta fotos de los servicios.</li>
+      <li><b>Accesibilidad:</b> contraste AA, foco visible, modo oscuro y diseño adaptado a celular.</li>
+    </ul>
+  </section>
+  <p class="foot">Auditoría del sitio actual y contenido completo en la carpeta <code>investigacion/</code> del proyecto.</p>
+</div>

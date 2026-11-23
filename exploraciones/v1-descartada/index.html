@@ -1,0 +1,661 @@
+<title>Hospital Oñativia</title>
+<meta name="description" content="Hospital público de referencia en endocrinología, diabetes y enfermedades renales. Salta, Argentina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap">
+<style>
+:root{
+  --paper:#F6F8F6;
+  --surface:#FFFFFF;
+  --sunk:#EAF0EC;
+  --ink:#0F2A25;
+  --ink-2:#3C534D;
+  --ink-3:#5D716B;
+  --line:#D3DDD8;
+  --green:#0E6B53;
+  --green-press:#0A5643;
+  --green-tint:#DCEDE5;
+  --on-green:#FFFFFF;
+  --mint:#A9DCC6;
+  --red:#A3222B;
+  --red-tint:#F7E3E3;
+  --stone:#B49C78;
+  --focus:#0E6B53;
+  --shadow:0 1px 2px rgba(15,42,37,.06),0 8px 24px -8px rgba(15,42,37,.14);
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-drawer:cubic-bezier(.32,.72,0,1);
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Atkinson Hyperlegible Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --wrap:1240px;
+  --gutter:clamp(16px,4vw,40px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#0D1715;--surface:#13211E;--sunk:#182A26;
+    --ink:#E6EFEB;--ink-2:#B9C9C3;--ink-3:#93A79F;--line:#2A3E39;
+    --green:#4FC39C;--green-press:#3DAE89;--green-tint:#173A31;--on-green:#06231B;
+    --mint:#2C6A56;--red:#F08A8F;--red-tint:#3A1C1F;--stone:#C9B48F;--focus:#7BD9B8;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -8px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0D1715;--surface:#13211E;--sunk:#182A26;
+  --ink:#E6EFEB;--ink-2:#B9C9C3;--ink-3:#93A79F;--line:#2A3E39;
+  --green:#4FC39C;--green-press:#3DAE89;--green-tint:#173A31;--on-green:#06231B;
+  --mint:#2C6A56;--red:#F08A8F;--red-tint:#3A1C1F;--stone:#C9B48F;--focus:#7BD9B8;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -8px rgba(0,0,0,.5);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--mint);color:var(--ink)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+a{color:var(--green);text-decoration-thickness:1px;text-underline-offset:.2em}
+a:hover{text-decoration-thickness:2px}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.08;letter-spacing:-.015em;text-wrap:balance;margin:0}
+p{margin:0;text-wrap:pretty}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{width:1.25em;height:1.25em;flex:none;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.tbc{text-decoration:underline dotted var(--stone) 2px;text-underline-offset:.25em;cursor:help}
+
+/* ---------- prototype ribbon ---------- */
+.proto{background:var(--ink);color:var(--paper);font-size:.875rem}
+.proto .wrap{display:flex;gap:12px 20px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:8px}
+.proto a{color:var(--mint);font-weight:500}
+.proto .legend{display:inline-flex;gap:8px;align-items:center;color:color-mix(in srgb,var(--paper) 78%,transparent)}
+.proto .legend i{display:inline-block;width:22px;border-bottom:2px dotted var(--stone)}
+
+/* ---------- header ---------- */
+.top{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:40}
+.top .wrap{display:flex;align-items:center;gap:24px;min-height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);margin-right:auto;min-width:0}
+.brand-mark{width:40px;height:40px;flex:none}
+.brand-name{font-family:var(--serif);font-size:1.25rem;font-weight:500;line-height:1.05;letter-spacing:-.01em}
+.brand-name small{display:block;font-family:var(--sans);font-size:.75rem;color:var(--ink-3);letter-spacing:.02em;font-weight:400;margin-top:3px}
+.nav{display:flex;gap:4px}
+.nav a{color:var(--ink-2);text-decoration:none;font-weight:500;font-size:.9375rem;padding:10px 12px;border-radius:8px;transition:background-color .15s ease,color .15s ease}
+@media (hover:hover) and (pointer:fine){.nav a:hover{background:var(--sunk);color:var(--ink)}}
+.call{display:inline-flex;align-items:center;gap:10px;background:var(--green);color:var(--on-green);text-decoration:none;font-weight:700;padding:10px 16px;border-radius:999px;white-space:nowrap;transition:transform .16s var(--ease-out),background-color .15s ease}
+.call:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.call:hover{background:var(--green-press)}}
+.call .num{font-size:1.0625rem}
+.menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--ink);width:44px;height:44px;border-radius:10px;align-items:center;justify-content:center;cursor:pointer;transition:transform .16s var(--ease-out)}
+.menu-btn:active{transform:scale(.95)}
+@media (max-width:1060px){.nav{display:none}.menu-btn{display:inline-flex}}
+@media (max-width:560px){.top .call{display:none}.brand-name{font-size:1.125rem}}
+
+/* drawer */
+.drawer{position:fixed;inset:0;z-index:60;visibility:hidden;pointer-events:none}
+.drawer.open{visibility:visible;pointer-events:auto}
+.drawer .scrim{position:absolute;inset:0;background:rgba(8,20,17,.45);opacity:0;transition:opacity .3s ease}
+.drawer.open .scrim{opacity:1}
+.drawer .panel{position:absolute;right:0;top:0;bottom:0;width:min(360px,88vw);background:var(--surface);padding:calc(20px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(100%);transition:transform .32s var(--ease-drawer);display:flex;flex-direction:column;gap:6px;overflow:auto}
+.drawer.open .panel{transform:none}
+.drawer .panel a{color:var(--ink);text-decoration:none;font-family:var(--serif);font-size:1.5rem;padding:10px 0;border-bottom:1px solid var(--line)}
+.drawer .close{align-self:flex-end;margin-bottom:8px}
+@media (prefers-reduced-motion:reduce){.drawer .panel{transition:none}}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(28px,5vw,64px) clamp(40px,6vw,80px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,4vw,56px);align-items:end}
+.hero h1{font-size:clamp(2.75rem,7.2vw,6rem);letter-spacing:-.03em;line-height:.95;font-weight:400}
+.hero h1 em{font-style:italic;color:var(--green)}
+.hero .lead{font-size:clamp(1.125rem,1.6vw,1.3125rem);color:var(--ink-2);max-width:36em;margin-top:24px;line-height:1.5}
+.since{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;margin-top:28px;color:var(--ink-3);font-size:.9375rem}
+.since b{font-family:var(--serif);font-weight:500;font-size:1.5rem;color:var(--ink)}
+.since span{width:1px;height:28px;background:var(--line)}
+.photo{grid-column:1/-1;margin-top:clamp(28px,4vw,48px);border-radius:16px;overflow:hidden;position:relative;aspect-ratio:2785/1000;max-width:100%;background:var(--sunk)}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.photo figcaption{position:absolute;left:16px;bottom:14px;font-size:.8125rem;background:rgba(15,42,37,.72);color:#fff;padding:5px 10px;border-radius:6px;backdrop-filter:blur(6px)}
+@media (prefers-reduced-motion:no-preference){
+  .photo{animation:reveal 1.1s var(--ease-out) both .15s}
+  .photo img{animation:settle 1.6s var(--ease-out) both .15s}
+}
+@keyframes reveal{from{clip-path:inset(18% 6% 0 6% round 16px)}to{clip-path:inset(0 0 0 0 round 16px)}}
+@keyframes settle{from{transform:scale(1.08)}to{transform:none}}
+
+/* turno panel */
+.turno{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:18px}
+.turno h2{font-size:1.75rem}
+.turno .big{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--green);color:var(--on-green);border-radius:12px;padding:16px 18px;text-decoration:none;transition:transform .16s var(--ease-out),background-color .15s ease}
+.turno .big:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.turno .big:hover{background:var(--green-press)}}
+.turno .big small{display:block;font-size:.875rem;opacity:.9}
+.turno .big .num{font-size:2.5rem;line-height:1;font-weight:500}
+.ways{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.ways li{display:flex;gap:12px;align-items:flex-start;color:var(--ink-2);font-size:.96875rem;line-height:1.45}
+.ways li .ic{color:var(--green);margin-top:2px}
+.ways b{color:var(--ink);font-weight:700}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.photo{aspect-ratio:4/3}}
+
+/* ---------- tasks ---------- */
+section{scroll-margin-top:84px}
+.sec{padding-block:clamp(56px,8vw,112px)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
+.sec-head h2{font-size:clamp(2rem,4.2vw,3.25rem);max-width:16em}
+.sec-head p{color:var(--ink-2);max-width:34em}
+.tasks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+.task{display:grid;grid-template-columns:auto 1fr auto;gap:4px 16px;align-items:start;padding:24px 20px 24px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;position:relative}
+.task:not(:nth-child(3n+1)){padding-left:20px;border-left:1px solid var(--line)}
+.task .ic{grid-row:span 2;width:28px;height:28px;color:var(--green);margin-top:2px}
+.task strong{font-family:var(--serif);font-weight:500;font-size:1.375rem;line-height:1.2}
+.task span{grid-column:2;color:var(--ink-3);font-size:.9375rem;line-height:1.45}
+.task .go{grid-row:1;grid-column:3;color:var(--ink-3);transition:transform .2s var(--ease-out),color .15s ease}
+@media (hover:hover) and (pointer:fine){.task:hover .go{transform:translateX(4px);color:var(--green)}.task:hover strong{color:var(--green)}}
+.task:active{background:var(--sunk)}
+@media (max-width:900px){.tasks{grid-template-columns:1fr 1fr}.task:not(:nth-child(3n+1)){padding-left:0;border-left:0}.task:nth-child(even){padding-left:20px;border-left:1px solid var(--line)}}
+@media (max-width:600px){.tasks{grid-template-columns:1fr}.task:nth-child(even){padding-left:0;border-left:0}}
+
+/* ---------- directory ---------- */
+.dir-band{background:var(--surface);border-block:1px solid var(--line)}
+.dir-tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px}
+.search{position:relative;flex:1 1 320px;max-width:520px}
+.search .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.search input{width:100%;font:inherit;font-size:1.0625rem;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px 14px 48px;transition:border-color .15s ease,box-shadow .15s ease}
+.search input::placeholder{color:var(--ink-3)}
+.search input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 18%,transparent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:.9375rem;font-weight:500;border:1.5px solid var(--line);background:transparent;color:var(--ink-2);border-radius:999px;padding:8px 14px;cursor:pointer;transition:background-color .15s ease,color .15s ease,border-color .15s ease,transform .16s var(--ease-out)}
+.chip:active{transform:scale(.96)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+@media (hover:hover) and (pointer:fine){.chip:not([aria-pressed="true"]):hover{border-color:var(--ink-3);color:var(--ink)}}
+.count{color:var(--ink-3);font-size:.9375rem;margin-bottom:8px}
+.svc{list-style:none;margin:0;padding:0;columns:2;column-gap:clamp(24px,4vw,56px)}
+.svc li{break-inside:avoid;display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.svc h3{font-family:var(--sans);font-size:1.0625rem;font-weight:700;letter-spacing:0;line-height:1.35}
+.svc p{grid-column:1;color:var(--ink-3);font-size:.9375rem;line-height:1.45}
+.svc .tag{grid-row:1;grid-column:2;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;padding-top:4px}
+.svc .ref{grid-column:1;display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:.8125rem;font-weight:700;color:var(--green);background:var(--green-tint);border-radius:6px;padding:3px 8px;width:fit-content}
+.empty{padding:32px 0;color:var(--ink-2)}
+.empty button{font:inherit;color:var(--green);background:none;border:0;text-decoration:underline;cursor:pointer;padding:0}
+@media (max-width:760px){.svc{columns:1}}
+
+/* ---------- distinction ---------- */
+.unique{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.u{border-radius:16px;padding:clamp(22px,2.6vw,32px);display:flex;flex-direction:column;gap:12px;min-height:220px}
+.u h3{font-size:clamp(1.5rem,2.3vw,2rem)}
+.u p{color:var(--ink-2);max-width:38em}
+.u .fig{font-family:var(--serif);font-size:clamp(3.5rem,7vw,5.5rem);line-height:.9;letter-spacing:-.03em;font-weight:400}
+.u .fig small{font-size:.32em;letter-spacing:0;font-family:var(--sans);font-weight:500;margin-left:6px;color:inherit;opacity:.85}
+.u1{grid-column:span 7;background:var(--green);color:var(--on-green)}
+.u1 p{color:color-mix(in srgb,var(--on-green) 86%,transparent)}
+.u2{grid-column:span 5;background:var(--surface);border:1px solid var(--line)}
+.u3{grid-column:span 4;background:var(--sunk)}
+.u4{grid-column:span 4;background:var(--sunk)}
+.u5{grid-column:span 4;background:var(--surface);border:1px solid var(--line)}
+.u .src{margin-top:auto;font-size:.8125rem;color:inherit;opacity:.75}
+@media (max-width:900px){.u1,.u2{grid-column:span 12}.u3,.u4,.u5{grid-column:span 12}.u{min-height:0}}
+
+/* ---------- history ---------- */
+.hist{--paper:#F1F6F3;--ink:#0F2A25;--mint:#A9DCC6;background:#0F2A25;color:#F1F6F3}
+.hist .sec-head p{color:color-mix(in srgb,var(--paper) 74%,transparent)}
+.hist-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,72px);align-items:start}
+.portrait{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:start}
+.portrait img{width:120px;height:auto;border-radius:10px;filter:grayscale(1) contrast(1.05)}
+.portrait blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(1.25rem,1.8vw,1.5rem);line-height:1.35}
+.portrait cite{display:block;margin-top:12px;font-style:normal;font-family:var(--sans);font-size:.875rem;color:color-mix(in srgb,var(--paper) 70%,transparent)}
+.portrait p{grid-column:1/-1;color:color-mix(in srgb,var(--paper) 78%,transparent);font-size:.96875rem}
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:68px;top:8px;bottom:8px;width:1px;background:color-mix(in srgb,var(--paper) 22%,transparent)}
+.tl li{display:grid;grid-template-columns:56px 1fr;gap:25px;padding-block:12px;position:relative}
+.tl li::after{content:"";position:absolute;left:64px;top:21px;width:9px;height:9px;border-radius:50%;background:var(--ink);border:2px solid var(--mint)}
+.tl li.key::after{background:var(--mint)}
+.tl .y{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--mint);font-size:.9375rem;padding-top:4px;text-align:right}
+.tl b{display:block;font-weight:700}
+.tl span{color:color-mix(in srgb,var(--paper) 72%,transparent);font-size:.9375rem}
+.tl .more{display:none}
+.tl.all .more{display:grid}
+.tl-toggle{margin-top:16px;margin-left:81px;font:inherit;font-weight:700;color:var(--mint);background:none;border:1.5px solid color-mix(in srgb,var(--mint) 50%,transparent);border-radius:999px;padding:9px 16px;cursor:pointer;transition:transform .16s var(--ease-out),border-color .15s ease}
+.tl-toggle:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.tl-toggle:hover{border-color:var(--mint)}}
+@media (max-width:900px){.hist-grid{grid-template-columns:1fr}}
+
+/* ---------- docencia ---------- */
+.edu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,5vw,72px)}
+.edu h3{font-size:1.75rem;margin-bottom:16px}
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.rows li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.rows li span:last-child{color:var(--ink-3);white-space:nowrap}
+.note{margin-top:18px;color:var(--ink-2);font-size:.96875rem}
+@media (max-width:820px){.edu{grid-template-columns:1fr}}
+
+/* ---------- news ---------- */
+.news{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);transition:transform .2s var(--ease-out),box-shadow .2s ease}
+@media (hover:hover) and (pointer:fine){.post:hover{transform:translateY(-2px);box-shadow:var(--shadow)}}
+.post time{font-size:.8125rem;color:var(--ink-3)}
+.post h3{font-size:1.375rem}
+.post p{color:var(--ink-2);font-size:.9375rem}
+.post .cat{font-size:.8125rem;font-weight:700;color:var(--green)}
+.post.lead{background:var(--green-tint);border-color:transparent}
+.post.lead h3{font-size:1.75rem}
+.sample{display:inline-block;font-size:.75rem;font-weight:700;color:var(--ink-3);border:1px dashed var(--ink-3);border-radius:4px;padding:1px 6px;margin-left:8px;vertical-align:middle}
+@media (max-width:900px){.news{grid-template-columns:1fr}}
+
+/* ---------- contact ---------- */
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.c-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(22px,2.6vw,32px)}
+.c-card h3{font-size:1.5rem;margin-bottom:18px}
+.kv{display:grid;grid-template-columns:auto 1fr auto;gap:0 16px;align-items:center}
+.kv>div{display:contents}
+.kv dt,.kv dd{padding:13px 0;border-bottom:1px solid var(--line);margin:0}
+.kv dt{color:var(--ink-3);font-size:.9375rem}
+.kv dd{font-weight:500;overflow-wrap:break-word;min-width:0}
+.kv .cp{border-bottom:1px solid var(--line);padding:6px 0;display:flex;justify-content:flex-end}
+.copy{font:inherit;font-size:.8125rem;font-weight:700;color:var(--ink-2);background:var(--sunk);border:0;border-radius:8px;padding:6px 10px;cursor:pointer;min-width:74px;transition:transform .16s var(--ease-out),background-color .15s ease}
+.copy:active{transform:scale(.95)}
+.copy[data-done]{background:var(--green-tint);color:var(--green)}
+.map{display:flex;flex-direction:column;justify-content:space-between;gap:18px;background:var(--green);color:var(--on-green);border-radius:16px;padding:clamp(22px,2.6vw,32px);min-height:280px;position:relative;overflow:hidden}
+.map h3{font-size:clamp(1.75rem,3vw,2.5rem)}
+.map p{color:color-mix(in srgb,var(--on-green) 88%,transparent);max-width:30em}
+.map svg.grid{position:absolute;right:-20px;bottom:-20px;width:62%;max-width:420px;opacity:.22;pointer-events:none}
+.map a.btn{align-self:flex-start;display:inline-flex;gap:10px;align-items:center;background:var(--on-green);color:var(--green);font-weight:700;text-decoration:none;padding:12px 18px;border-radius:999px;position:relative;transition:transform .16s var(--ease-out)}
+.map a.btn:active{transform:scale(.97)}
+.complaint{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;background:var(--sunk);border-radius:16px;padding:22px clamp(22px,2.6vw,32px)}
+.complaint p{color:var(--ink-2);max-width:52em}
+.complaint b{color:var(--ink)}
+@media (max-width:820px){.contact{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+footer{background:var(--surface);border-top:1px solid var(--line);padding-block:48px calc(96px + env(safe-area-inset-bottom,0px));font-size:.9375rem;color:var(--ink-2)}
+.f-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px}
+footer h4{font-family:var(--sans);font-size:.8125rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 12px}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+footer a{color:var(--ink-2);text-decoration:none}
+footer a:hover{color:var(--green);text-decoration:underline}
+.legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--ink-3);font-size:.875rem}
+@media (max-width:820px){.f-grid{grid-template-columns:1fr 1fr}}
+@media (min-width:821px){footer{padding-block:48px}}
+
+/* mobile call bar */
+.callbar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:none;gap:10px}
+.callbar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;border-radius:12px;padding:13px;transition:transform .16s var(--ease-out)}
+.callbar a:active{transform:scale(.97)}
+.callbar .a1{background:var(--green);color:var(--on-green)}
+.callbar .a2{background:var(--sunk);color:var(--ink)}
+@media (max-width:820px){.callbar{display:flex}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-id" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.8-2.4 3-2.4s2.4.8 3 2.4M15 10h3M15 13h3"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7 15h10"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/></symbol>
+  <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3 18V6M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.6"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 4 2.3 4.8 5.2.7-3.8 3.6.9 5.2L12 15.9 7.4 18.3l.9-5.2-3.8-3.6 5.2-.7z"/></symbol>
+</svg>
+
+<div class="proto">
+  <div class="wrap">
+    <span>Propuesta de rediseño · prototipo navegable con el contenido real del sitio actual</span>
+    <span class="legend"><i></i> Dato a confirmar con el hospital · <a href="auditoria.html">Ver auditoría del sitio actual</a></span>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Hospital Dr. Arturo Oñativia, inicio">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="var(--green)"/><path d="M16 8h8v8h8v8h-8v8h-8v-8H8v-8h8z" fill="var(--on-green)"/><circle cx="20" cy="20" r="3.4" fill="var(--green)"/></svg>
+      <span class="brand-name">Hospital Dr. Arturo Oñativia<small>Salta · Ministerio de Salud Pública</small></span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#turnos">Turnos</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#hospital">El hospital</a>
+      <a href="#docencia">Docencia e investigación</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="call" href="tel:148"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Turnos <span class="num">148</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="scrim" data-close></div>
+  <nav class="panel" aria-label="Menú">
+    <button class="menu-btn close" data-close aria-label="Cerrar menú" style="display:inline-flex"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <a href="#turnos" data-close>Turnos</a>
+    <a href="#servicios" data-close>Servicios</a>
+    <a href="#hospital" data-close>El hospital</a>
+    <a href="#docencia" data-close>Docencia e investigación</a>
+    <a href="#noticias" data-close>Novedades</a>
+    <a href="#contacto" data-close>Contacto</a>
+  </nav>
+</div>
+
+<main id="inicio">
+  <section class="hero" id="turnos" aria-labelledby="h1">
+    <div class="wrap">
+      <div>
+        <h1 id="h1">Especialistas en <em>endocrinología</em>, diabetes y riñón.</h1>
+        <p class="lead">Somos un hospital público de alta complejidad de Salta. Atendemos a pacientes de la capital, del interior de la provincia, de otras provincias y de países vecinos, con o sin obra social.</p>
+        <div class="since"><b class="num">1956</b><span></span>Fundado como Instituto del Bocio<span></span>Paz Chaín 30, Salta</div>
+      </div>
+
+      <aside class="turno" aria-labelledby="t-title">
+        <h2 id="t-title">Pedir un turno</h2>
+        <a class="big" href="tel:148">
+          <span><small>Línea provincial de turnos</small>Llamá al</span>
+          <span class="num">148</span>
+        </a>
+        <ul class="ways">
+          <li><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span><b>En persona:</b> Admisión y gestión de turnos, Centro Ambulatorio, Paz Chaín 30. <span class="tbc" title="Dato a confirmar con el hospital">Lunes a viernes, 7 a 13 h</span>.</span></li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-id"/></svg><span><b>Llevá:</b> DNI, orden médica y <span class="tbc" title="Dato a confirmar con el hospital">credencial de obra social si tenés</span>.</span></li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span><b>Consultas generales:</b> <span class="num">0387 431-5042</span></span></li>
+        </ul>
+      </aside>
+
+      <figure class="photo" style="margin-inline:0;margin-bottom:0">
+        <img src="img/fachada.jpg" alt="Fachada del Hospital Dr. Arturo Oñativia sobre calle Paz Chaín, con letras metálicas y la cruz del hospital" width="1800" height="792" fetchpriority="high">
+        <figcaption>Ingreso principal · Paz Chaín 30</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-tasks" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="h-tasks">¿Qué necesitás hacer hoy?</h2>
+        <p>Los trámites más buscados, resueltos en un toque. Cada uno lleva a una página con pasos, horarios y requisitos.</p>
+      </div>
+      <nav class="tasks" aria-label="Trámites frecuentes">
+        <a class="task" href="#turnos"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><strong>Pedir o cancelar un turno</strong><svg class="ic go" aria-hidden="true"><use href="#i-arrow"/></svg><span>Por teléfono al 148 o en Admisión.</span></a>
+        <a class="task" href="#servicios"><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg><strong>Prepararme para un estudio</strong><svg class="ic go" aria-hidden="true"><use href="#i-arrow"/></svg><span>Ayunos, medicación y qué llevar a laboratorio y medicina nuclear.</span></a>
+        <a class="task" href="#servicios"><svg class="ic" aria-hidden="true"><use href="#i-doc"/></svg><strong>Retirar resultados</strong><svg class="ic go" aria-hidden="true"><use href="#i-arrow"/></svg><span>Dónde y desde cuándo retirar análisis e informes.</span></a>
+        <a class="task" href="#servicios"><svg class="ic" aria-hidden="true"><use href="#i-drop"/></svg><strong>Hemodiálisis y trasplante</strong><svg class="ic go" aria-hidden="true"><use href="#i-arrow"/></svg><span>Ingreso al programa, turnos de diálisis y evaluación pretrasplante.</span></a>
+        <a class="task" href="#contacto"><svg class="ic" aria-hidden="true"><use href="#i-bed"/></svg><strong>Visitar a un paciente internado</strong><svg class="ic go" aria-hidden="true"><use href="#i-arrow"/></svg><span>Horarios de visita, acompañantes e informes médicos.</span></a>
+        <a class="task" href="#reclamos"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><strong>Dejar un reclamo o felicitación</strong><svg class="ic go" aria-hidden="true"><use href="#i-arrow"/></svg><span>Te respondemos y lo usamos para mejorar la atención.</span></a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="sec dir-band" id="servicios" aria-labelledby="h-svc">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="h-svc">Servicios y especialidades</h2>
+        <p>Buscá por especialidad, estudio o síntoma. Hoy estos servicios figuran en el sitio como botones rotos; acá cada uno tiene su lugar.</p>
+      </div>
+      <div class="dir-tools">
+        <label class="search" for="q">
+          <span class="sr">Buscar un servicio</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="q" type="search" placeholder="Ej.: tiroides, diálisis, análisis de sangre" autocomplete="off">
+        </label>
+        <div class="chips" role="group" aria-label="Filtrar por tipo">
+          <button class="chip" data-cat="all" aria-pressed="true">Todos</button>
+          <button class="chip" data-cat="Especialidad" aria-pressed="false">Especialidades</button>
+          <button class="chip" data-cat="Diagnóstico" aria-pressed="false">Diagnóstico</button>
+          <button class="chip" data-cat="Tratamiento" aria-pressed="false">Tratamiento</button>
+          <button class="chip" data-cat="Apoyo" aria-pressed="false">Apoyo al paciente</button>
+        </div>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+      <ul class="svc" id="svc"></ul>
+      <div class="empty" id="empty" hidden>No encontramos “<span id="emptyQ"></span>”. Probá con otra palabra o <button id="reset">ver todos los servicios</button>. También podés consultar al <span class="num">0387 431-5042</span>.</div>
+    </div>
+  </section>
+
+  <section class="sec" id="hospital" aria-labelledby="h-unique">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="h-unique">Lo que solo encontrás en el Oñativia</h2>
+        <p>Servicios de referencia para toda la provincia y el Noroeste argentino, dentro de la salud pública.</p>
+      </div>
+      <div class="unique">
+        <article class="u u1">
+          <div class="fig num">17<small>puestos</small></div>
+          <h3>El único centro de hemodiálisis en un hospital público de Salta</h3>
+          <p>Funciona en tres turnos y atiende a unas 100 personas, especialmente pacientes sin obra social.</p>
+        </article>
+        <article class="u u2">
+          <h3>Medicina Nuclear</h3>
+          <p>El único servicio del NOA dentro de un hospital público. Diagnóstico y tratamiento de patologías tiroideas, cardíacas, óseas y renales.</p>
+                  </article>
+        <article class="u u3">
+          <h3>Trasplante renal</h3>
+          <p>Desde 2010, para pacientes con o sin obra social, sin tener que viajar fuera de la provincia.</p>
+        </article>
+        <article class="u u4">
+          <h3>Referencia en tiroides y diabetes</h3>
+          <p>Centro de referencia para adultos en Endocrinología, Diabetes y Cirugía Tiroidea.</p>
+        </article>
+        <article class="u u5">
+          <h3>Primera UCT‑H del NOA</h3>
+          <p>Unidad de Conocimiento Traslacional Hospitalaria acreditada por el Ministerio de Salud de la Nación en 2022, junto al CONICET.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec hist" aria-labelledby="h-hist">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="h-hist">Setenta años cuidando la salud del Noroeste</h2>
+        <p>Nació para combatir el bocio endémico en el NOA. Hoy es un hospital de alta complejidad que investiga, enseña y atiende.</p>
+      </div>
+      <div class="hist-grid">
+        <div class="portrait">
+          <img src="img/arturo-onativia.jpg" alt="Retrato del Dr. Arturo Oñativia" width="209" height="300" loading="lazy">
+          <div>
+            <blockquote>Un salteño que honró a su provincia como médico, docente, investigador y político.</blockquote>
+            <cite>Dr. Arturo Oñativia (1914 – 1985), primer director del Instituto del Bocio</cite>
+          </div>
+          <p>Médico endocrinólogo egresado de la UBA con calificación sobresaliente. Ganó por concurso la dirección del Instituto en 1958. El hospital lleva su nombre desde 1985.</p>
+        </div>
+        <div>
+          <ol class="tl" id="tl">
+            <li class="key"><span class="y">1956</span><div><b>Se crea el Instituto del Bocio</b><span>Decreto-ley 191/56, para estudiar y prevenir la endemia bociosa.</span></div></li>
+            <li><span class="y">1958</span><div><b>Instituto de Endocrinología</b><span>Ley 3333 y convenio con la Universidad Nacional de Tucumán.</span></div></li>
+            <li class="more"><span class="y">1968</span><div><b>Genética Médica</b><span>Laboratorio de Citogenética; en 1982 se suma Genética Clínica.</span></div></li>
+            <li><span class="y">1976</span><div><b>Hemodiálisis y Medicina Nuclear</b><span>Pasa a ser Instituto de Patología Regional.</span></div></li>
+            <li class="key"><span class="y">1985</span><div><b>Hospital Dr. Arturo Oñativia</b><span>Decreto 804, en homenaje a su primer director.</span></div></li>
+            <li class="more"><span class="y">1993</span><div><b>Hospital Público de Autogestión</b><span>Decreto 578/93.</span></div></li>
+            <li class="more"><span class="y">2000</span><div><b>Gestión Descentralizada</b><span>Decreto 939/00.</span></div></li>
+            <li><span class="y">2010</span><div><b>Unidad de Trasplante Renal</b><span>Y área de Citogenética Molecular.</span></div></li>
+            <li class="more"><span class="y">2011</span><div><b>Nuevo Centro de Hemodiálisis</b><span>Más sillones de diálisis.</span></div></li>
+            <li class="more"><span class="y">2012</span><div><b>Residencia en Endocrinología</b><span>Residencia posbásica para médicos clínicos.</span></div></li>
+            <li class="more"><span class="y">2014</span><div><b>Laboratorio de Biología Molecular</b><span>Estudios de patología tumoral endocrina.</span></div></li>
+            <li class="more"><span class="y">2015</span><div><b>Nefrología, Nutrición Clínica y UNHEVI</b><span>Dos residencias nuevas y la Unidad de Hepatitis Virales.</span></div></li>
+            <li><span class="y">2018</span><div><b>Centro Ambulatorio y convenio con CONICET</b><span>Tres pisos de consultorios, vacunatorio, extracciones y turnos.</span></div></li>
+            <li class="key"><span class="y">2022</span><div><b>Primera UCT‑H del Noroeste</b><span>Acreditada por el Ministerio de Salud de la Nación.</span></div></li>
+          </ol>
+          <button class="tl-toggle" id="tlBtn" aria-expanded="false" aria-controls="tl">Ver la historia completa</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="docencia" aria-labelledby="h-edu">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="h-edu">Docencia e investigación</h2>
+        <p>Formación de posgrado para profesionales de la salud. Las residencias son rentadas y se acceden por concurso público.</p>
+      </div>
+      <div class="edu">
+        <div>
+          <h3>Residencias posbásicas</h3>
+          <ul class="rows">
+            <li><span>Endocrinología y Nutrición</span><span class="num">3 años</span></li>
+            <li><span>Nutrición Clínica</span><span class="num">3 años</span></li>
+            <li><span>Nefrología</span><span class="num">3 años</span></li>
+          </ul>
+          <p class="note">Inscripción en febrero por el sistema SISA del Ministerio de Salud. Inicio en junio. <a href="https://sisa.msal.gov.ar/sisa/" target="_blank" rel="noopener">Ir a SISA</a></p>
+        </div>
+        <div>
+          <h3>Concurrencias, pasantías y rotaciones</h3>
+          <ul class="rows">
+            <li><span>Concurrencias</span><span class="num">1 a 3 años</span></li>
+            <li><span>Pasantías</span><span class="num">6 meses a 1 año</span></li>
+            <li><span>Rotaciones</span><span class="num">1 a 4 meses</span></li>
+            <li><span>Visitas</span><span class="num">1 a 2 meses</span></li>
+          </ul>
+          <p class="note">No rentadas. Inscripción en febrero, examen en marzo. Programa de Recursos Humanos, lunes a viernes de 7 a 16 h.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="noticias" aria-labelledby="h-news" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="h-news">Novedades</h2>
+        <p>El sitio actual no publica desde mayo de 2020. Esta sección muestra cómo se vería con publicaciones regulares.</p>
+      </div>
+      <div class="news">
+        <a class="post lead" href="#noticias"><span class="cat">Prevención <span class="sample">Ejemplo</span></span><h3>Bocio y yodo: por qué la sal yodada sigue siendo importante</h3><p>El déficit de yodo es la principal causa de discapacidad prevenible. Qué alimentos lo aportan y quiénes necesitan controlarse.</p><time>Ejemplo de nota</time></a>
+        <a class="post" href="#noticias"><span class="cat">Institucional <span class="sample">Ejemplo</span></span><h3>Abrió la inscripción a residencias</h3><p>Fechas, requisitos y cómo inscribirse por SISA.</p><time>Ejemplo de nota</time></a>
+        <a class="post" href="#noticias"><span class="cat">Investigación <span class="sample">Ejemplo</span></span><h3>Proyectos de la UCT‑H con CONICET</h3><p>Qué estudia hoy la unidad de investigación traslacional.</p><time>Ejemplo de nota</time></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec dir-band" id="contacto" aria-labelledby="h-contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="h-contact">Contacto y cómo llegar</h2>
+        <p>Todos los canales en un solo lugar, con datos que se pueden copiar.</p>
+      </div>
+      <div class="contact">
+        <div class="c-card">
+          <h3>Teléfonos y correo</h3>
+          <dl class="kv">
+            <div><dt>Turnos</dt><dd class="num">148</dd><span class="cp"><button class="copy" data-copy="148">Copiar</button></span></div>
+            <div><dt>Conmutador</dt><dd class="num">0387 431-5042</dd><span class="cp"><button class="copy" data-copy="03874315042">Copiar</button></span></div>
+            <div><dt>Comunicación</dt><dd><span class="tbc" title="Propuesta: reemplazar la casilla de Gmail por una del dominio oficial">comunicacion@<wbr>hospitalonativia.gob.ar</span></dd><span class="cp"><button class="copy" data-copy="comunicacion@hospitalonativia.gob.ar">Copiar</button></span></div>
+            <div><dt>Recursos Humanos</dt><dd><span class="tbc" title="Propuesta: reemplazar la casilla de Gmail por una del dominio oficial">rrhh@<wbr>hospitalonativia.gob.ar</span></dd><span class="cp"><button class="copy" data-copy="rrhh@hospitalonativia.gob.ar">Copiar</button></span></div>
+          </dl>
+        </div>
+        <div class="map">
+          <svg class="grid" viewBox="0 0 200 200" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 40h200M0 100h200M0 160h200M40 0v200M110 0v200M170 0v200M0 190 190 0"/><circle cx="110" cy="100" r="9" fill="currentColor"/></svg>
+          <div>
+            <h3>Paz Chaín 30<br>Salta Capital</h3>
+            <p style="margin-top:12px">Ingreso principal y Centro Ambulatorio: consultorios externos, extracciones, vacunatorio y admisión.</p>
+          </div>
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Hospital+Dr.+Arturo+O%C3%B1ativia+Paz+Cha%C3%ADn+30+Salta" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Abrir en el mapa</a>
+        </div>
+        <div class="complaint" id="reclamos">
+          <p><b>Reclamos, sugerencias y felicitaciones.</b> Dejalos en el buzón del Hall Central o en el libro de Gerencia. Propuesta: sumar un formulario en línea con número de seguimiento.</p>
+          <a class="call" href="#reclamos">Escribir un reclamo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <p style="font-family:var(--serif);font-size:1.375rem;color:var(--ink);line-height:1.2">Hospital Público de Gestión Descentralizada Dr. Arturo Oñativia</p>
+        <p style="margin-top:10px">Ministerio de Salud Pública de la Provincia de Salta. Sistema de Gestión de Calidad con certificación ISO.</p>
+      </div>
+      <div><h4>Pacientes</h4><ul><li><a href="#turnos">Turnos</a></li><li><a href="#servicios">Servicios</a></li><li><a href="#reclamos">Reclamos</a></li><li><a href="#contacto">Cómo llegar</a></li></ul></div>
+      <div><h4>Institución</h4><ul><li><a href="#hospital">Historia</a></li><li><a href="#hospital">Misión y valores</a></li><li><a href="#hospital">Autoridades</a></li><li><a href="#hospital">Cooperadora</a></li></ul></div>
+      <div><h4>Transparencia</h4><ul><li><a href="#hospital">Carta de servicios</a></li><li><a href="#hospital">Política de calidad</a></li><li><a href="#hospital">Normativa</a></li><li><a href="#hospital">Compras</a></li></ul></div>
+    </div>
+    <div class="legal"><span>© <span class="num">2026</span> Hospital Dr. Arturo Oñativia · Salta, Argentina</span><a href="https://www.facebook.com/Hospital.Dr.Arturo.Onativia.Salta/" target="_blank" rel="noopener">Facebook</a></div>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="a1" href="tel:148"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Turnos 148</a>
+  <a class="a2" href="#contacto"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Cómo llegar</a>
+</div>
+
+<script>
+(function(){
+  var S=[
+    ["Endocrinología","Especialidad","Glándulas y hormonas: tiroides, hipófisis, suprarrenales.","tiroides hormonas bocio hipotiroidismo hipertiroidismo nodulo",1],
+    ["Diabetes","Especialidad","Diagnóstico, control y educación para personas con diabetes.","azucar glucemia insulina",1],
+    ["Nutrición","Especialidad","Obesidad, alimentación y nutrición clínica.","obesidad dieta peso bariatrica",0],
+    ["Clínica Médica","Especialidad","Atención clínica de adultos, guardia y sala de internación.","medico clinico guardia internacion",0],
+    ["Cardiología","Especialidad","Consultorios y Unidad de Monitoreo Intensivo (U.M.I.).","corazon presion electrocardiograma",0],
+    ["Cirugía endocrina y tiroidea","Especialidad","Cirugía de tiroides, paratiroides y suprarrenales.","tiroides operacion bocio nodulo",1],
+    ["Cirugía bariátrica","Especialidad","Equipo interdisciplinario: gastrectomía vertical y bypass gástrico.","obesidad manga bypass",0],
+    ["Cirugía general y anestesia","Especialidad","Cirugías programadas y quirófano.","operacion",0],
+    ["Patología mamaria y ginecológica","Especialidad","Diagnóstico y cirugía de mama y ginecológica.","mama mujer",0],
+    ["Urología","Especialidad","Patología urológica y cirugía de trasplante.","riñon prostata",0],
+    ["Cirugía vascular y traumatológica","Especialidad","Patología vascular y traumatológica.","venas huesos",0],
+    ["Nefrología","Especialidad","Enfermedades del riñón e insuficiencia renal.","riñon renal",1],
+    ["Salud Mental","Especialidad","Psicología y acompañamiento de pacientes.","psicologia",0],
+    ["Unidad de Hepatitis Virales (UNHEVI)","Especialidad","Diagnóstico y tratamiento de hepatitis virales.","higado hepatitis",0],
+    ["Odontología","Especialidad","Atención odontológica.","dientes dentista",0],
+    ["Medicina Nuclear","Diagnóstico","Centellogramas y tratamientos con radioisótopos.","centellograma yodo radiactivo tiroides huesos",1],
+    ["Laboratorio Bioquímico","Diagnóstico","Análisis clínicos y hormonales. Boxes de extracción en el Centro Ambulatorio.","analisis sangre extraccion laboratorio hormonas",0],
+    ["Anatomía Patológica y Biología Molecular","Diagnóstico","Biopsias, citologías y marcadores moleculares en tumores endocrinos.","biopsia punción",0],
+    ["Genética Clínica y Citogenética","Diagnóstico","Asesoramiento a familias en riesgo de enfermedades genéticas.","genetica cariotipo",0],
+    ["Cirugía Percutánea e Imágenes","Diagnóstico","Ecografías y procedimientos guiados por imágenes.","ecografia puncion imagenes",0],
+    ["Hemodiálisis","Tratamiento","17 puestos en tres turnos. Único centro en un hospital público de Salta.","dialisis riñon renal",1],
+    ["Trasplante Renal","Tratamiento","Evaluación, trasplante y seguimiento, con o sin obra social.","riñon trasplante",1],
+    ["Unidad de Cuidados Intensivos","Tratamiento","Pacientes críticos.","terapia intensiva uti uci",0],
+    ["Hemoterapia","Tratamiento","Transfusiones y donación de sangre.","sangre donar donacion",0],
+    ["Kinesiología","Tratamiento","Rehabilitación y fisioterapia. Gimnasio en el Centro Ambulatorio.","rehabilitacion fisioterapia gimnasio",0],
+    ["Fonoaudiología","Tratamiento","Voz, deglución y audición.","voz habla audicion",0],
+    ["Servicio Social","Apoyo","Orientación y ayuda para pacientes y familias.","ayuda tramites asistente social",0],
+    ["Farmacia y Esterilización","Apoyo","Dispensa de medicamentos a pacientes del hospital.","remedios medicamentos",0],
+    ["Vacunatorio","Apoyo","Vacunación en el Centro Ambulatorio.","vacuna",0],
+    ["Enfermería","Apoyo","Cuidados en todos los turnos y sectores.","enfermera",0],
+    ["Cooperadora Asistencial","Apoyo","Medicamentos, estudios y traslados para pacientes sin recursos.","donar ayuda cooperadora",0]
+  ];
+  var list=document.getElementById('svc'),q=document.getElementById('q'),count=document.getElementById('count'),empty=document.getElementById('empty'),cat='all';
+  function norm(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()}
+  list.innerHTML=S.map(function(s,i){
+    return '<li data-i="'+i+'"><h3>'+s[0]+'</h3><span class="tag">'+s[1]+'</span><p>'+s[2]+'</p>'+(s[4]?'<span class="ref"><svg class="ic" style="width:14px;height:14px" aria-hidden="true"><use href="#i-star"/></svg>Referencia provincial</span>':'')+'</li>';
+  }).join('');
+  var items=[].slice.call(list.children),hay=S.map(function(s){return norm(s.join(' '))});
+  function run(){
+    var t=norm(q.value.trim()),n=0;
+    items.forEach(function(li,i){
+      var ok=(cat==='all'||S[i][1]===cat)&&(!t||t.split(/\s+/).every(function(w){return hay[i].indexOf(w)>-1}));
+      li.hidden=!ok;if(ok)n++;
+    });
+    count.textContent=n===S.length?S.length+' servicios':n+' de '+S.length+' servicios';
+    empty.hidden=n>0;document.getElementById('emptyQ').textContent=q.value;
+  }
+  q.addEventListener('input',run);
+  [].forEach.call(document.querySelectorAll('.chip'),function(b){
+    b.addEventListener('click',function(){
+      cat=b.dataset.cat;
+      document.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed',c===b)});
+      run();
+    });
+  });
+  document.getElementById('reset').addEventListener('click',function(){q.value='';cat='all';document.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed',c.dataset.cat==='all')});run();q.focus()});
+  run();
+
+  var tl=document.getElementById('tl'),tb=document.getElementById('tlBtn');
+  tb.addEventListener('click',function(){var o=tl.classList.toggle('all');tb.setAttribute('aria-expanded',o);tb.textContent=o?'Ver solo los hitos':'Ver la historia completa'});
+
+  var d=document.getElementById('drawer'),mb=document.getElementById('menuBtn');
+  function setD(o){d.classList.toggle('open',o);d.setAttribute('aria-hidden',!o);mb.setAttribute('aria-expanded',o);if(o)d.querySelector('.close').focus();else mb.focus()}
+  mb.addEventListener('click',function(){setD(true)});
+  d.addEventListener('click',function(e){if(e.target.closest('[data-close]'))setD(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&d.classList.contains('open'))setD(false)});
+
+  [].forEach.call(document.querySelectorAll('.copy'),function(b){
+    b.addEventListener('click',function(){
+      var v=b.dataset.copy;
+      function done(){b.textContent='Copiado';b.setAttribute('data-done','');setTimeout(function(){b.textContent='Copiar';b.removeAttribute('data-done')},1600)}
+      try{navigator.clipboard.writeText(v).then(done,function(){sel(b)})}catch(e){sel(b)}
+    });
+  });
+  function sel(b){var dd=b.parentNode.previousElementSibling,r=document.createRange();r.selectNodeContents(dd);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Seleccionado'}
+})();
+</script>

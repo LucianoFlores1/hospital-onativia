@@ -1,0 +1,376 @@
+<title>Oñativia: Centro de referencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+<style>
+/* Dirección C. Patrones de sitios de hospitales de alta complejidad (Mayo Clinic, Cleveland Clinic, Hospital Italiano):
+   menú por audiencia, buscador de atención con pestañas, ficha de servicio con pestañas y tarjeta de turno fija. */
+:root{
+  --ink:#0C2B33;--text:#1B2B30;--muted:#566A70;--line:#DCE5E7;--bg:#FFFFFF;--soft:#F1F6F7;
+  --teal:#0D6E78;--teal-dark:#095660;--teal-tint:#E0F0F1;--on-teal:#FFFFFF;
+  --font:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;--r:12px;--r-s:8px;
+  --shadow:0 1px 2px rgba(12,43,51,.06),0 10px 30px -12px rgba(12,43,51,.22);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--ink:#E4EEF0;--text:#D5E2E5;--muted:#9DB2B8;--line:#28393E;--bg:#0F1A1D;--soft:#162428;--teal:#5BC2CB;--teal-dark:#48AEB7;--teal-tint:#15353A;--on-teal:#04262A;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -12px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{color-scheme:dark;--ink:#E4EEF0;--text:#D5E2E5;--muted:#9DB2B8;--line:#28393E;--bg:#0F1A1D;--soft:#162428;--teal:#5BC2CB;--teal-dark:#48AEB7;--teal-tint:#15353A;--on-teal:#04262A;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -12px rgba(0,0,0,.6)}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--teal-tint)}
+.ic{width:1.2em;height:1.2em;fill:currentColor;flex:none}
+a{color:var(--teal);text-underline-offset:.2em}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+h1,h2,h3{margin:0;color:var(--ink);line-height:1.12;letter-spacing:-.02em;text-wrap:balance;font-weight:600}
+p{margin:0;max-width:62ch}
+.w{max-width:1240px;margin-inline:auto;padding-inline:16px}
+@media (min-width:768px){.w{padding-inline:32px}}
+.tbc{text-decoration:underline dotted #C9A227 2px;text-underline-offset:.25em;cursor:help}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:600;font-size:1rem;border-radius:999px;padding:12px 22px;border:1px solid transparent;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background-color .15s ease,transform .16s cubic-bezier(.23,1,.32,1)}
+.btn:active{transform:scale(.97)}
+.btn-p{background:var(--teal);color:var(--on-teal)}
+.btn-p:hover{background:var(--teal-dark)}
+.btn-g{border-color:var(--line);color:var(--ink);background:var(--bg)}
+.btn-g:hover{background:var(--soft)}
+
+/* header + mega menu */
+.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+.hd .w{display:flex;align-items:center;gap:8px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:600;margin-right:24px;line-height:1.15}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:var(--teal);color:var(--on-teal);display:grid;place-items:center}
+.logo small{display:block;font-weight:400;color:var(--muted);font-size:.8125rem}
+.menu{display:flex;gap:2px;margin-right:auto}
+.menu>button{white-space:nowrap;flex:none;font:inherit;font-size:.9375rem;font-weight:500;color:var(--text);background:none;border:0;padding:10px 12px;border-radius:var(--r-s);cursor:pointer;display:flex;align-items:center;gap:4px}
+.menu>button:hover,.menu>button[aria-expanded="true"]{background:var(--soft);color:var(--ink)}
+.menu>button .ic{width:14px;height:14px;transition:transform .2s ease}
+.menu>button[aria-expanded="true"] .ic{transform:rotate(180deg)}
+.icon-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+@media (max-width:1000px){.hd .w{flex-wrap:wrap;height:auto;padding-block:10px;row-gap:4px}.menu{order:5;width:100%;overflow-x:auto;margin:0 -8px}.logo{margin-right:auto}.mega .w{grid-template-columns:1fr;gap:16px}}
+@media (max-width:560px){.hd .btn-p span{display:none}.hd .btn-p{padding:12px}}
+.mega{position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:var(--shadow);opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .18s ease,transform .22s cubic-bezier(.23,1,.32,1)}
+.mega.open{opacity:1;transform:none;pointer-events:auto}
+.mega .w{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:40px;padding-block:32px 36px}
+.mega h2{font-size:1.25rem}
+.mega p{color:var(--muted);margin-top:8px;font-size:.9375rem}
+.mega ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.mega a{color:var(--ink);text-decoration:none;font-weight:500}
+.mega a:hover{color:var(--teal);text-decoration:underline}
+@media (prefers-reduced-motion:reduce){.mega{transition:opacity .1s ease;transform:none}}
+
+/* hero */
+.hero .w{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center;padding-block:48px 56px}
+.hero h1{font-size:clamp(2.25rem,4.4vw,3.5rem)}
+.hero p{font-size:1.1875rem;color:var(--muted);margin-top:20px;max-width:34em}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero img{height:auto;border-radius:var(--r);width:100%;aspect-ratio:4/3;object-fit:cover;object-position:58% 50%;max-width:100%}
+@media (max-width:860px){.hero .w{grid-template-columns:1fr;gap:28px;padding-block:28px 40px}.hero img{aspect-ratio:16/10}}
+
+/* finder */
+.finder{background:var(--soft)}
+.finder .w{padding-block:48px}
+.finder h2{font-size:clamp(1.5rem,2.6vw,2rem)}
+.fbox{margin-top:20px;background:var(--bg);border-radius:var(--r);box-shadow:var(--shadow);padding:8px}
+.tabs{display:flex;gap:4px;padding:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{font:inherit;font-size:.9375rem;font-weight:500;color:var(--muted);background:none;border:0;border-radius:var(--r-s);padding:8px 14px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--teal-tint);color:var(--teal)}
+.frow{display:flex;gap:8px;padding:12px 8px 8px}
+.frow input{flex:1;min-width:0;font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:999px;padding:12px 18px}
+.frow input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-tint)}
+.fres{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;padding:4px 12px 8px}
+@media (max-width:700px){.fres{grid-template-columns:1fr}}
+.fres a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 4px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+.fres a:hover{color:var(--teal)}
+.fres small{display:block;color:var(--muted);font-size:.875rem}
+.fres .empty{grid-column:1/-1;padding:16px 4px;color:var(--muted)}
+
+/* centros */
+.sec{padding-block:64px}
+.sec>.w>h2{font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:28px}
+.centers{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px}
+@media (max-width:860px){.centers{grid-template-columns:1fr}}
+.feature{display:flex;flex-direction:column;border-radius:var(--r);overflow:hidden;background:var(--ink);color:#E9F2F3;text-decoration:none}
+:root[data-theme="dark"] .feature{background:#16343B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .feature{background:#16343B}}
+.feature .ph{aspect-ratio:16/9;background:#1D4650;display:grid;place-items:center;color:#A9C7CC;text-align:center;padding:16px;font-size:.9375rem;max-width:100%}
+.feature div.t{padding:24px 28px 28px}
+.feature h3{color:#fff;font-size:1.625rem}
+.feature p{margin-top:8px;color:#C7DADD}
+.feature .more{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-weight:600;color:#fff}
+.feature:hover .more{text-decoration:underline}
+.clist{display:grid;align-content:start}
+.clist a{display:grid;grid-template-columns:44px 1fr auto;gap:4px 16px;align-items:start;padding:20px 0;border-bottom:1px solid var(--line);color:var(--text);text-decoration:none}
+.clist a:first-child{padding-top:0}
+.clist .ib{width:44px;height:44px;border-radius:var(--r-s);background:var(--teal-tint);color:var(--teal);display:grid;place-items:center}
+.clist h3{font-size:1.1875rem}
+.clist p{grid-column:2;color:var(--muted);font-size:.96875rem}
+.clist .go{grid-row:1;grid-column:3;color:var(--muted);transition:transform .2s ease}
+.clist a:hover h3{color:var(--teal)}
+.clist a:hover .go{transform:translateX(3px);color:var(--teal)}
+
+/* visita */
+.visit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+@media (max-width:860px){.visit{grid-template-columns:1fr}}
+.visit>div{padding:24px 24px 8px 0}
+.visit>div+div{padding-left:24px;border-left:1px solid var(--line)}
+@media (max-width:860px){.visit>div+div{padding-left:0;border-left:0;border-top:1px solid var(--line)}}
+.visit h3{font-size:1.125rem;display:flex;gap:10px;align-items:center}
+.visit h3 .ic{color:var(--teal)}
+.visit p{color:var(--muted);margin-top:8px;font-size:.96875rem}
+.visit a{display:inline-block;margin-top:10px;font-weight:600}
+
+/* investigación */
+.research{background:var(--soft)}
+.research .w{display:grid;grid-template-columns:auto minmax(0,1fr);gap:40px;align-items:center;padding-block:56px}
+.research img{height:auto;width:150px;border-radius:var(--r);filter:grayscale(1)}
+.research h2{font-size:clamp(1.5rem,2.6vw,2rem)}
+.research p{color:var(--muted);margin-top:12px}
+@media (max-width:640px){.research .w{grid-template-columns:1fr}.research img{width:110px}}
+.ft{border-top:1px solid var(--line);padding-block:40px;font-size:.9375rem;color:var(--muted)}
+.ft .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+@media (max-width:820px){.ft .cols{grid-template-columns:1fr 1fr}}
+.ft h2{font-size:.9375rem;color:var(--ink);margin-bottom:12px;letter-spacing:0}
+.ft ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ft a{color:var(--muted);text-decoration:none}
+.ft a:hover{color:var(--teal);text-decoration:underline}
+
+/* ficha */
+.fh{background:var(--soft);border-bottom:1px solid var(--line)}
+.fh .w{padding-block:20px 0}
+.crumbs{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px;padding:0;font-size:.875rem;color:var(--muted)}
+.crumbs li+li::before{content:"/";margin-right:6px}
+.fh h1{font-size:clamp(2rem,4vw,3rem)}
+.fh p{font-size:1.1875rem;color:var(--muted);margin-top:12px}
+.ftabs{display:flex;gap:4px;margin-top:28px;overflow-x:auto}
+.ftabs button{font:inherit;font-weight:500;font-size:.96875rem;color:var(--muted);background:none;border:0;border-bottom:2px solid transparent;padding:12px 14px;cursor:pointer;white-space:nowrap}
+.ftabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--teal)}
+.fbody{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:48px;padding-block:40px 64px}
+@media (max-width:900px){.fbody{grid-template-columns:1fr}}
+.fbody h2{font-size:1.5rem;margin:32px 0 12px}
+.fbody h2:first-child{margin-top:0}
+.fbody p+p{margin-top:12px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:24px}
+@media (max-width:640px){.facts{grid-template-columns:1fr}}
+.facts div{background:var(--soft);border-radius:var(--r-s);padding:16px}
+.facts b{display:block;font-size:1.75rem;color:var(--ink);font-weight:600;letter-spacing:-.02em}
+.facts span{font-size:.875rem;color:var(--muted)}
+.ol{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.ol li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:12px}
+.ol li::before{content:counter(s);width:32px;height:32px;border-radius:999px;background:var(--teal-tint);color:var(--teal);display:grid;place-items:center;font-weight:600;font-size:.9375rem}
+.ol b{display:block;color:var(--ink)}
+.team{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.team{grid-template-columns:1fr}}
+.team div{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:var(--r-s);padding:14px}
+.team .av{width:44px;height:44px;border-radius:999px;background:var(--teal-tint);color:var(--teal);display:grid;place-items:center;flex:none}
+.team b{display:block;color:var(--ink);font-weight:600}
+.team span{font-size:.875rem;color:var(--muted)}
+.book{position:sticky;top:96px;border-radius:var(--r);padding:24px;box-shadow:var(--shadow);background:var(--bg)}
+.book h2{font-size:1.25rem!important;margin:0 0 8px!important}
+.book .phone{font-size:2.5rem;font-weight:600;color:var(--ink);letter-spacing:-.02em;line-height:1.1;margin:12px 0 4px}
+.book p{color:var(--muted);font-size:.9375rem}
+.book .btn{width:100%;justify-content:center;margin-top:20px}
+.book hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.book dl{margin:0;display:grid;gap:10px;font-size:.9375rem}
+.book dt{color:var(--muted)}
+.book dd{margin:0;color:var(--ink);font-weight:500}
+.pslot{aspect-ratio:16/9;max-width:100%;border-radius:var(--r);background:var(--soft);border:1px dashed var(--line);display:grid;place-items:center;text-align:center;color:var(--muted);padding:16px;margin-top:24px;font-size:.9375rem}
+</style>
+<style>/*MOBILE*/
+/*MCSS*/</style>
+
+<!--PROTO:C-->
+<!--SPRITE-->
+
+<header class="hd d-only">
+  <div class="w">
+    <a class="logo" href="#inicio" data-go="inicio"><span class="logo-mark"><svg class="ic"><use href="#ph-first-aid"/></svg></span><span>Hospital Oñativia<small>Salta, Argentina</small></span></a>
+    <nav class="menu" aria-label="Principal">
+      <button aria-expanded="false" aria-controls="m-pac">Pacientes y familias <svg class="ic"><use href="#ph-caret-down"/></svg></button>
+      <button aria-expanded="false" aria-controls="m-esp">Especialidades <svg class="ic"><use href="#ph-caret-down"/></svg></button>
+      <button aria-expanded="false" aria-controls="m-pro">Profesionales <svg class="ic"><use href="#ph-caret-down"/></svg></button>
+      <button aria-expanded="false" aria-controls="m-hos">El hospital <svg class="ic"><use href="#ph-caret-down"/></svg></button>
+    </nav>
+    <button class="icon-btn" aria-label="Buscar" id="toFinder"><svg class="ic"><use href="#ph-magnifying-glass"/></svg></button>
+    <a class="btn btn-p" href="#visita" data-go="inicio"><svg class="ic"><use href="#ph-calendar-check"/></svg><span>Pedir turno</span></a>
+  </div>
+  <div class="mega" id="m-pac"><div class="w">
+    <div><h2>Pacientes y familias</h2><p>Todo lo que necesitás antes, durante y después de tu atención.</p></div>
+    <ul><li><a href="#visita">Pedir un turno</a></li><li><a href="#visita">Qué llevar</a></li><li><a href="#visita">Preparación para estudios</a></li><li><a href="#visita">Retirar resultados</a></li></ul>
+    <ul><li><a href="#visita">Internación y visitas</a></li><li><a href="#visita">Atención sin obra social</a></li><li><a href="#visita">Derechos del paciente</a></li><li><a href="#visita">Reclamos y sugerencias</a></li></ul>
+  </div></div>
+  <div class="mega" id="m-esp"><div class="w">
+    <div><h2>Especialidades</h2><p>31 servicios, de Anatomía Patológica a Vacunatorio.</p><p><a href="#finder" class="btn btn-g" style="margin-top:12px">Ver todas</a></p></div>
+    <ul><li><a href="#finder">Endocrinología</a></li><li><a href="#finder">Diabetes</a></li><li><a href="#finder">Cirugía tiroidea</a></li><li><a href="#finder">Medicina Nuclear</a></li></ul>
+    <ul><li><a href="#ficha" data-go="ficha">Hemodiálisis</a></li><li><a href="#finder">Nefrología</a></li><li><a href="#finder">Trasplante Renal</a></li><li><a href="#finder">Laboratorio</a></li></ul>
+  </div></div>
+  <div class="mega" id="m-pro"><div class="w">
+    <div><h2>Profesionales</h2><p>Formación de posgrado, derivaciones e investigación.</p></div>
+    <ul><li><a href="#research">Residencias</a></li><li><a href="#research">Concurrencias y pasantías</a></li><li><a href="#research">Rotaciones y visitas</a></li></ul>
+    <ul><li><a href="#research">Unidad de Conocimiento Traslacional</a></li><li><a href="#research">Convenio con CONICET</a></li><li><a href="#research">Derivar un paciente</a></li></ul>
+  </div></div>
+  <div class="mega" id="m-hos"><div class="w">
+    <div><h2>El hospital</h2><p>Hospital público de gestión descentralizada desde 2000.</p></div>
+    <ul><li><a href="#research">Historia</a></li><li><a href="#research">Misión y valores</a></li><li><a href="#research">Autoridades</a></li></ul>
+    <ul><li><a href="#research">Calidad</a></li><li><a href="#research">Carta de servicios</a></li><li><a href="#research">Cooperadora</a></li></ul>
+  </div></div>
+</header>
+
+<main data-page="inicio" class="d-only">
+  <section class="hero">
+    <div class="w">
+      <div>
+        <h1>Alta complejidad en endocrinología, diabetes y riñón</h1>
+        <p>Hospital público de Salta. Atendemos con o sin obra social, desde 1956.</p>
+        <div class="cta"><a class="btn btn-p" href="#visita">Pedir turno</a><a class="btn btn-g" href="#finder">Buscar especialidad</a></div>
+      </div>
+      <img src="img/fachada.jpg" alt="Fachada del Hospital Dr. Arturo Oñativia sobre calle Paz Chaín" width="1800" height="792" fetchpriority="high">
+    </div>
+  </section>
+
+  <section class="finder" id="finder">
+    <div class="w">
+      <h2>Encontrá tu atención</h2>
+      <div class="fbox">
+        <div class="tabs" role="tablist" aria-label="Buscar por">
+          <button role="tab" aria-selected="true" data-t="all">Especialidad</button>
+          <button role="tab" aria-selected="false" data-t="Diagnóstico">Estudio</button>
+          <button role="tab" aria-selected="false" data-t="Cirugía">Cirugía</button>
+          <button role="tab" aria-selected="false" data-t="Apoyo">Apoyo al paciente</button>
+        </div>
+        <div class="frow"><label for="fq" class="sr">Buscar</label><input id="fq" type="search" placeholder="Ej.: tiroides, diálisis, análisis de sangre" autocomplete="off"></div>
+        <div class="fres" id="fres"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="w">
+      <h2>Centros de referencia</h2>
+      <div class="centers">
+        <a class="feature" href="#ficha" data-go="ficha">
+          <div class="ph">Foto a producir: sala de hemodiálisis (16:9)</div>
+          <div class="t"><h3>Hemodiálisis</h3><p>El único centro de hemodiálisis en un hospital público de Salta. 17 puestos en tres turnos.</p><span class="more">Conocé el servicio <svg class="ic"><use href="#ph-arrow-right"/></svg></span></div>
+        </a>
+        <div class="clist">
+          <a href="#finder"><span class="ib"><svg class="ic"><use href="#ph-heartbeat"/></svg></span><h3>Medicina Nuclear</h3><svg class="ic go"><use href="#ph-caret-right"/></svg><p>Único servicio del NOA en un hospital público.</p></a>
+          <a href="#finder"><span class="ib"><svg class="ic"><use href="#ph-stethoscope"/></svg></span><h3>Endocrinología y cirugía tiroidea</h3><svg class="ic go"><use href="#ph-caret-right"/></svg><p>Referencia provincial para adultos.</p></a>
+          <a href="#finder"><span class="ib"><svg class="ic"><use href="#ph-drop"/></svg></span><h3>Trasplante renal</h3><svg class="ic go"><use href="#ph-caret-right"/></svg><p>Desde 2010, con o sin obra social.</p></a>
+          <a href="#finder"><span class="ib"><svg class="ic"><use href="#ph-flask"/></svg></span><h3>Diabetes</h3><svg class="ic go"><use href="#ph-caret-right"/></svg><p>Diagnóstico, control y educación.</p></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="visita" style="padding-top:0">
+    <div class="w">
+      <h2>Antes de venir</h2>
+      <div class="visit">
+        <div><h3><svg class="ic"><use href="#ph-identification-card"/></svg>Qué llevar</h3><p>DNI, orden médica y estudios previos. <span class="tbc" title="Dato a confirmar">Credencial de obra social si tenés.</span></p><a href="#visita">Ver lista completa</a></div>
+        <div><h3><svg class="ic"><use href="#ph-map-pin"/></svg>Cómo llegar</h3><p>Paz Chaín 30, Salta Capital. Ingreso por el Centro Ambulatorio para consultorios y extracciones.</p><a href="https://www.google.com/maps/search/?api=1&query=Hospital+Arturo+O%C3%B1ativia+Salta" target="_blank" rel="noopener">Abrir en el mapa</a></div>
+        <div><h3><svg class="ic"><use href="#ph-bed"/></svg>Internación y visitas</h3><p>Horarios de visita, acompañantes e informes médicos.</p><a href="#visita">Ver horarios</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="research" id="research">
+    <div class="w">
+      <img src="img/arturo-onativia.jpg" alt="Dr. Arturo Oñativia" width="209" height="300" loading="lazy">
+      <div>
+        <h2>Investigación y docencia desde la fundación</h2>
+        <p>El Dr. Arturo Oñativia dirigió el Instituto del Bocio desde 1958. Hoy el hospital forma residentes en tres especialidades y tiene la primera Unidad de Conocimiento Traslacional del NOA, junto al CONICET.</p>
+        <p style="margin-top:20px"><a class="btn btn-g" href="#research">Docencia e investigación</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!--MHOME-->
+
+<main data-page="ficha" hidden>
+  <section class="fh">
+    <div class="w">
+      <ol class="crumbs"><li><a href="#inicio" data-go="inicio">Inicio</a></li><li><a href="#finder" data-go="inicio">Especialidades</a></li><li>Hemodiálisis</li></ol>
+      <h1>Hemodiálisis</h1>
+      <p>Tratamiento para personas con insuficiencia renal crónica.</p>
+      <div class="ftabs" role="tablist" aria-label="Secciones del servicio">
+        <button role="tab" aria-selected="true" data-p="gen">Generalidades</button>
+        <button role="tab" aria-selected="false" data-p="acc">Cómo acceder</button>
+        <button role="tab" aria-selected="false" data-p="eq">Equipo</button>
+      </div>
+    </div>
+  </section>
+  <div class="w fbody">
+    <div>
+      <div data-panel="gen">
+        <h2>Sobre el servicio</h2>
+        <p>Es el único centro de hemodiálisis en un hospital público de Salta. Atiende a pacientes con y sin obra social, y prioriza a las personas sin cobertura.</p>
+        <p>La Unidad de Hemodiálisis funciona desde 1976. En 2011 se inauguró el nuevo centro, que amplió la cantidad de puestos.</p>
+        <div class="facts"><div><b>17</b><span>puestos de diálisis</span></div><div><b>3</b><span>turnos por día</span></div><div><b>100</b><span>pacientes en tratamiento</span></div></div>
+        <div class="pslot">Foto a producir: sala de hemodiálisis (16:9)</div>
+      </div>
+      <div data-panel="acc" hidden>
+        <h2>Cómo empezar el tratamiento</h2>
+        <ol class="ol">
+          <li><div><b>Consulta con Nefrología</b>Pedí turno al 148. Llevá estudios previos y la derivación si venís de otro centro.</div></li>
+          <li><div><b>Evaluación</b>El nefrólogo define si necesitás diálisis.</div></li>
+          <li><div><b>Turno fijo de diálisis</b>Te asignan un puesto y un turno.</div></li>
+          <li><div><b>Trasplante renal</b>Si corresponde, empezás los estudios para trasplante en el mismo hospital.</div></li>
+        </ol>
+      </div>
+      <div data-panel="eq" hidden>
+        <h2>Equipo</h2>
+        <div class="team">
+          <div><span class="av"><svg class="ic"><use href="#ph-user"/></svg></span><span><b>Dr. Raúl Pidoux</b><span>Programa de Nefrología y Hemodiálisis</span></span></div>
+          <div><span class="av"><svg class="ic"><use href="#ph-user"/></svg></span><span><b>Dr. Jorge Zapata</b><span>Sector Hemodiálisis</span></span></div>
+          <div><span class="av"><svg class="ic"><use href="#ph-user"/></svg></span><span><b>Dr. Antonio Moya</b><span>Sector Nefrología</span></span></div>
+          <div><span class="av"><svg class="ic"><use href="#ph-user"/></svg></span><span><b>Lic. Susana Ríos</b><span>Jefa de Enfermería de Nefrología</span></span></div>
+        </div>
+      </div>
+    </div>
+    <aside>
+      <div class="book">
+        <h2>Pedir turno con Nefrología</h2>
+        <p>Línea provincial de turnos</p>
+        <div class="phone">148</div>
+        <p>O en Admisión, Centro Ambulatorio.</p>
+        <hr>
+        <dl><div><dt>Dónde</dt><dd>Paz Chaín 30, Salta</dd></div><div><dt>Consultas</dt><dd>0387 431-5042</dd></div><div><dt>Cobertura</dt><dd>Con o sin obra social</dd></div></dl>
+        <a class="btn btn-g" href="https://www.google.com/maps/search/?api=1&query=Hospital+Arturo+O%C3%B1ativia+Salta" target="_blank" rel="noopener"><svg class="ic"><use href="#ph-map-pin"/></svg>Cómo llegar</a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="ft d-only">
+  <div class="w cols">
+    <div><h2>Hospital Dr. Arturo Oñativia</h2><p>Hospital Público de Gestión Descentralizada. Ministerio de Salud Pública de Salta.</p><p style="margin-top:12px">Paz Chaín 30, Salta Capital<br>Turnos: 148 · Conmutador: 0387 431-5042</p></div>
+    <div><h2>Pacientes</h2><ul><li><a href="#visita">Turnos</a></li><li><a href="#finder">Especialidades</a></li><li><a href="#visita">Derechos del paciente</a></li></ul></div>
+    <div><h2>Profesionales</h2><ul><li><a href="#research">Residencias</a></li><li><a href="#research">Investigación</a></li></ul></div>
+    <div><h2>El hospital</h2><ul><li><a href="#research">Autoridades</a></li><li><a href="#research">Calidad</a></li><li><a href="#research">Cooperadora</a></li></ul></div>
+  </div>
+</footer>
+
+<script>
+/*SHARED*/
+(function(){
+  vistas();
+/*MJS*/
+  // mega menu
+  var btns=[].slice.call(document.querySelectorAll('.menu>button'));
+  function closeAll(except){btns.forEach(function(b){if(b!==except){b.setAttribute('aria-expanded','false');document.getElementById(b.getAttribute('aria-controls')).classList.remove('open')}})}
+  btns.forEach(function(b){b.addEventListener('click',function(){var o=b.getAttribute('aria-expanded')!=='true';closeAll(b);b.setAttribute('aria-expanded',o);document.getElementById(b.getAttribute('aria-controls')).classList.toggle('open',o)})});
+  document.addEventListener('click',function(e){if(!e.target.closest('.hd')||e.target.closest('.mega a'))closeAll()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+  // finder
+  var t='all',q=document.getElementById('fq'),out=document.getElementById('fres');
+  function run(){
+    var list=q.value.trim()?buscar(q.value):SERVICIOS;
+    if(t!=='all')list=list.filter(function(s){return s[1]===t});
+    if(!q.value.trim()&&t==='all')list=list.filter(function(s){return /referencia|Único|único/.test(s[2])});
+    out.innerHTML=list.length?list.slice(0,8).map(function(s){return '<a href="'+(s[0]==='Hemodiálisis'?'#ficha" data-go="ficha':'#finder')+'"><span>'+s[0]+'<small>'+s[2]+'</small></span><svg class="ic"><use href="#ph-caret-right"/></svg></a>'}).join(''):'<p class="empty">No encontramos resultados para “'+q.value.replace(/</g,'&lt;')+'”. Probá con otra palabra.</p>';
+  }
+  document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){t=b.dataset.t;document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-selected',x===b)});run()})});
+  q.addEventListener('input',run);run();
+  document.getElementById('toFinder').addEventListener('click',function(){document.querySelector('[data-view="inicio"]').click();setTimeout(function(){document.getElementById('finder').scrollIntoView();q.focus()},30)});
+  // tabs ficha
+  document.querySelectorAll('.ftabs button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.ftabs button').forEach(function(x){x.setAttribute('aria-selected',x===b)});document.querySelectorAll('[data-panel]').forEach(function(p){p.hidden=p.dataset.panel!==b.dataset.p})})});
+})();
+</script>

@@ -1,0 +1,62 @@
+<header class="mbar">
+  <button class="mbtn mback" data-go="inicio" aria-label="Volver al inicio"><svg class="ic"><use href="#ph-arrow-left"/></svg></button>
+  <span class="mlogo" aria-hidden="true"><svg class="ic"><use href="#ph-first-aid"/></svg></span>
+  <span class="mtitle" id="mTitle">Hospital Oñativia<small>Salta</small></span>
+  <button class="mbtn" data-sheet="mSearch" aria-label="Buscar"><svg class="ic"><use href="#ph-magnifying-glass"/></svg></button>
+  <button class="mbtn" data-sheet="mMenu" aria-label="Menú"><svg class="ic"><use href="#ph-list"/></svg></button>
+</header>
+
+<nav class="mtabs" aria-label="Navegación principal">
+  <a class="mtab" href="#m-top" data-go="inicio" aria-current="true"><svg class="ic"><use href="#ph-house-line"/></svg>Inicio</a>
+  <a class="mtab" href="#m-turnos" data-go="inicio"><svg class="ic"><use href="#ph-calendar-check"/></svg>Turnos</a>
+  <a class="mtab" href="#m-servicios" data-go="inicio"><svg class="ic"><use href="#ph-stethoscope"/></svg>Servicios</a>
+  <a class="mtab" href="#m-llegar" data-go="inicio"><svg class="ic"><use href="#ph-map-pin"/></svg>Cómo llegar</a>
+</nav>
+
+<div class="maction">
+  <a class="mact s" href="https://www.google.com/maps/search/?api=1&query=Hospital+Arturo+O%C3%B1ativia+Salta" target="_blank" rel="noopener"><svg class="ic"><use href="#ph-navigation-arrow"/></svg>Cómo llegar</a>
+  <a class="mact p" href="tel:148"><svg class="ic"><use href="#ph-phone"/></svg>Llamar al 148</a>
+</div>
+
+<div class="msheet full" id="mSearch" role="dialog" aria-modal="true" aria-label="Buscar">
+  <div class="scrim" data-close></div>
+  <div class="panel">
+    <div class="msearch">
+      <label for="mq" class="sr">Buscar un servicio o trámite</label>
+      <input id="mq" type="search" placeholder="Servicio, estudio o trámite" autocomplete="off" enterkeyhint="search">
+      <button class="mbtn" data-close aria-label="Cerrar búsqueda" style="color:var(--m-ink)"><svg class="ic"><use href="#ph-x"/></svg></button>
+    </div>
+    <div class="body">
+      <p class="mhint" id="mqHint">Búsquedas frecuentes</p>
+      <div class="m-group" id="mqRes"></div>
+    </div>
+  </div>
+</div>
+
+<div class="msheet" id="mMenu" role="dialog" aria-modal="true" aria-labelledby="mMenuT">
+  <div class="scrim" data-close></div>
+  <div class="panel">
+    <div class="grab"></div>
+    <div class="ph"><h2 id="mMenuT">Menú</h2><button class="mbtn" data-close aria-label="Cerrar menú" style="color:var(--m-ink)"><svg class="ic"><use href="#ph-x"/></svg></button></div>
+    <div class="body">
+      <p class="mhint" style="margin-top:0">Pacientes</p>
+      <div class="m-group">
+        <a class="m-row" href="#m-turnos" data-go="inicio" data-close><span class="tx"><b>Pedir un turno</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-servicios" data-go="inicio" data-close><span class="tx"><b>Servicios</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-llegar" data-go="inicio" data-close><span class="tx"><b>Internación y visitas</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-llegar" data-go="inicio" data-close><span class="tx"><b>Reclamos y sugerencias</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+      </div>
+      <p class="mhint">Profesionales</p>
+      <div class="m-group">
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Residencias y concurrencias</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Investigación</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+      </div>
+      <p class="mhint">El hospital</p>
+      <div class="m-group">
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Historia</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Autoridades</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+        <a class="m-row" href="#m-top" data-go="inicio" data-close><span class="tx"><b>Calidad y transparencia</b></span><svg class="ic chev"><use href="#ph-caret-right"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>

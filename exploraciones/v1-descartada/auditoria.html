@@ -1,0 +1,158 @@
+<title>Auditoría Hospital Oñativia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+:root{
+  --paper:#F6F8F6;--surface:#FFFFFF;--sunk:#EAF0EC;--ink:#0F2A25;--ink-2:#3C534D;--ink-3:#5D716B;--line:#D3DDD8;
+  --green:#0E6B53;--green-tint:#DCEDE5;--red:#A3222B;--red-tint:#F7E3E3;--amber:#8A5A00;--amber-tint:#F6EBD3;--mint:#A9DCC6;
+  --serif:"Newsreader",Georgia,serif;--sans:"Atkinson Hyperlegible Next",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"Atkinson Hyperlegible Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--paper:#0D1715;--surface:#13211E;--sunk:#182A26;--ink:#E6EFEB;--ink-2:#B9C9C3;--ink-3:#93A79F;--line:#2A3E39;--green:#4FC39C;--green-tint:#173A31;--red:#F08A8F;--red-tint:#3A1C1F;--amber:#E9B85A;--amber-tint:#3A2E14;--mint:#2C6A56}}
+:root[data-theme="dark"]{color-scheme:dark;--paper:#0D1715;--surface:#13211E;--sunk:#182A26;--ink:#E6EFEB;--ink-2:#B9C9C3;--ink-3:#93A79F;--line:#2A3E39;--green:#4FC39C;--green-tint:#173A31;--red:#F08A8F;--red-tint:#3A1C1F;--amber:#E9B85A;--amber-tint:#3A2E14;--mint:#2C6A56}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--mint)}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:4px}
+a{color:var(--green);text-underline-offset:.2em}
+.wrap{max-width:1040px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px);padding-block:clamp(32px,6vw,72px)}
+h1,h2{font-family:var(--serif);font-weight:500;letter-spacing:-.02em;line-height:1.08;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.25rem,5.5vw,4rem)}
+h2{font-size:clamp(1.625rem,3vw,2.25rem);margin-top:clamp(48px,7vw,80px);margin-bottom:8px}
+h3{font-size:1.0625rem;margin:0 0 4px;font-weight:700}
+p{margin:0;text-wrap:pretty}
+.lead{font-size:1.1875rem;color:var(--ink-2);max-width:40em;margin-top:18px}
+.num,code{font-family:var(--mono);font-variant-numeric:tabular-nums}
+code{font-size:.875em;background:var(--sunk);padding:1px 6px;border-radius:4px;overflow-wrap:anywhere}
+.back{display:inline-block;margin-bottom:28px;font-weight:500}
+.sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:36px}
+.sum div{background:var(--surface);padding:18px 20px}
+.sum b{display:block;font-family:var(--serif);font-weight:400;font-size:2.5rem;line-height:1}
+.sum span{color:var(--ink-3);font-size:.9375rem}
+.sum .crit b{color:var(--red)}
+@media (max-width:700px){.sum{grid-template-columns:1fr 1fr}}
+.sec-note{color:var(--ink-2);max-width:44em}
+.items{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
+.items li{display:grid;grid-template-columns:96px 1fr;gap:6px 20px;padding:18px 0;border-bottom:1px solid var(--line)}
+.sev{align-self:start;justify-self:start;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px;margin-top:2px}
+.s1{background:var(--red-tint);color:var(--red)}
+.s2{background:var(--amber-tint);color:var(--amber)}
+.s3{background:var(--sunk);color:var(--ink-2)}
+.items p{color:var(--ink-2)}
+.items .fix{margin-top:8px;color:var(--ink)}
+.items .fix::before{content:"Corrección: ";font-weight:700;color:var(--green)}
+@media (max-width:600px){.items li{grid-template-columns:1fr}}
+.tbl{overflow-x:auto;margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.96875rem}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.8125rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);font-weight:700;background:var(--sunk)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700}
+.missing{columns:2;column-gap:40px;margin:20px 0 0;padding:0;list-style:none}
+.missing li{break-inside:avoid;padding:10px 0;border-bottom:1px solid var(--line)}
+.missing b{display:block}
+.missing span{color:var(--ink-3);font-size:.9375rem}
+@media (max-width:700px){.missing{columns:1}}
+.foot{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--ink-3);font-size:.875rem}
+</style>
+
+<div class="wrap">
+  <a class="back" href="index.html">← Volver al rediseño</a>
+  <h1>Auditoría del sitio actual</h1>
+  <p class="lead">Relevamiento de las 25 páginas públicas de <code>hospitalonativia.gob.ar</code>, realizado el <span class="num">19/11/2026</span>. Cada problema fue verificado en el código HTML que entrega el servidor.</p>
+
+  <div class="sum">
+    <div class="crit"><b class="num">6</b><span>secciones muestran código roto</span></div>
+    <div class="crit"><b class="num">0</b><span>páginas de servicios accesibles</span></div>
+    <div><b class="num">2020</b><span>año de la última publicación</span></div>
+    <div><b class="num">13</b><span>imágenes sin texto alternativo</span></div>
+  </div>
+
+  <h2>1. Contenido roto</h2>
+  <p class="sec-note">El sitio usaba plugins de WordPress (MaxButtons, Huge-IT Video Gallery y un formulario de BestWebSoft) que hoy no están activos. En su lugar, los visitantes ven el código interno entre corchetes.</p>
+  <ul class="items">
+    <li><span class="sev s1">Crítico</span><div><h3>Servicios Asistenciales y de Soporte</h3><p>Muestra unos 30 códigos como <code>[maxbutton name=»Cirugía»]</code>. No se puede entrar a ningún servicio: Cirugía, Nutrición, Laboratorio, Cardiología, Medicina Nuclear, UCI, Farmacia, Odontología y el resto.</p><p class="fix">Reconstruir cada servicio como página propia (o el directorio con buscador del rediseño).</p></div></li>
+    <li><span class="sev s1">Crítico</span><div><h3>Gerencias</h3><p>La página solo contiene seis códigos <code>[maxbutton id=»1″]</code> y nada más.</p><p class="fix">Página con organigrama, responsables y funciones de cada gerencia.</p></div></li>
+    <li><span class="sev s1">Crítico</span><div><h3>Comités y Comisiones</h3><p>Dos párrafos de introducción y siete botones rotos. No figura ningún comité.</p><p class="fix">Listar cada comité con su objetivo e integrantes.</p></div></li>
+    <li><span class="sev s1">Crítico</span><div><h3>Formulario de contacto</h3><p>Donde debería estar el formulario se lee <code>[bestwebsoft_contact_form]</code>. Nadie puede escribir desde la web.</p><p class="fix">Formulario funcional con confirmación de envío, o como mínimo ocultarlo.</p></div></li>
+    <li><span class="sev s1">Crítico</span><div><h3>Carta de Servicios</h3><p>El texto dice “Aquí podrá descargar la Carta de Servicios”, pero el botón aparece como <code>[maxbutton id=»67″]</code>. El documento no se puede descargar.</p><p class="fix">Enlazar el PDF directamente.</p></div></li>
+    <li><span class="sev s1">Crítico</span><div><h3>Videos</h3><p>La sección completa es un solo código: <code>[huge_it_videogallery id=»1″]</code>.</p><p class="fix">Enlazar al canal de video o quitar la sección del menú.</p></div></li>
+    <li><span class="sev s2">Alto</span><div><h3>Artículos con descargas rotas</h3><p>“Lo mas seguro es beber agua segura” y “Prevención Covid-19” prometen un archivo para descargar y muestran un botón roto.</p><p class="fix">Reenlazar los archivos o publicar el contenido como texto.</p></div></li>
+  </ul>
+
+  <h2>2. Enlaces y navegación</h2>
+  <ul class="items">
+    <li><span class="sev s1">Crítico</span><div><h3>Menús que no llevan a ningún lado</h3><p>“Acerca del Hospital” y “Áreas Institucionales” apuntan a <code>http://http://www.hospitalonativia.gob.ar/#</code>, con el protocolo duplicado. En celulares, tocar esos ítems falla.</p><p class="fix">Corregir la URL o convertirlos en títulos de menú sin enlace.</p></div></li>
+    <li><span class="sev s2">Alto</span><div><h3>Enlace a un borrador</h3><p>Desde Historia, el enlace al decreto-ley 191/56 abre <code>?page_id=1096&amp;preview=true</code>, la vista previa interna de WordPress.</p><p class="fix">Enlazar la página publicada.</p></div></li>
+    <li><span class="sev s2">Alto</span><div><h3>La portada está vacía</h3><p>La página de inicio solo dice “¡Bienvenidos al Sitio Web del Hospital Dr. Arturo Oñativia!”. No hay turnos, servicios, dirección ni horarios.</p><p class="fix">Una portada orientada a tareas: turnos, servicios, cómo llegar.</p></div></li>
+    <li><span class="sev s3">Medio</span><div><h3>Sin buscador y con direcciones ilegibles</h3><p>Todas las páginas usan direcciones como <code>?page_id=970</code>. No hay buscador interno.</p><p class="fix">Enlaces permanentes legibles (<code>/servicios/medicina-nuclear</code>) y un buscador.</p></div></li>
+  </ul>
+
+  <h2>3. Información desactualizada</h2>
+  <ul class="items">
+    <li><span class="sev s2">Alto</span><div><h3>Sin publicaciones desde 2020</h3><p>Las cuatro notas visibles son de 2017, 2019 y 2020 (incluida “Prevención Covid-19”). Todas están en la categoría “Sin categoría”.</p><p class="fix">Plan de publicación mensual y categorías reales: Prevención, Institucional, Investigación.</p></div></li>
+    <li><span class="sev s2">Alto</span><div><h3>“Ingreso a Residencias 2020”</h3><p>La página de Capacitación y Docencia sigue anunciando los requisitos de 2020.</p><p class="fix">Actualizar al ciclo vigente e indicar la fecha de actualización.</p></div></li>
+    <li><span class="sev s3">Medio</span><div><h3>Fechas relativas que envejecieron</h3><p>Historia dice que la UCT-H fue acreditada “en enero de este año”, refiriéndose a 2022.</p><p class="fix">Usar fechas absolutas: “en enero de 2022”.</p></div></li>
+    <li><span class="sev s3">Medio</span><div><h3>Autoridades sin fecha y con huecos</h3><p>No dice cuándo se actualizó. “Sector Anatomía Patológica y Biología Molecular” y “Sector Mantenimiento y Transporte” no tienen responsable.</p><p class="fix">Completar los cargos vacantes y agregar “Actualizado el…”.</p></div></li>
+    <li><span class="sev s3">Medio</span><div><h3>Correos de Gmail en un sitio .gob.ar</h3><p>Contacto usa <code>comunicacion.honativia@gmail.com</code> y Docencia usa <code>rrhh.honativia@gmail.com</code>. Le resta confianza institucional y facilita la suplantación de identidad.</p><p class="fix">Casillas del dominio oficial.</p></div></li>
+  </ul>
+
+  <h2>4. Errores de redacción</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Dónde</th><th>Dice</th><th>Debería decir</th></tr></thead>
+    <tbody>
+      <tr><td>Barra lateral (las 25 páginas)</td><td>Lo mas seguro…</td><td>Lo más seguro…</td></tr>
+      <tr><td>Nota “Agua segura”</td><td>el artículo para decargar</td><td>el artículo para descargar</td></tr>
+      <tr><td>Contacto</td><td>Visite nuestra pagina de facebook</td><td>Visite nuestra página de Facebook (y que sea un enlace, hoy es texto plano)</td></tr>
+      <tr><td>Capacitación</td><td>Comisión de Asesora de Docencia</td><td>Comisión Asesora de Docencia</td></tr>
+      <tr><td>Capacitación</td><td>Lunes a Viernes de 7 a 16 hs. Lunes a Viernes</td><td>Lunes a viernes de 7 a 16 h</td></tr>
+      <tr><td>Autoridades</td><td>Coordinacion General</td><td>Coordinación General</td></tr>
+      <tr><td>Historia</td><td>CREACION UCT-H</td><td>Creación de la UCT-H</td></tr>
+      <tr><td>Historia</td><td>Dr Arturo Oñativia, Min de Salud</td><td>Dr. Arturo Oñativia, Ministerio de Salud</td></tr>
+      <tr><td>Menú y notas</td><td>POLÍTICA DE CALIDAD, ENFERMEDAD POR DÉFICIT DE IODO</td><td>Mayúscula solo inicial, como el resto del menú</td></tr>
+      <tr><td>Nota sobre iodo</td><td>Iodo y yodo mezclados</td><td>Unificar en “yodo”, la forma recomendada por la RAE</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>5. Información que falta</h2>
+  <p class="sec-note">Lo que un paciente busca primero y hoy no encuentra en ninguna página.</p>
+  <ul class="missing">
+    <li><b>Horarios de atención</b><span>De Admisión, consultorios, extracciones y vacunatorio.</span></li>
+    <li><b>Guardia</b><span>Si existe atención espontánea, en qué horario y por dónde se ingresa.</span></li>
+    <li><b>Cómo llegar</b><span>Mapa, colectivos, estacionamiento e ingresos.</span></li>
+    <li><b>Qué llevar a un turno</b><span>DNI, orden médica, obra social.</span></li>
+    <li><b>Preparación para estudios</b><span>Ayunos y medicación para laboratorio y medicina nuclear.</span></li>
+    <li><b>Retiro de resultados</b><span>Dónde, cuándo y si hay consulta en línea.</span></li>
+    <li><b>Internación y visitas</b><span>Horarios, acompañantes, informes médicos.</span></li>
+    <li><b>Cobertura</b><span>Qué se atiende sin obra social y qué obras sociales se reciben.</span></li>
+    <li><b>Derechos del paciente</b><span>Ley 26.529 y canal de reclamos con seguimiento.</span></li>
+    <li><b>Página por servicio</b><span>Qué trata, profesionales, ubicación y cómo pedir turno.</span></li>
+    <li><b>Cómo donar a la Cooperadora</b><span>La página describe sus objetivos pero no cómo colaborar.</span></li>
+    <li><b>Investigación</b><span>Publicaciones y proyectos de la UCT-H y el convenio con CONICET.</span></li>
+  </ul>
+
+  <h2>6. Técnica, accesibilidad y seguridad</h2>
+  <ul class="items">
+    <li><span class="sev s2">Alto</span><div><h3>Imágenes sin texto alternativo</h3><p>Trece imágenes sin texto alternativo, entre ellas la foto antigua del hospital en Historia, las dos fotos de la Biografía, los tres certificados de Calidad, la foto de la Cooperadora y las imágenes de cada nota. Un lector de pantalla no las describe.</p><p class="fix">Texto alternativo descriptivo en cada imagen con contenido.</p></div></li>
+    <li><span class="sev s2">Alto</span><div><h3>Contenido mixto</h3><p>Historia, Biografía, Calidad y Cooperadora cargan imágenes por <code>http://</code> dentro de un sitio <code>https://</code>. Algunos navegadores las bloquean o muestran el sitio como no seguro.</p><p class="fix">Reemplazar las URLs por https.</p></div></li>
+    <li><span class="sev s3">Medio</span><div><h3>Sin descripción para buscadores ni redes</h3><p>Ninguna página tiene <code>meta description</code> ni etiquetas Open Graph. Google y WhatsApp muestran vistas previas pobres.</p><p class="fix">Descripción y foto de vista previa por página.</p></div></li>
+    <li><span class="sev s3">Medio</span><div><h3>Superficie de ataque expuesta</h3><p>La versión de WordPress (<code>6.6.12</code>) figura en el código y <code>xmlrpc.php</code> está publicado. Ambos facilitan ataques automatizados.</p><p class="fix">Ocultar la versión, desactivar XML-RPC y actualizar el núcleo y los plugins.</p></div></li>
+    <li><span class="sev s3">Medio</span><div><h3>Crédito de plantilla en el pie</h3><p>“Tema: ColorMag por ThemeGrill. Funciona con WordPress.” en un sitio de gobierno.</p><p class="fix">Pie institucional: ministerio, dirección, accesibilidad.</p></div></li>
+  </ul>
+
+  <h2>Qué resuelve el rediseño</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Problema</th><th>Sitio actual</th><th>Rediseño</th></tr></thead>
+    <tbody>
+      <tr><td>Pedir turno</td><td>“Para solicitar turnos: 148” en la barra lateral</td><td>Panel de turnos en la portada y botón fijo en el celular</td></tr>
+      <tr><td>Encontrar un servicio</td><td>30 botones rotos</td><td>Directorio de 31 servicios con buscador que entiende palabras como “tiroides” o “diálisis”</td></tr>
+      <tr><td>Trámites</td><td>No existen</td><td>Seis tareas frecuentes al alcance de un toque</td></tr>
+      <tr><td>Lo distintivo</td><td>Enterrado en “Funciones y Actividades”</td><td>Hemodiálisis, Medicina Nuclear, trasplante y UCT-H en la portada</td></tr>
+      <tr><td>Historia</td><td>Bloque de texto de 1.200 palabras</td><td>Línea de tiempo con hitos, ampliable</td></tr>
+      <tr><td>Contacto</td><td>Formulario roto y correos de Gmail</td><td>Datos que se copian con un toque, mapa y canal de reclamos</td></tr>
+      <tr><td>Legibilidad</td><td>Plantilla genérica de revista</td><td>Atkinson Hyperlegible, creada para personas con baja visión, y modo oscuro</td></tr>
+    </tbody>
+  </table></div>
+
+  <p class="foot">Fuente: HTML público de hospitalonativia.gob.ar, páginas de inicio, institucionales, normativas y las cuatro notas visibles, descargadas el 19/11/2026.</p>
+</div>
