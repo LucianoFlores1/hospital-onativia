@@ -8,25 +8,25 @@
    Azul del logo como único acento; rojo solo para la guardia; verde solo para WhatsApp. */
 :root {
   color-scheme: light;
-  --c-canvas: #ffffff;
-  --c-mist: #f5f5f7;
+  --c-canvas: #fafafb;
+  --c-mist: #ebebef;
   --c-surface: #ffffff;
   --c-raised: #ffffff;
   --c-night: #1d1d1f;
   --c-ink: #1d1d1f;
-  --c-ink-2: #424245;
-  --c-mute: #6e6e73;
-  --c-hair: #d2d2d7;
+  --c-ink-2: #36363a;
+  --c-mute: #57575d;
+  --c-hair: #c4c4cc;
   --c-accent: #1d4ab8;
   --c-accent-deep: #163a93;
-  --c-accent-tint: #eaf0fb;
+  --c-accent-tint: #dfe8f9;
   --c-btn: #1d4ab8;
   --c-btn-hover: #163a93;
   --c-alarm: #d70015;
-  --c-alarm-tint: #fdecee;
+  --c-alarm-tint: #fbe1e4;
   --c-wa: #1a8a4a;
-  --c-wa-tint: #e6f5ec;
-  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.04), 0 18px 40px -16px rgb(0 0 0 / 0.18);
+  --c-wa-tint: #d9f0e2;
+  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.06), 0 18px 40px -16px rgb(0 0 0 / 0.24);
 }
 .dark {
   color-scheme: dark;
@@ -147,6 +147,7 @@
   }
 
   .tile { border-radius: var(--radius-tile); }
+  :root:not(.dark) .bg-surface.tile, :root:not(.dark) .bg-surface.card { box-shadow: 0 0 0 1px rgb(0 0 0 / 0.05); }
   .card { border-radius: var(--radius-card); }
 
   /* Tarjetas tocables: se elevan con el mouse y se hunden al tocar */

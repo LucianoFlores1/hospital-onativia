@@ -42,7 +42,7 @@ const nav = [
         var dark = t ? t === 'oscuro' : matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.classList.toggle('dark', dark);
         var m = document.getElementById('themeColor');
-        if (m) m.setAttribute('content', dark ? '#0b0b0c' : '#ffffff');
+        if (m) m.setAttribute('content', dark ? '#0b0b0c' : '#fafafb');
       })();
     </script>
     <meta property="og:title" content={fullTitle} />
@@ -63,7 +63,7 @@ const nav = [
             <a
               href={u(n.href)}
               aria-current={activo === n.id ? 'page' : undefined}
-              class="relative px-3 py-2 text-[13px] text-ink/75 transition-colors duration-200 hover:text-ink aria-[current=page]:font-semibold aria-[current=page]:text-ink after:absolute after:inset-x-3 after:-bottom-[9px] after:h-[2px] after:origin-center after:scale-x-0 after:rounded-full after:bg-ink after:transition-transform after:duration-300 aria-[current=page]:after:scale-x-100"
+              class="relative px-3 py-2 text-[13px] text-ink/85 transition-colors duration-200 hover:text-ink aria-[current=page]:font-semibold aria-[current=page]:text-ink after:absolute after:inset-x-3 after:-bottom-[9px] after:h-[2px] after:origin-center after:scale-x-0 after:rounded-full after:bg-ink after:transition-transform after:duration-300 aria-[current=page]:after:scale-x-100"
             >{n.label}</a>
           ))}
           <a href={u('/turnos#guardia')} class="ml-2 flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold text-alarm">
@@ -72,7 +72,7 @@ const nav = [
           </a>
         </nav>
         <a href={u('/turnos')} class="btn btn-primary ml-2 hidden min-h-8! px-3.5! text-[13px]! md:inline-flex">Pedir turno</a>
-        <button type="button" data-tema class="press ml-1 flex size-11 items-center justify-center rounded-full text-ink/75 transition-colors hover:bg-ink/[.06] hover:text-ink md:ml-2 md:size-9" aria-label="Cambiar a modo oscuro">
+        <button type="button" data-tema class="press ml-1 flex size-11 items-center justify-center rounded-full text-ink/85 transition-colors hover:bg-ink/[.06] hover:text-ink md:ml-2 md:size-9" aria-label="Cambiar a modo oscuro">
           <Icon name="moon" class="size-[20px] dark:hidden" />
           <Icon name="sun" class="hidden size-[20px] dark:block" />
         </button>
@@ -163,7 +163,7 @@ const nav = [
       // Cambio de tema con un círculo que se expande desde el botón (View Transitions).
       function aplicarTema(oscuro: boolean) {
         document.documentElement.classList.toggle('dark', oscuro);
-        document.getElementById('themeColor')?.setAttribute('content', oscuro ? '#0b0b0c' : '#ffffff');
+        document.getElementById('themeColor')?.setAttribute('content', oscuro ? '#0b0b0c' : '#fafafb');
         document.querySelectorAll('[data-tema]').forEach((b) => b.setAttribute('aria-label', oscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'));
       }
       aplicarTema(document.documentElement.classList.contains('dark'));

@@ -10,12 +10,16 @@ const s = (slug: string) => servicios.find((x) => x.slug === slug)!;
 const chicos = ['cirugia-tiroides', 'trasplante-renal', 'diabetes', 'endocrinologia'].map(s);
 
 const novedades = [
-  { titulo: 'El hospital restablece la guardia de 24 horas', tema: 'Atención', foto: 'edificio', href: 'https://www.salta.gob.ar/prensa/noticias/el-hospital-oniativia-restablece-el-servicio-de-guardia-las-24-horas-101658' },
-  { titulo: 'Más prevención y atención del cáncer de tiroides', tema: 'Tiroides', foto: 'cirugia-tiroides', href: 'https://www.salta.gob.ar/prensa/noticias/el-hospital-oniativia-fortalece-la-prevencion-y-la-atencion-del-cancer-de-tiroides-110185' },
-  { titulo: 'Nuevo espacio de diálisis peritoneal', tema: 'Nefrología', foto: 'peritoneal', href: 'https://www.salta.gob.ar/prensa/noticias/con-dialisis-peritoneal-fortalecen-la-atencion-nefrologica-en-el-hospital-arturo-oniativia-108101' },
-  { titulo: 'Se hicieron 38 trasplantes renales en 2023', tema: 'Trasplante', foto: 'trasplante', href: 'https://www.salta.gob.ar/prensa/noticias/se-hicieron-38-trasplantes-renales-en-el-hospital-oniativia-durante-2023-93713' },
-  { titulo: 'Investigan la deficiencia de yodo en escuelas', tema: 'Investigación', foto: 'escuela', href: 'https://www.salta.gob.ar/prensa/noticias/se-realiza-una-investigacion-sobre-la-deficiencia-de-yodo-en-ninios-en-edad-escolar-102932' },
+  { titulo: 'Más prevención y atención del cáncer de tiroides', tema: 'Tiroides', fecha: '2026-09-24', foto: 'cirugia-tiroides', href: 'https://www.salta.gob.ar/prensa/noticias/el-hospital-oniativia-fortalece-la-prevencion-y-la-atencion-del-cancer-de-tiroides-110185' },
+  { titulo: 'Nuevo espacio de diálisis peritoneal', tema: 'Nefrología', fecha: '2026-05-27', foto: 'peritoneal', href: 'https://www.salta.gob.ar/prensa/noticias/con-dialisis-peritoneal-fortalecen-la-atencion-nefrologica-en-el-hospital-arturo-oniativia-108101' },
+  { titulo: 'Investigan la deficiencia de yodo en escuelas', tema: 'Investigación', fecha: '2025-07-29', foto: 'escuela', href: 'https://www.salta.gob.ar/prensa/noticias/se-realiza-una-investigacion-sobre-la-deficiencia-de-yodo-en-ninios-en-edad-escolar-102932' },
+  { titulo: 'El hospital restablece la guardia de 24 horas', tema: 'Atención', fecha: '2025-05-16', foto: 'edificio', href: 'https://www.salta.gob.ar/prensa/noticias/el-hospital-oniativia-restablece-el-servicio-de-guardia-las-24-horas-101658' },
+  { titulo: 'Se hicieron 38 trasplantes renales en 2023', tema: 'Trasplante', fecha: '2024-01-09', foto: 'trasplante', href: 'https://www.salta.gob.ar/prensa/noticias/se-hicieron-38-trasplantes-renales-en-el-hospital-oniativia-durante-2023-93713' },
 ];
+
+// "24 de septiembre de 2026"
+const fechaLarga = (iso: string) =>
+  new Date(`${iso}T12:00:00`).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <Base activo="inicio">
   <!-- Hero -->
@@ -180,7 +184,7 @@ const novedades = [
             <a href={n.href} target="_blank" rel="noopener" class="press group card flex h-full flex-col overflow-hidden bg-surface">
               <Foto nombre={n.foto} alt="" class="aspect-[16/10] w-full object-cover" sizes="(min-width: 1024px) 31vw, 80vw" />
               <div class="flex flex-1 flex-col p-6">
-                <p class="text-[13px] font-semibold text-mute">{n.tema}</p>
+                <p class="text-[13px] text-mute"><span class="font-semibold text-accent">{n.tema}</span> · <time datetime={n.fecha}>{fechaLarga(n.fecha)}</time></p>
                 <h3 class="mt-1 text-[19px] leading-snug font-semibold tracking-[-0.015em] group-hover:underline">{n.titulo}</h3>
                 <span class="link-chev mt-auto pt-4 text-[15px]">Leer la nota <Icon name="arrow-up-right" weight="bold" class="size-4" /></span>
               </div>
