@@ -1,0 +1,162 @@
+---
+import Base from '../layouts/Base.astro';
+import Directorio from '../components/Directorio.astro';
+import Foto from '../components/Foto.astro';
+import Icon from '../components/Icon.astro';
+import { servicios, destacados, contacto } from '../data/servicios';
+import { u } from '../lib/url';
+
+const refs = destacados.map((s) => servicios.find((x) => x.slug === s)!);
+
+const novedades = [
+  { titulo: 'El hospital restablece la guardia de 24 horas', bajada: 'Con prioridad para pacientes con descompensaciones endocrino-metabólicas.', foto: 'edificio', href: 'https://www.salta.gob.ar/prensa/noticias/el-hospital-oniativia-restablece-el-servicio-de-guardia-las-24-horas-101658', tema: 'Atención' },
+  { titulo: 'Más prevención y atención del cáncer de tiroides', bajada: 'Endocrinología registró más de 13.000 consultas en 2025.', foto: 'cirugia-tiroides', href: 'https://www.salta.gob.ar/prensa/noticias/el-hospital-oniativia-fortalece-la-prevencion-y-la-atencion-del-cancer-de-tiroides-110185', tema: 'Tiroides' },
+  { titulo: 'Nuevo espacio de diálisis peritoneal', bajada: 'Una opción de tratamiento en casa que reduce los traslados al hospital.', foto: 'peritoneal', href: 'https://www.salta.gob.ar/prensa/noticias/con-dialisis-peritoneal-fortalecen-la-atencion-nefrologica-en-el-hospital-arturo-oniativia-108101', tema: 'Nefrología' },
+];
+---
+<Base activo="inicio">
+  <!-- Portada: el directorio de la entrada -->
+  <section class="bg-paper">
+    <div class="wrap grid grid-cols-[minmax(0,1fr)] gap-10 pt-8 pb-14 md:pt-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] lg:gap-14 lg:pb-20">
+      <div>
+        <h1 class="sign-text text-[52px] text-ink sm:text-[68px] lg:text-[84px]">¿A dónde<br />necesitás ir?</h1>
+        <p class="mt-4 max-w-xl text-lg text-steel">Hospital público de referencia en endocrinología, diabetes y riñón desde 1956. Atendemos con o sin obra social.</p>
+        <div class="mt-8"><Directorio /></div>
+      </div>
+      <figure class="hidden lg:block">
+        <Foto nombre="edificio" alt="Edificio del Hospital Dr. Arturo Oñativia sobre calle Paz Chaín" class="plate aspect-[4/5] w-full object-cover object-[60%_50%]" priority sizes="(min-width: 1024px) 45vw, 100vw" />
+        <figcaption class="mt-3 flex items-center gap-2 text-[15px] text-steel"><Icon name="map-pin" weight="fill" class="size-4 text-sign" />{contacto.direccion}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Especialidades de referencia: placas como los carteles de puerta del hospital -->
+  <section class="wrap py-16 md:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 class="sign-text text-[40px] md:text-[56px]">Especialidades de referencia</h2>
+      <a href={u('/especialidades')} class="press flex items-center gap-2 font-semibold text-sign hover:underline">Ver las {servicios.length} especialidades <Icon name="arrow-right" weight="bold" class="size-5" /></a>
+    </div>
+    <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {refs.map((s) => (
+        <li>
+          <a href={u(`/especialidades/${s.slug}`)} class="group press block">
+            {s.foto ? (
+              <Foto nombre={s.foto} alt="" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+            ) : (
+              <div class="plate flex aspect-[4/3] w-full items-center justify-center bg-sign-tint text-sign">
+                <Icon name="atom" weight="fill" class="size-24" />
+              </div>
+            )}
+            <div class="plate mt-2 border border-rule bg-white">
+              <div class="flex items-center justify-between gap-3 border-t-4 border-sign px-4 pt-3 pb-1">
+                <span class="sign-text text-[26px] text-sign">{s.nombre}</span>
+                <Icon name="arrow-right" weight="bold" class="size-6 text-sign transition-transform duration-200 group-hover:translate-x-1" />
+              </div>
+              <p class="px-4 pb-4 text-[15px] leading-snug text-steel">{s.referencia}</p>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- Tablero de cifras reales -->
+  <section class="bg-sign-night text-white">
+    <div class="wrap py-10">
+      <dl class="grid grid-cols-2 gap-y-8 md:grid-cols-4 md:divide-x md:divide-white/15">
+        {[
+          ['184', 'pacientes en hemodiálisis'],
+          ['38', 'trasplantes renales en 2023'],
+          ['13.000', 'consultas de endocrinología en 2025'],
+          ['800', 'personas con cáncer de tiroides por año'],
+        ].map(([n, l]) => (
+          <div class="md:px-6 md:first:pl-0">
+            <dt class="sr-only">{l}</dt>
+            <dd class="font-display text-[52px] leading-none font-semibold tabular-nums md:text-[64px]">{n}</dd>
+            <dd class="mt-2 max-w-[16ch] text-[15px] text-white/70">{l}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-8 text-[13px] text-white/50">Fuente: Prensa del Gobierno de Salta.</p>
+    </div>
+  </section>
+
+  <!-- Turnos -->
+  <section class="wrap py-16 md:py-24">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] lg:items-center">
+      <div>
+        <h2 class="sign-text text-[40px] md:text-[56px]">Pedí tu turno</h2>
+        <p class="mt-3 max-w-lg text-lg text-steel">Endocrinología, Diabetes, Obesidad, Nutrición, Patología Mamaria, Hepatología y más.</p>
+        <div class="mt-8 grid gap-3">
+          <a href="tel:148" class="press plate flex items-center gap-4 bg-cross p-5 text-white hover:bg-cross-deep">
+            <Icon name="phone" weight="fill" class="size-8" />
+            <span class="flex-1"><span class="block font-semibold">Por teléfono</span><span class="block text-white/80">Línea gratuita desde Salta Capital</span></span>
+            <span class="font-display text-5xl font-semibold">148</span>
+          </a>
+          <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="press plate flex items-center gap-4 border-2 border-cross bg-white p-5 hover:bg-cross-tint">
+            <Icon name="whatsapp-logo" weight="fill" class="size-8 text-cross" />
+            <span class="flex-1"><span class="block font-semibold">Por WhatsApp</span><span class="block text-steel">Si vivís en el interior</span></span>
+            <span class="font-display text-3xl font-semibold text-cross-deep sm:text-4xl">{contacto.whatsapp}</span>
+          </a>
+          <div class="plate flex items-center gap-4 border border-rule p-5">
+            <Icon name="buildings" weight="fill" class="size-8 text-sign" />
+            <span><span class="block font-semibold">En persona</span><span class="block text-steel">Admisión, Centro Ambulatorio, {contacto.direccion}</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="grid gap-3">
+        <Foto nombre="consulta" alt="Atención en un consultorio del hospital" class="plate aspect-[16/10] w-full object-cover" />
+        <a href={u('/turnos#guardia')} class="press plate flex items-center gap-4 bg-alarm p-5 text-white">
+          <Icon name="siren" weight="fill" class="size-8" />
+          <span class="flex-1"><span class="sign-text block text-3xl">Guardia 24 horas</span><span class="block text-white/85">Prioridad para descompensaciones endocrino-metabólicas</span></span>
+          <Icon name="arrow-right" weight="bold" class="size-6" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- El hospital -->
+  <section class="bg-paper">
+    <div class="wrap grid gap-6 py-16 md:grid-cols-2 md:py-24">
+      <a href={u('/el-hospital')} class="group press block">
+        <Foto nombre="edificio-historico" alt="Edificio histórico con el cartel Hospital Oñativia y el busto de su primer director" class="plate aspect-[16/10] w-full object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
+        <div class="mt-4">
+          <p class="font-display text-xl font-semibold text-sign">1956</p>
+          <h3 class="sign-text mt-1 text-[34px]">Setenta años en Salta</h3>
+          <p class="mt-2 max-w-md text-steel">Nació como Instituto del Bocio y lleva el nombre de su primer director, el Dr. Arturo Oñativia.</p>
+          <span class="mt-3 inline-flex items-center gap-2 font-semibold text-sign group-hover:underline">Historia del hospital <Icon name="arrow-right" weight="bold" class="size-5" /></span>
+        </div>
+      </a>
+      <a href={u('/el-hospital#investigacion')} class="group press block">
+        <Foto nombre="investigacion" alt="Profesionales del hospital en una escuela durante la investigación sobre yodo" class="plate aspect-[16/10] w-full object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
+        <div class="mt-4">
+          <p class="font-display text-xl font-semibold text-sign">UCT‑H y CONICET</p>
+          <h3 class="sign-text mt-1 text-[34px]">Investigación y docencia</h3>
+          <p class="mt-2 max-w-md text-steel">Primera Unidad de Conocimiento Traslacional del NOA. Hoy estudian el bocio en escuelas de Salta.</p>
+          <span class="mt-3 inline-flex items-center gap-2 font-semibold text-sign group-hover:underline">Docencia e investigación <Icon name="arrow-right" weight="bold" class="size-5" /></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Novedades -->
+  <section class="wrap pt-16 md:pt-24">
+    <h2 class="sign-text text-[40px] md:text-[56px]">Novedades</h2>
+    <ul class="mt-6 divide-y divide-rule border-y border-rule">
+      {novedades.map((n) => (
+        <li>
+          <a href={n.href} target="_blank" rel="noopener" class="group grid grid-cols-[96px_1fr] items-center gap-4 py-5 sm:grid-cols-[180px_1fr_auto] sm:gap-6">
+            <Foto nombre={n.foto} alt="" class="plate aspect-[4/3] w-full object-cover" sizes="180px" />
+            <div>
+              <p class="font-display text-[15px] font-semibold tracking-wide text-cross uppercase">{n.tema}</p>
+              <h3 class="mt-1 text-lg leading-snug font-semibold group-hover:text-sign group-hover:underline sm:text-xl">{n.titulo}</h3>
+              <p class="mt-1 hidden text-steel sm:block">{n.bajada}</p>
+            </div>
+            <Icon name="arrow-up-right" weight="bold" class="hidden size-6 text-sign sm:block" />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-3 text-[13px] text-steel">Notas publicadas por Prensa del Gobierno de Salta.</p>
+  </section>
+</Base>

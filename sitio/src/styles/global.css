@@ -1,0 +1,73 @@
+@import "@fontsource/barlow/400.css";
+@import "@fontsource/barlow/500.css";
+@import "@fontsource/barlow/600.css";
+@import "@fontsource/barlow/700.css";
+@import "@fontsource/barlow-condensed/500.css";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+@import "tailwindcss";
+
+/* Sistema de señalización del hospital.
+   Azul y verde tomados del logo (cuadro azul, cruz verde). Rojo solo para la guardia. */
+@theme {
+  --color-sign: #1d3e97;
+  --color-sign-deep: #10265f;
+  --color-sign-night: #0a1838;
+  --color-sign-tint: #e7edf9;
+  --color-cross: #2a8452;
+  --color-cross-deep: #1f6a40;
+  --color-cross-tint: #e2f1e8;
+  --color-alarm: #c62828;
+  --color-alarm-tint: #fbe9e9;
+  --color-paper: #f2f4f7;
+  --color-ink: #0d1530;
+  --color-steel: #52607a;
+  --color-rule: #d3d9e3;
+
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-plate: 4px;
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+  body {
+    @apply bg-white font-sans text-[17px] leading-relaxed text-ink antialiased;
+  }
+  ::selection { background: var(--color-cross-tint); }
+  :focus-visible {
+    outline: 3px solid var(--color-cross);
+    outline-offset: 3px;
+  }
+  a, button, summary { touch-action: manipulation; }
+  input, select, textarea { font-size: 16px; }
+  img { height: auto; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+}
+
+@layer components {
+  /* Texto de cartel: condensado, mayúsculas, tracking justo para lectura a distancia */
+  .sign-text {
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.02;
+  }
+  .plate {
+    border-radius: var(--radius-plate);
+  }
+  .press { transition: transform 140ms var(--ease-out-strong); }
+  .press:active { transform: scale(0.98); }
+  .wrap { @apply mx-auto w-full max-w-[1240px] px-4 md:px-8; }
+}

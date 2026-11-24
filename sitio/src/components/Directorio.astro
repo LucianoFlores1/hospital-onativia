@@ -1,0 +1,48 @@
+---
+// El cartel directorio de la entrada del hospital, como navegación principal.
+import Icon from './Icon.astro';
+import { contacto, servicios } from '../data/servicios';
+import { u } from '../lib/url';
+
+const filas = [
+  { destino: 'Turnos', detalle: `148 o WhatsApp ${contacto.whatsapp}`, icono: 'calendar-check', href: u('/turnos'), tono: 'cross' },
+  { destino: 'Guardia 24 h', detalle: 'Descompensaciones endocrino-metabólicas', icono: 'siren', href: u('/turnos#guardia'), tono: 'alarm' },
+  { destino: 'Hemodiálisis', detalle: 'Nefrología y trasplante renal', icono: 'drop', href: u('/especialidades/hemodialisis') },
+  { destino: 'Endocrinología', detalle: 'Tiroides, hipófisis y suprarrenales', icono: 'stethoscope', href: u('/especialidades/endocrinologia') },
+  { destino: 'Diabetes', detalle: 'Control, educación y pie diabético', icono: 'heartbeat', href: u('/especialidades/diabetes') },
+  { destino: 'Especialidades', detalle: `Las ${servicios.length}, de la A a la Z`, icono: 'list-magnifying-glass', href: u('/especialidades') },
+  { destino: 'Cómo llegar', detalle: contacto.direccion, icono: 'map-pin', href: contacto.mapa, externo: true },
+];
+---
+<nav aria-label="Directorio" class="plate overflow-hidden bg-sign text-white shadow-[0_2px_0_#10265f]">
+  <div class="flex items-center justify-between border-b border-white/20 px-5 py-3">
+    <span class="sign-text text-[15px] tracking-[0.12em] text-white/75">Directorio</span>
+    <span class="text-[13px] text-white/60">Hospital Dr. Arturo Oñativia</span>
+  </div>
+  <ul>
+    {filas.map((f) => (
+      <li class="border-b border-white/15 last:border-b-0">
+        <a
+          href={f.href}
+          target={f.externo ? '_blank' : undefined}
+          rel={f.externo ? 'noopener' : undefined}
+          class="group flex items-center gap-4 px-5 py-3.5 transition-colors duration-150 hover:bg-white/8 active:bg-white/12"
+        >
+          <span class:list={[
+            'plate flex size-10 items-center justify-center',
+            f.tono === 'alarm' ? 'bg-alarm' : f.tono === 'cross' ? 'bg-cross' : 'bg-white/12',
+          ]}>
+            <Icon name={f.icono} weight="fill" class="size-[22px]" />
+          </span>
+          <span class="min-w-0 flex-1">
+            <span class="sign-text block text-[26px] md:text-[30px]">{f.destino}</span>
+            <span class="block truncate text-[15px] text-white/70">{f.detalle}</span>
+          </span>
+          <span class="plate flex size-10 items-center justify-center bg-white text-sign transition-transform duration-200 ease-[var(--ease-out-strong)] group-hover:translate-x-1">
+            <Icon name={f.externo ? 'arrow-up-right' : 'arrow-right'} weight="bold" class="size-5" />
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

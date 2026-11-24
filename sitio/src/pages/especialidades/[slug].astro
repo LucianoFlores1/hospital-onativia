@@ -1,0 +1,149 @@
+---
+import Base from '../../layouts/Base.astro';
+import Foto from '../../components/Foto.astro';
+import Icon from '../../components/Icon.astro';
+import { servicios, contacto, type Servicio } from '../../data/servicios';
+import { u } from '../../lib/url';
+
+export function getStaticPaths() {
+  return servicios.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Servicio };
+const relacionados = servicios.filter((x) => x.categoria === s.categoria && x.slug !== s.slug).slice(0, 4);
+const esHemo = s.slug === 'hemodialisis';
+---
+<Base title={s.nombre} activo="especialidades" description={s.resumen}>
+  <section class="bg-paper">
+    <div class="wrap pt-6 pb-10 md:pb-14">
+      <nav aria-label="Estás en" class="text-[15px] text-steel">
+        <a href={u('/especialidades')} class="inline-flex items-center gap-1 font-semibold text-sign hover:underline"><Icon name="arrow-left" weight="bold" class="size-4" />Especialidades</a>
+      </nav>
+
+      <div class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
+        <div>
+          <!-- Placa de puerta, como el cartel "TRASPLANTE" del hospital -->
+          <div class="plate inline-block border border-rule bg-white shadow-[0_2px_0_#d3d9e3]">
+            <div class="flex items-center gap-3 border-b-4 border-sign px-5 py-3">
+              <span class="plate flex size-8 items-center justify-center bg-sign text-white"><Icon name="first-aid" weight="fill" class="size-5" /></span>
+              <span class="font-display text-[15px] font-semibold tracking-[0.12em] text-steel uppercase">{s.categoria}</span>
+            </div>
+            <h1 class="sign-text px-5 py-4 text-[44px] text-sign md:text-[60px]">{s.nombre}</h1>
+          </div>
+          <p class="mt-6 max-w-xl text-lg">{s.resumen}</p>
+          {s.referencia && (
+            <p class="plate mt-4 inline-flex items-center gap-2 bg-cross-tint px-3 py-2 font-semibold text-cross-deep">
+              <Icon name="seal-check" weight="fill" class="size-5" />{s.referencia}
+            </p>
+          )}
+        </div>
+        {s.foto && <Foto nombre={s.foto} alt="" class="plate aspect-[16/10] w-full object-cover" priority />}
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap grid gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
+    <div class="space-y-14">
+      {esHemo && (
+        <>
+          <section>
+            <h2 class="sign-text text-[36px]">Sobre el servicio</h2>
+            <p class="mt-3 max-w-[62ch]">El Centro de Nefrología y Hemodiálisis es referencia regional para la atención renal de adultos. La unidad funciona desde 1976 y el centro actual se inauguró en 2011. Atiende a pacientes con y sin obra social, con prioridad para quienes no tienen cobertura.</p>
+            <div class="mt-6 grid grid-cols-3 gap-px overflow-hidden plate bg-rule">
+              {[['184', 'pacientes en hemodiálisis'], ['32', 'equipos de diálisis'], ['3', 'turnos por día']].map(([n, l]) => (
+                <p class="bg-white p-4">
+                  <span class="block font-display text-[40px] leading-none font-semibold text-sign tabular-nums">{n}</span>
+                  <span class="mt-1 block text-[14px] text-steel">{l}</span>
+                </p>
+              ))}
+            </div>
+            <div class="mt-6 grid grid-cols-2 gap-3">
+              <Foto nombre="dialisis-maquina" alt="Enfermera programando un equipo de diálisis" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
+              <Foto nombre="dialisis-sala" alt="Preparación de una cama en la sala de diálisis" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
+            </div>
+          </section>
+          <section>
+            <h2 class="sign-text text-[36px]">Cómo empezar el tratamiento</h2>
+            <ol class="mt-5 space-y-3">
+              {[
+                ['Consulta con Nefrología', 'Pedí turno al 148 o por WhatsApp. Llevá tus estudios y la derivación si venís de otro centro.'],
+                ['Evaluación del equipo', 'El nefrólogo define el tratamiento que necesitás.'],
+                ['Turno fijo de diálisis', 'Te asignan un equipo y un turno en uno de los tres horarios diarios.'],
+                ['Evaluación para trasplante', 'Si corresponde, empezás los estudios en el mismo hospital.'],
+              ].map(([t, d], i) => (
+                <li class="plate grid grid-cols-[48px_1fr] gap-4 border border-rule p-4">
+                  <span class="plate flex size-12 items-center justify-center bg-sign font-display text-2xl font-semibold text-white">{i + 1}</span>
+                  <span><b class="block text-lg">{t}</b><span class="text-steel">{d}</span></span>
+                </li>
+              ))}
+            </ol>
+          </section>
+          <section class="grid gap-6 md:grid-cols-2 md:items-center">
+            <div>
+              <h2 class="sign-text text-[36px]">Diálisis peritoneal</h2>
+              <p class="mt-3">Un espacio nuevo para la diálisis peritoneal, una opción que se hace en casa y reduce los traslados al hospital. Incluye un área para capacitar al paciente y a su familia.</p>
+            </div>
+            <Foto nombre="peritoneal" alt="Sala de diálisis peritoneal" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 768px) 30vw, 100vw" />
+          </section>
+          <section class="grid gap-6 md:grid-cols-2 md:items-center">
+            <Foto nombre="trasplante-sala" alt="Puerta de la sala de trasplante" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 768px) 30vw, 100vw" />
+            <div>
+              <h2 class="sign-text text-[36px]">Trasplante renal</h2>
+              <p class="mt-3">La Unidad de Trasplante Renal funciona desde 2010. En 2023 se hicieron 38 trasplantes, para pacientes con o sin obra social.</p>
+              <a href={u('/especialidades/trasplante-renal')} class="mt-3 inline-flex items-center gap-2 font-semibold text-sign hover:underline">Trasplante renal <Icon name="arrow-right" weight="bold" class="size-5" /></a>
+            </div>
+          </section>
+        </>
+      )}
+
+      {!esHemo && (
+        <section>
+          <h2 class="sign-text text-[36px]">Cómo pedir turno</h2>
+          <ol class="mt-5 space-y-3">
+            <li class="plate flex items-center gap-4 border border-rule p-4"><Icon name="phone" weight="fill" class="size-7 text-cross" /><span><b class="block">Llamá al 148</b><span class="text-steel">Línea gratuita desde Salta Capital</span></span></li>
+            <li class="plate flex items-center gap-4 border border-rule p-4"><Icon name="whatsapp-logo" weight="fill" class="size-7 text-cross" /><span><b class="block">WhatsApp {contacto.whatsapp}</b><span class="text-steel">Si vivís en el interior</span></span></li>
+            <li class="plate flex items-center gap-4 border border-rule p-4"><Icon name="buildings" weight="fill" class="size-7 text-sign" /><span><b class="block">En persona</b><span class="text-steel">Admisión, Centro Ambulatorio, {contacto.direccion}</span></span></li>
+          </ol>
+          <p class="mt-4 text-[15px] text-steel">Llevá DNI, orden médica y tus estudios previos.</p>
+        </section>
+      )}
+
+      {s.responsables && (
+        <section>
+          <h2 class="sign-text text-[36px]">Responsables</h2>
+          <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+            {s.responsables.map((r) => (
+              <li class="plate flex items-center gap-3 border border-rule p-4">
+                <span class="plate flex size-11 shrink-0 items-center justify-center bg-sign-tint font-display text-lg font-semibold text-sign">
+                  {r.nombre.replace(/^(Dra?|Lic|Farm|Téc)\.\s*/, '').split(' ').filter((w) => /^[A-ZÁÉÍÓÚÑ]/.test(w)).slice(0, 2).map((w) => w[0]).join('')}
+                </span>
+                <span><b class="block leading-tight">{r.nombre}</b><span class="text-[14px] text-steel">{r.cargo}</span></span>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-3 text-[13px] text-steel">Según el listado de autoridades del sitio actual. A confirmar.</p>
+        </section>
+      )}
+    </div>
+
+    <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
+      <div class="plate overflow-hidden border border-rule">
+        <p class="sign-text bg-sign px-5 py-3 text-xl text-white">Pedir turno</p>
+        <div class="space-y-3 p-5">
+          <a href="tel:148" class="press plate flex items-center justify-between bg-cross px-4 py-3 text-white hover:bg-cross-deep"><span class="flex items-center gap-2 font-semibold"><Icon name="phone" weight="fill" class="size-5" />Llamar</span><span class="font-display text-3xl font-semibold">148</span></a>
+          <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="press plate flex items-center justify-between border-2 border-cross px-4 py-3 hover:bg-cross-tint"><span class="flex items-center gap-2 font-semibold"><Icon name="whatsapp-logo" weight="fill" class="size-5 text-cross" />WhatsApp</span><span class="font-display text-xl font-semibold">{contacto.whatsapp}</span></a>
+          <a href={contacto.mapa} target="_blank" rel="noopener" class="flex items-center gap-2 pt-1 text-[15px] text-steel hover:text-sign hover:underline"><Icon name="map-pin" weight="fill" class="size-4" />{contacto.direccion}</a>
+        </div>
+      </div>
+      {relacionados.length > 0 && (
+        <div>
+          <p class="sign-text border-b-4 border-sign pb-2 text-xl text-sign">También en {s.categoria}</p>
+          <ul class="divide-y divide-rule">
+            {relacionados.map((r) => (
+              <li><a href={u(`/especialidades/${r.slug}`)} class="group flex items-center justify-between gap-3 py-3 font-semibold hover:text-sign">{r.nombre}<Icon name="arrow-right" weight="bold" class="size-4 text-sign transition-transform group-hover:translate-x-1" /></a></li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </aside>
+  </div>
+</Base>

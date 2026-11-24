@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import Foto from '../components/Foto.astro';
+import Icon from '../components/Icon.astro';
+import { contacto } from '../data/servicios';
+---
+<Base title="Turnos y guardia" activo="turnos" description="Cómo pedir turno en el Hospital Oñativia: 148, WhatsApp o en persona. Guardia 24 horas.">
+  <section class="bg-paper">
+    <div class="wrap py-10 md:py-14">
+      <h1 class="sign-text text-[52px] md:text-[72px]">Turnos y guardia</h1>
+      <p class="mt-3 max-w-xl text-lg text-steel">Tres formas de pedir turno. Para una urgencia endocrino-metabólica, la guardia atiende las 24 horas.</p>
+    </div>
+  </section>
+
+  <div class="wrap grid gap-12 py-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:gap-16">
+    <div class="space-y-12">
+      <section>
+        <h2 class="sign-text text-[36px]">Pedir un turno</h2>
+        <div class="mt-5 grid gap-3">
+          <a href="tel:148" class="press plate flex items-center gap-4 bg-cross p-5 text-white hover:bg-cross-deep">
+            <Icon name="phone" weight="fill" class="size-8" />
+            <span class="flex-1"><span class="block text-lg font-semibold">Por teléfono</span><span class="block text-white/85">Línea gratuita desde Salta Capital</span></span>
+            <span class="font-display text-5xl font-semibold">148</span>
+          </a>
+          <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="press plate flex flex-wrap items-center gap-4 border-2 border-cross p-5 hover:bg-cross-tint">
+            <Icon name="whatsapp-logo" weight="fill" class="size-8 text-cross" />
+            <span class="flex-1"><span class="block text-lg font-semibold">Por WhatsApp</span><span class="block text-steel">Para quienes viven fuera de la capital</span></span>
+            <span class="font-display text-3xl font-semibold text-cross-deep">{contacto.whatsapp}</span>
+          </a>
+          <div class="plate flex items-center gap-4 border border-rule p-5">
+            <Icon name="buildings" weight="fill" class="size-8 text-sign" />
+            <span><span class="block text-lg font-semibold">En persona</span><span class="block text-steel">Admisión, Centro Ambulatorio, {contacto.direccion}</span></span>
+          </div>
+        </div>
+        <p class="mt-4 text-[15px] text-steel">Por teléfono se dan turnos de Endocrinología, Diabetes, Obesidad, Nutrición, Patología Mamaria y Hepatología.</p>
+      </section>
+
+      <section>
+        <h2 class="sign-text text-[36px]">Qué llevar</h2>
+        <ul class="mt-5 grid gap-2 sm:grid-cols-2">
+          {['DNI', 'Orden médica', 'Estudios previos', 'Derivación, si venís de otro centro'].map((t) => (
+            <li class="plate flex items-center gap-3 border border-rule px-4 py-3 font-semibold"><Icon name="check-circle" weight="fill" class="size-6 text-cross" />{t}</li>
+          ))}
+        </ul>
+        <p class="mt-3 text-[15px] text-steel">Si tenés obra social, llevá la credencial. El hospital atiende con o sin cobertura.</p>
+      </section>
+
+      <section id="guardia" class="scroll-mt-28">
+        <div class="plate overflow-hidden bg-alarm text-white">
+          <div class="flex items-center gap-4 p-6">
+            <Icon name="siren" weight="fill" class="size-10" />
+            <div>
+              <h2 class="sign-text text-[40px]">Guardia 24 horas</h2>
+              <p class="text-white/90">Prioridad para pacientes con descompensaciones endocrino-metabólicas.</p>
+            </div>
+          </div>
+        </div>
+        <p class="mt-4">Ante una emergencia que pone en riesgo la vida, llamá al <b>107</b> (SAMEC) o al <b>911</b>.</p>
+      </section>
+    </div>
+
+    <aside class="space-y-4">
+      <Foto nombre="edificio-2" alt="Ingreso al hospital sobre calle Paz Chaín" class="plate aspect-[4/3] w-full object-cover" priority sizes="(min-width: 1024px) 40vw, 100vw" />
+      <div class="plate border border-rule p-5">
+        <p class="sign-text text-2xl">Cómo llegar</p>
+        <p class="mt-2">{contacto.direccion}</p>
+        <p class="text-steel">Conmutador {contacto.conmutador}</p>
+        <a href={contacto.mapa} target="_blank" rel="noopener" class="press plate mt-4 inline-flex items-center gap-2 bg-sign px-4 py-3 font-semibold text-white hover:bg-sign-deep"><Icon name="map-pin" weight="fill" class="size-5" />Abrir en el mapa</a>
+      </div>
+    </aside>
+  </div>
+</Base>

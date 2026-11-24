@@ -1,0 +1,11 @@
+---
+// Redibujo en vector del logo oficial (cuadro azul, cruz verde, "O" en cursiva).
+// El original de baja resolución está en assets/fotos-hospital/. Confirmar con el hospital.
+interface Props { class?: string }
+const { class: cls = 'size-11' } = Astro.props;
+---
+<svg viewBox="0 0 64 64" class:list={['shrink-0', cls]} aria-hidden="true">
+  <rect width="64" height="64" rx="6" fill="#1D3E97" />
+  <path d="M24 10h16v14h14v16H40v14H24V40H10V24h14z" fill="#3E9A5E" />
+  <text x="32" y="40.5" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-weight="700" font-size="21" fill="#14285E">O</text>
+</svg>

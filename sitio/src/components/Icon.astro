@@ -1,0 +1,31 @@
+---
+// Íconos de Phosphor leídos del paquete en build: sin JavaScript en el navegador.
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  name: string;
+  weight?: 'regular' | 'bold' | 'fill';
+  class?: string;
+  label?: string;
+}
+const { name, weight = 'regular', class: cls = 'size-5', label } = Astro.props;
+const file = weight === 'regular' ? `${name}.svg` : `${name}-${weight}.svg`;
+const svg = fs.readFileSync(
+  path.join(process.cwd(), 'node_modules/@phosphor-icons/core/assets', weight, file),
+  'utf-8',
+);
+const inner = svg
+  .replace(/^<svg[^>]*>/, '')
+  .replace(/<\/svg>\s*$/, '')
+  .replace('<rect width="256" height="256" fill="none"/>', '');
+---
+<svg
+  viewBox="0 0 256 256"
+  fill="currentColor"
+  class:list={['shrink-0', cls]}
+  aria-hidden={label ? undefined : 'true'}
+  aria-label={label}
+  role={label ? 'img' : undefined}
+  set:html={inner}
+/>
