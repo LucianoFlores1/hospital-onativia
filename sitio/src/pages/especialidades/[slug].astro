@@ -9,141 +9,184 @@ export function getStaticPaths() {
   return servicios.map((s) => ({ params: { slug: s.slug }, props: { s } }));
 }
 const { s } = Astro.props as { s: Servicio };
-const relacionados = servicios.filter((x) => x.categoria === s.categoria && x.slug !== s.slug).slice(0, 4);
 const esHemo = s.slug === 'hemodialisis';
+const relacionados = servicios.filter((x) => x.categoria === s.categoria && x.slug !== s.slug).slice(0, 6);
+
+const secciones = [
+  ...(esHemo ? [{ id: 'sobre', label: 'Sobre el servicio' }, { id: 'como', label: 'Cómo empezar' }, { id: 'peritoneal', label: 'Diálisis peritoneal' }] : [{ id: 'como', label: 'Cómo pedir turno' }]),
+  ...(s.responsables ? [{ id: 'equipo', label: 'Equipo' }] : []),
+];
+
+const iniciales = (n: string) =>
+  n.replace(/^(Dra?|Lic|Farm|Téc)\.\s*/, '').split(' ').filter((w) => /^[A-ZÁÉÍÓÚÑ]/.test(w)).slice(0, 2).map((w) => w[0]).join('');
 ---
 <Base title={s.nombre} activo="especialidades" description={s.resumen}>
-  <section class="bg-paper">
-    <div class="wrap pt-6 pb-10 md:pb-14">
-      <nav aria-label="Estás en" class="text-[15px] text-steel">
-        <a href={u('/especialidades')} class="inline-flex items-center gap-1 font-semibold text-sign hover:underline"><Icon name="arrow-left" weight="bold" class="size-4" />Especialidades</a>
+  <!-- Barra local fija, como en las páginas de producto de Apple -->
+  <div class="material sticky top-[calc(52px+env(safe-area-inset-top))] z-40 border-b border-black/5">
+    <div class="wrap-wide flex h-[52px] items-center gap-3">
+      <details class="group relative mr-auto min-w-0 md:hidden">
+        <summary class="flex cursor-pointer list-none items-center gap-1 py-2 text-[19px] font-semibold tracking-[-0.02em] [&::-webkit-details-marker]:hidden">
+          <span class="truncate">{s.nombre}</span>
+          <Icon name="caret-down" weight="bold" class="size-4 text-mute transition-transform duration-200 group-open:rotate-180" />
+        </summary>
+        <ul class="material fixed inset-x-0 top-[52px] border-b border-black/5 px-5 pb-4">
+          {secciones.map((x) => <li><a href={`#${x.id}`} class="block py-3 text-[17px] font-medium" onclick="this.closest('details').open=false">{x.label}</a></li>)}
+          <li><a href="#turno" class="block py-3 text-[17px] font-medium" onclick="this.closest('details').open=false">Pedir turno</a></li>
+        </ul>
+      </details>
+      <a href="#top" class="mr-auto hidden truncate text-[21px] font-semibold tracking-[-0.02em] md:block">{s.nombre}</a>
+      <nav aria-label="Secciones" class="hidden items-center gap-5 md:flex">
+        {secciones.map((x) => <a href={`#${x.id}`} class="text-[13px] text-ink/80 hover:text-ink">{x.label}</a>)}
       </nav>
+      <a href="#turno" class="btn btn-primary min-h-8! shrink-0 px-3.5! text-[13px]!">Pedir turno</a>
+    </div>
+  </div>
 
-      <div class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
-        <div>
-          <!-- Placa de puerta, como el cartel "TRASPLANTE" del hospital -->
-          <div class="plate inline-block border border-rule bg-white shadow-[0_2px_0_#d3d9e3]">
-            <div class="flex items-center gap-3 border-b-4 border-sign px-5 py-3">
-              <span class="plate flex size-8 items-center justify-center bg-sign text-white"><Icon name="first-aid" weight="fill" class="size-5" /></span>
-              <span class="font-display text-[15px] font-semibold tracking-[0.12em] text-steel uppercase">{s.categoria}</span>
-            </div>
-            <h1 class="sign-text px-5 py-4 text-[44px] text-sign md:text-[60px]">{s.nombre}</h1>
+  <!-- Encabezado -->
+  <section id="top" class="pt-10 text-center md:pt-16">
+    <div class="wrap">
+      <a href={u('/especialidades')} class="link-chev text-[15px]"><Icon name="caret-left" weight="bold" class="size-4" />Especialidades</a>
+      <p class="mt-6 text-[15px] font-semibold text-mute">{s.categoria}</p>
+      <h1 class="t-h1 mt-1">{s.nombre}</h1>
+      <p class="t-lead mx-auto mt-4 max-w-[34ch] text-ink-2">{s.resumen}</p>
+      {s.referencia && (
+        <p class="mt-5 inline-flex items-center gap-2 rounded-full bg-accent-tint px-4 py-2 text-[15px] font-semibold text-accent">
+          <Icon name="seal-check" weight="fill" class="size-5" />{s.referencia}
+        </p>
+      )}
+    </div>
+    {s.foto && (
+      <div class="wrap-wide mt-10">
+        <figure class="reveal-scale tile overflow-hidden"><Foto nombre={s.foto} alt="" class="aspect-[4/3] w-full object-cover md:aspect-[21/9]" priority sizes="100vw" /></figure>
+      </div>
+    )}
+  </section>
+
+  {esHemo && (
+    <>
+      <section id="sobre" class="py-16 md:py-24">
+        <div class="wrap">
+          <h2 class="t-h2 text-center">Referencia renal para todo Salta.</h2>
+          <p class="t-lead mx-auto mt-4 max-w-[40ch] text-center text-mute">Funciona desde 1976 y el centro actual se inauguró en 2011. Atiende con y sin obra social, con prioridad para quienes no tienen cobertura.</p>
+          <dl class="mt-12 grid grid-cols-3 gap-4 text-center">
+            {[['184', 'pacientes en hemodiálisis'], ['32', 'equipos de diálisis'], ['3', 'turnos por día']].map(([n, l]) => (
+              <div class="reveal"><dt class="sr-only">{l}</dt><dd class="t-h1 text-accent tabular-nums">{n}</dd><dd class="mt-1 text-[15px] text-mute">{l}</dd></div>
+            ))}
+          </dl>
+          <div class="mt-12 grid gap-4 sm:grid-cols-2">
+            <Foto nombre="dialisis-maquina" alt="Enfermera programando un equipo de diálisis" class="reveal card aspect-[4/3] w-full object-cover" sizes="(min-width: 640px) 50vw, 100vw" />
+            <Foto nombre="dialisis-sala" alt="Preparación de una cama en la sala de diálisis" class="reveal card aspect-[4/3] w-full object-cover" sizes="(min-width: 640px) 50vw, 100vw" />
           </div>
-          <p class="mt-6 max-w-xl text-lg">{s.resumen}</p>
-          {s.referencia && (
-            <p class="plate mt-4 inline-flex items-center gap-2 bg-cross-tint px-3 py-2 font-semibold text-cross-deep">
-              <Icon name="seal-check" weight="fill" class="size-5" />{s.referencia}
-            </p>
-          )}
         </div>
-        {s.foto && <Foto nombre={s.foto} alt="" class="plate aspect-[16/10] w-full object-cover" priority />}
+      </section>
+
+      <section id="como" class="bg-mist py-16 md:py-24">
+        <div class="wrap">
+          <h2 class="t-h2 text-center">Cómo empezar el tratamiento.</h2>
+          <ol class="mt-12 grid gap-4 md:grid-cols-2">
+            {[
+              ['Consulta con Nefrología', 'Pedí turno al 148 o por WhatsApp. Llevá tus estudios y la derivación si venís de otro centro.'],
+              ['Evaluación del equipo', 'El nefrólogo define el tratamiento que necesitás.'],
+              ['Turno fijo de diálisis', 'Te asignan un equipo y un turno en uno de los tres horarios diarios.'],
+              ['Evaluación para trasplante', 'Si corresponde, empezás los estudios en el mismo hospital.'],
+            ].map(([t, d], i) => (
+              <li class="reveal tile bg-white p-8">
+                <span class="flex size-10 items-center justify-center rounded-full bg-accent text-[17px] font-semibold text-white">{i + 1}</span>
+                <p class="t-h3 mt-5">{t}</p>
+                <p class="mt-2 text-ink-2">{d}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="peritoneal" class="py-16 md:py-24">
+        <div class="wrap-wide grid gap-4 md:grid-cols-2 md:gap-5">
+          <div class="reveal tile flex flex-col overflow-hidden bg-mist">
+            <div class="p-8 md:p-12">
+              <h2 class="t-h2">Diálisis peritoneal.</h2>
+              <p class="mt-3 max-w-[40ch] text-ink-2">Una opción que se hace en casa y reduce los traslados al hospital. Incluye un área para capacitar al paciente y a su familia.</p>
+            </div>
+            <Foto nombre="peritoneal" alt="Sala de diálisis peritoneal" class="mt-auto aspect-[16/10] w-full object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
+          </div>
+          <a href={u('/especialidades/trasplante-renal')} class="reveal press group tile flex flex-col overflow-hidden bg-ink text-white">
+            <div class="p-8 md:p-12">
+              <h2 class="t-h2">Trasplante renal.</h2>
+              <p class="mt-3 max-w-[40ch] text-white/75">Desde 2010, para pacientes con o sin obra social. En 2023 se hicieron 38 trasplantes.</p>
+              <span class="mt-4 inline-flex items-center gap-1 text-[#6ea1ff] group-hover:underline">Más información <Icon name="caret-right" weight="bold" class="size-4" /></span>
+            </div>
+            <Foto nombre="trasplante-sala" alt="Puerta de la sala de trasplante" class="mt-auto aspect-[16/10] w-full object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
+          </a>
+        </div>
+      </section>
+    </>
+  )}
+
+  {!esHemo && (
+    <section id="como" class="py-16 md:py-24">
+      <div class="wrap">
+        <h2 class="t-h2 text-center">Cómo pedir turno.</h2>
+        <p class="t-lead mx-auto mt-4 max-w-[36ch] text-center text-mute">Llevá DNI, orden médica y tus estudios previos. Atendemos con o sin obra social.</p>
+      </div>
+    </section>
+  )}
+
+  {s.responsables && (
+    <section id="equipo" class:list={['py-16 md:py-24', esHemo ? 'bg-mist' : 'bg-mist']}>
+      <div class="wrap">
+        <h2 class="t-h2 text-center">Equipo.</h2>
+        <ul class="mt-12 grid gap-4 sm:grid-cols-2">
+          {s.responsables.map((r) => (
+            <li class="reveal tile flex items-center gap-4 bg-white p-6">
+              <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-accent-tint text-[19px] font-semibold text-accent">{iniciales(r.nombre)}</span>
+              <span><span class="block text-[19px] font-semibold tracking-[-0.015em]">{r.nombre}</span><span class="block text-[15px] text-mute">{r.cargo}</span></span>
+            </li>
+          ))}
+        </ul>
+        <p class="t-small mt-6 text-center text-mute">Según el listado de autoridades del sitio actual. A confirmar.</p>
+      </div>
+    </section>
+  )}
+
+  <!-- Pedir turno: el cierre de la página, como la sección de compra de Apple -->
+  <section id="turno" class="py-16 md:py-24">
+    <div class="wrap">
+      <h2 class="t-h2 text-center">Pedí tu turno.</h2>
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        <a href="tel:148" class="press tile flex flex-col items-center bg-mist p-8 text-center">
+          <Icon name="phone" class="size-9 text-accent" />
+          <p class="t-h1 mt-4">148</p>
+          <p class="mt-1 text-ink-2">Línea gratuita, Salta Capital</p>
+        </a>
+        <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="press tile flex flex-col items-center bg-mist p-8 text-center">
+          <Icon name="whatsapp-logo" class="size-9 text-wa" />
+          <p class="t-h3 mt-5">{contacto.whatsapp}</p>
+          <p class="mt-1 text-ink-2">WhatsApp, interior de la provincia</p>
+        </a>
+        <a href={contacto.mapa} target="_blank" rel="noopener" class="press tile flex flex-col items-center bg-mist p-8 text-center">
+          <Icon name="map-pin" class="size-9 text-accent" />
+          <p class="t-h3 mt-5">Admisión</p>
+          <p class="mt-1 text-ink-2">Centro Ambulatorio, {contacto.direccion}</p>
+        </a>
       </div>
     </div>
   </section>
 
-  <div class="wrap grid gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
-    <div class="space-y-14">
-      {esHemo && (
-        <>
-          <section>
-            <h2 class="sign-text text-[36px]">Sobre el servicio</h2>
-            <p class="mt-3 max-w-[62ch]">El Centro de Nefrología y Hemodiálisis es referencia regional para la atención renal de adultos. La unidad funciona desde 1976 y el centro actual se inauguró en 2011. Atiende a pacientes con y sin obra social, con prioridad para quienes no tienen cobertura.</p>
-            <div class="mt-6 grid grid-cols-3 gap-px overflow-hidden plate bg-rule">
-              {[['184', 'pacientes en hemodiálisis'], ['32', 'equipos de diálisis'], ['3', 'turnos por día']].map(([n, l]) => (
-                <p class="bg-white p-4">
-                  <span class="block font-display text-[40px] leading-none font-semibold text-sign tabular-nums">{n}</span>
-                  <span class="mt-1 block text-[14px] text-steel">{l}</span>
-                </p>
-              ))}
-            </div>
-            <div class="mt-6 grid grid-cols-2 gap-3">
-              <Foto nombre="dialisis-maquina" alt="Enfermera programando un equipo de diálisis" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
-              <Foto nombre="dialisis-sala" alt="Preparación de una cama en la sala de diálisis" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
-            </div>
-          </section>
-          <section>
-            <h2 class="sign-text text-[36px]">Cómo empezar el tratamiento</h2>
-            <ol class="mt-5 space-y-3">
-              {[
-                ['Consulta con Nefrología', 'Pedí turno al 148 o por WhatsApp. Llevá tus estudios y la derivación si venís de otro centro.'],
-                ['Evaluación del equipo', 'El nefrólogo define el tratamiento que necesitás.'],
-                ['Turno fijo de diálisis', 'Te asignan un equipo y un turno en uno de los tres horarios diarios.'],
-                ['Evaluación para trasplante', 'Si corresponde, empezás los estudios en el mismo hospital.'],
-              ].map(([t, d], i) => (
-                <li class="plate grid grid-cols-[48px_1fr] gap-4 border border-rule p-4">
-                  <span class="plate flex size-12 items-center justify-center bg-sign font-display text-2xl font-semibold text-white">{i + 1}</span>
-                  <span><b class="block text-lg">{t}</b><span class="text-steel">{d}</span></span>
-                </li>
-              ))}
-            </ol>
-          </section>
-          <section class="grid gap-6 md:grid-cols-2 md:items-center">
-            <div>
-              <h2 class="sign-text text-[36px]">Diálisis peritoneal</h2>
-              <p class="mt-3">Un espacio nuevo para la diálisis peritoneal, una opción que se hace en casa y reduce los traslados al hospital. Incluye un área para capacitar al paciente y a su familia.</p>
-            </div>
-            <Foto nombre="peritoneal" alt="Sala de diálisis peritoneal" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 768px) 30vw, 100vw" />
-          </section>
-          <section class="grid gap-6 md:grid-cols-2 md:items-center">
-            <Foto nombre="trasplante-sala" alt="Puerta de la sala de trasplante" class="plate aspect-[4/3] w-full object-cover" sizes="(min-width: 768px) 30vw, 100vw" />
-            <div>
-              <h2 class="sign-text text-[36px]">Trasplante renal</h2>
-              <p class="mt-3">La Unidad de Trasplante Renal funciona desde 2010. En 2023 se hicieron 38 trasplantes, para pacientes con o sin obra social.</p>
-              <a href={u('/especialidades/trasplante-renal')} class="mt-3 inline-flex items-center gap-2 font-semibold text-sign hover:underline">Trasplante renal <Icon name="arrow-right" weight="bold" class="size-5" /></a>
-            </div>
-          </section>
-        </>
-      )}
-
-      {!esHemo && (
-        <section>
-          <h2 class="sign-text text-[36px]">Cómo pedir turno</h2>
-          <ol class="mt-5 space-y-3">
-            <li class="plate flex items-center gap-4 border border-rule p-4"><Icon name="phone" weight="fill" class="size-7 text-cross" /><span><b class="block">Llamá al 148</b><span class="text-steel">Línea gratuita desde Salta Capital</span></span></li>
-            <li class="plate flex items-center gap-4 border border-rule p-4"><Icon name="whatsapp-logo" weight="fill" class="size-7 text-cross" /><span><b class="block">WhatsApp {contacto.whatsapp}</b><span class="text-steel">Si vivís en el interior</span></span></li>
-            <li class="plate flex items-center gap-4 border border-rule p-4"><Icon name="buildings" weight="fill" class="size-7 text-sign" /><span><b class="block">En persona</b><span class="text-steel">Admisión, Centro Ambulatorio, {contacto.direccion}</span></span></li>
-          </ol>
-          <p class="mt-4 text-[15px] text-steel">Llevá DNI, orden médica y tus estudios previos.</p>
-        </section>
-      )}
-
-      {s.responsables && (
-        <section>
-          <h2 class="sign-text text-[36px]">Responsables</h2>
-          <ul class="mt-5 grid gap-3 sm:grid-cols-2">
-            {s.responsables.map((r) => (
-              <li class="plate flex items-center gap-3 border border-rule p-4">
-                <span class="plate flex size-11 shrink-0 items-center justify-center bg-sign-tint font-display text-lg font-semibold text-sign">
-                  {r.nombre.replace(/^(Dra?|Lic|Farm|Téc)\.\s*/, '').split(' ').filter((w) => /^[A-ZÁÉÍÓÚÑ]/.test(w)).slice(0, 2).map((w) => w[0]).join('')}
-                </span>
-                <span><b class="block leading-tight">{r.nombre}</b><span class="text-[14px] text-steel">{r.cargo}</span></span>
-              </li>
-            ))}
-          </ul>
-          <p class="mt-3 text-[13px] text-steel">Según el listado de autoridades del sitio actual. A confirmar.</p>
-        </section>
-      )}
-    </div>
-
-    <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
-      <div class="plate overflow-hidden border border-rule">
-        <p class="sign-text bg-sign px-5 py-3 text-xl text-white">Pedir turno</p>
-        <div class="space-y-3 p-5">
-          <a href="tel:148" class="press plate flex items-center justify-between bg-cross px-4 py-3 text-white hover:bg-cross-deep"><span class="flex items-center gap-2 font-semibold"><Icon name="phone" weight="fill" class="size-5" />Llamar</span><span class="font-display text-3xl font-semibold">148</span></a>
-          <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="press plate flex items-center justify-between border-2 border-cross px-4 py-3 hover:bg-cross-tint"><span class="flex items-center gap-2 font-semibold"><Icon name="whatsapp-logo" weight="fill" class="size-5 text-cross" />WhatsApp</span><span class="font-display text-xl font-semibold">{contacto.whatsapp}</span></a>
-          <a href={contacto.mapa} target="_blank" rel="noopener" class="flex items-center gap-2 pt-1 text-[15px] text-steel hover:text-sign hover:underline"><Icon name="map-pin" weight="fill" class="size-4" />{contacto.direccion}</a>
-        </div>
+  {relacionados.length > 0 && (
+    <section class="pb-4">
+      <div class="wrap">
+        <h2 class="t-h3">También en {s.categoria}</h2>
+        <ul class="mt-5 overflow-hidden card bg-mist">
+          {relacionados.map((r) => (
+            <li class="border-b border-hair/70 last:border-b-0">
+              <a href={u(`/especialidades/${r.slug}`)} class="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-black/[.03] active:bg-black/[.05]">
+                <span class="min-w-0 flex-1"><span class="block font-semibold">{r.nombre}</span><span class="block truncate text-[15px] text-mute">{r.resumen}</span></span>
+                <Icon name="caret-right" weight="bold" class="size-4 text-mute" />
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
-      {relacionados.length > 0 && (
-        <div>
-          <p class="sign-text border-b-4 border-sign pb-2 text-xl text-sign">También en {s.categoria}</p>
-          <ul class="divide-y divide-rule">
-            {relacionados.map((r) => (
-              <li><a href={u(`/especialidades/${r.slug}`)} class="group flex items-center justify-between gap-3 py-3 font-semibold hover:text-sign">{r.nombre}<Icon name="arrow-right" weight="bold" class="size-4 text-sign transition-transform group-hover:translate-x-1" /></a></li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </aside>
-  </div>
+    </section>
+  )}
 </Base>

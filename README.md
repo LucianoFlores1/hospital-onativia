@@ -24,3 +24,4 @@ Propuesta de rediseño de https://www.hospitalonativia.gob.ar (Salta, Argentina)
 - 22/11/2026: pool v2 con tres direcciones (`exploraciones/v2-pool/`), rechazado por poco visual.
 - 23/11/2026: v3 con fotos reales y logo (`exploraciones/v3-oficial/`). No convenció.
 - 24/11/2026: migración a Astro con dirección de señalización hospitalaria (directorio de entrada, placas de puerta).
+- 24/11/2026: rediseño estilo Apple (Inter, hero con foto, tarjetas, barra local fija en cada especialidad). Foto del frente restaurada con IA y Ñ corregida a mano.

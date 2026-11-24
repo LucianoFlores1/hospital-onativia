@@ -9,62 +9,69 @@ const hitos = [
   ['1976', 'Hemodiálisis y Medicina Nuclear', 'Pasa a ser Instituto de Patología Regional.'],
   ['1985', 'Hospital Dr. Arturo Oñativia', 'Decreto 804, en homenaje a su primer director.'],
   ['2010', 'Unidad de Trasplante Renal', 'Para pacientes con o sin obra social.'],
-  ['2018', 'Centro Ambulatorio y convenio con CONICET', 'Tres pisos de consultorios, extracciones, vacunatorio y turnos.'],
+  ['2018', 'Centro Ambulatorio y CONICET', 'Tres pisos de consultorios, extracciones, vacunatorio y turnos.'],
   ['2022', 'Primera UCT‑H del NOA', 'Unidad de Conocimiento Traslacional acreditada por el Ministerio de Salud de la Nación.'],
 ];
 ---
 <Base title="El hospital" activo="hospital" description="Historia, investigación y docencia del Hospital Dr. Arturo Oñativia.">
-  <section class="bg-paper">
-    <div class="wrap grid gap-8 py-10 md:py-14 lg:grid-cols-2 lg:items-end">
-      <div>
-        <h1 class="sign-text text-[52px] md:text-[72px]">El hospital</h1>
-        <p class="mt-3 max-w-xl text-lg text-steel">Hospital Público de Gestión Descentralizada, dependiente del Ministerio de Salud Pública de Salta. Centro de alta complejidad en enfermedades endocrino-metabólicas.</p>
-      </div>
-      <figure>
-        <Foto nombre="frente" alt="Frente del hospital con el cartel Hospital Oñativia y el busto del Dr. Arturo Oñativia" class="plate aspect-[16/10] w-full object-cover" priority />
-        <figcaption class="mt-2 text-[13px] text-steel">Frente sobre calle Paz Chaín. Imagen restaurada digitalmente.</figcaption>
+  <section class="pt-12 text-center md:pt-20">
+    <div class="wrap">
+      <h1 class="t-h1">Setenta años cuidando<br class="hidden sm:block" /> la salud de Salta.</h1>
+      <p class="t-lead mx-auto mt-4 max-w-[36ch] text-mute">Hospital Público de Gestión Descentralizada del Ministerio de Salud Pública. Alta complejidad en enfermedades endocrino-metabólicas.</p>
+    </div>
+    <div class="wrap-wide mt-10">
+      <figure class="reveal-scale tile overflow-hidden">
+        <Foto nombre="frente" alt="Frente del hospital con el cartel Hospital Oñativia y el busto del Dr. Arturo Oñativia" class="aspect-[4/3] w-full object-cover object-[30%_50%] md:aspect-[21/9] md:object-[50%_8%]" priority sizes="100vw" />
       </figure>
+      <p class="t-small mt-3 text-center text-mute">Frente sobre calle Paz Chaín. Imagen restaurada digitalmente.</p>
     </div>
   </section>
 
-  <section class="wrap py-14 md:py-20">
-    <div class="grid gap-10 lg:grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)]">
+  <section class="py-16 md:py-24">
+    <div class="wrap grid gap-12 md:grid-cols-[minmax(0,.85fr)_minmax(0,1.15fr)]">
       <div>
-        <h2 class="sign-text text-[40px] md:text-[52px]">Historia</h2>
-        <div class="plate mt-6 flex gap-4 border border-rule p-4">
-          <Foto nombre="arturo-onativia" alt="Dr. Arturo Oñativia" class="plate w-24 shrink-0 grayscale" sizes="96px" />
-          <div>
-            <p class="font-semibold">Dr. Arturo Oñativia (1914 a 1985)</p>
-            <p class="mt-1 text-[15px] text-steel">Médico endocrinólogo salteño, egresado de la UBA. Ganó por concurso la dirección del Instituto del Bocio en 1958. Fue docente, investigador y ministro de Salud de la Nación.</p>
-          </div>
+        <h2 class="t-h2">Historia.</h2>
+        <div class="reveal tile mt-8 bg-mist p-6">
+          <Foto nombre="arturo-onativia" alt="Dr. Arturo Oñativia" class="card w-28 grayscale" sizes="112px" />
+          <p class="mt-4 text-[19px] font-semibold tracking-[-0.015em]">Dr. Arturo Oñativia</p>
+          <p class="text-[15px] text-mute">1914 a 1985</p>
+          <p class="mt-3 text-ink-2">Médico endocrinólogo salteño, egresado de la UBA. Ganó por concurso la dirección del Instituto del Bocio en 1958. Fue docente, investigador y ministro de Salud de la Nación.</p>
         </div>
       </div>
-      <ol class="border-l-4 border-sign">
+      <ol class="relative border-l border-hair pl-8">
         {hitos.map(([a, t, d]) => (
-          <li class="relative pb-7 pl-6 last:pb-0">
-            <span class="absolute top-1.5 -left-[10px] size-4 rounded-full border-4 border-white bg-sign"></span>
-            <p class="font-display text-2xl font-semibold text-sign tabular-nums">{a}</p>
-            <p class="text-lg font-semibold">{t}</p>
-            <p class="text-steel">{d}</p>
+          <li class="reveal relative pb-9 last:pb-0">
+            <span class="absolute top-2 -left-[37px] size-2.5 rounded-full bg-accent ring-4 ring-white"></span>
+            <p class="text-[15px] font-semibold text-accent tabular-nums">{a}</p>
+            <p class="t-h3 mt-1">{t}</p>
+            <p class="mt-1 text-ink-2">{d}</p>
           </li>
         ))}
       </ol>
     </div>
   </section>
 
-  <section id="investigacion" class="scroll-mt-24 bg-paper">
-    <div class="wrap grid gap-10 py-14 md:py-20 lg:grid-cols-2 lg:items-center">
-      <div class="grid grid-cols-2 gap-3">
-        <Foto nombre="investigacion" alt="Profesionales del hospital en una escuela" class="plate aspect-[3/4] w-full object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
-        <Foto nombre="escuela" alt="Control de tiroides a una alumna en el aula" class="plate mt-10 aspect-[3/4] w-full object-cover" sizes="(min-width: 1024px) 25vw, 50vw" />
+  <section id="investigacion" class="bg-mist py-16 md:py-24">
+    <div class="wrap-wide">
+      <div class="text-center">
+        <h2 class="t-h2">Investigación y docencia.</h2>
+        <p class="t-lead mx-auto mt-3 max-w-[34ch] text-mute">La ciencia que nace en el hospital vuelve a la comunidad.</p>
       </div>
-      <div>
-        <h2 class="sign-text text-[40px] md:text-[52px]">Investigación y docencia</h2>
-        <ul class="mt-6 space-y-5">
-          <li class="flex gap-4"><span class="plate flex size-11 shrink-0 items-center justify-center bg-sign text-white"><Icon name="microscope" weight="fill" class="size-6" /></span><span><b class="block text-lg">Primera Unidad de Conocimiento Traslacional del NOA</b><span class="text-steel">Junto al CONICET, con 21 investigadores y profesionales de Endocrinología, Diabetes, Nutrición, Cirugía y Anatomía Patológica.</span></span></li>
-          <li class="flex gap-4"><span class="plate flex size-11 shrink-0 items-center justify-center bg-sign text-white"><Icon name="users-three" weight="fill" class="size-6" /></span><span><b class="block text-lg">Yodo en escuelas</b><span class="text-steel">Más de 20 profesionales estudian el bocio en niños de 6 a 12 años para actualizar los datos de la provincia.</span></span></li>
-          <li class="flex gap-4"><span class="plate flex size-11 shrink-0 items-center justify-center bg-sign text-white"><Icon name="graduation-cap" weight="fill" class="size-6" /></span><span><b class="block text-lg">Residencias</b><span class="text-steel">Endocrinología y Nutrición, Nutrición Clínica y Nefrología. Inscripción en febrero por SISA. También concurrencias, pasantías y rotaciones.</span></span></li>
-        </ul>
+      <div class="mt-12 grid gap-4 md:grid-cols-3 md:gap-5">
+        {[
+          ['microscope', 'Primera UCT‑H del NOA', 'Unidad de Conocimiento Traslacional junto al CONICET, con 21 investigadores y profesionales.', 'investigacion'],
+          ['users-three', 'Yodo en escuelas', 'Más de 20 profesionales estudian el bocio en niños de 6 a 12 años para actualizar los datos de la provincia.', 'escuela'],
+          ['graduation-cap', 'Residencias', 'Endocrinología y Nutrición, Nutrición Clínica y Nefrología. Inscripción en febrero por SISA.', 'consulta'],
+        ].map(([ic, t, d, f]) => (
+          <div class="reveal tile flex flex-col overflow-hidden bg-white">
+            <div class="p-8">
+              <Icon name={ic} class="size-8 text-accent" />
+              <p class="t-h3 mt-4">{t}</p>
+              <p class="mt-2 text-ink-2">{d}</p>
+            </div>
+            <Foto nombre={f} alt="" class="mt-auto aspect-[16/10] w-full object-cover" sizes="(min-width: 768px) 33vw, 100vw" />
+          </div>
+        ))}
       </div>
     </div>
   </section>

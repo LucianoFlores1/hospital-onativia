@@ -8,13 +8,15 @@ import { u } from '../lib/url';
 interface Props {
   title?: string;
   description?: string;
-  /** Sección activa del menú */
   activo?: 'inicio' | 'turnos' | 'especialidades' | 'hospital';
+  /** Ocultar la barra inferior de acciones (cuando la página ya tiene una propia) */
+  sinBarra?: boolean;
 }
 const {
   title,
   description = 'Hospital público de referencia en endocrinología, diabetes y riñón. Salta, Argentina.',
   activo = 'inicio',
+  sinBarra = false,
 } = Astro.props;
 const fullTitle = title ? `${title} · Hospital Oñativia` : 'Hospital Dr. Arturo Oñativia · Salta';
 
@@ -31,70 +33,57 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#10265f" />
+    <meta name="theme-color" content="#ffffff" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
   </head>
-  <body class="pb-[calc(72px+env(safe-area-inset-bottom))] md:pb-0">
-    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2">Saltar al contenido</a>
+  <body class:list={[!sinBarra && 'pb-[calc(76px+env(safe-area-inset-bottom))] md:pb-0']}>
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:shadow">Saltar al contenido</a>
 
-    <!-- Franja de servicio permanente: lo que un paciente necesita antes que nada -->
-    <div class="hidden bg-sign-night text-[15px] text-white/80 md:block">
-      <div class="wrap flex items-center justify-between gap-6 py-2">
-        <a href={u('/turnos#guardia')} class="flex items-center gap-2 font-medium text-white hover:underline">
-          <span class="plate bg-alarm px-1.5 py-0.5 font-display text-[13px] font-semibold uppercase tracking-wide">Guardia 24 h</span>
-          Descompensaciones endocrino-metabólicas
+    <header class="material sticky top-0 z-50 border-b border-black/5 pt-[env(safe-area-inset-top)]">
+      <div class="wrap-wide flex h-[52px] items-center gap-2">
+        <a href={u('/')} class="mr-auto flex items-center gap-2.5 py-2" aria-label="Hospital Dr. Arturo Oñativia, inicio">
+          <Logo class="size-7" />
+          <span class="text-[15px] font-semibold tracking-[-0.01em]">Hospital Oñativia</span>
         </a>
-        <div class="flex items-center gap-6">
-          <a href="tel:148" class="flex items-center gap-2 hover:text-white"><Icon name="phone" weight="fill" class="size-4" />Turnos <b class="text-white">148</b></a>
-          <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-white"><Icon name="whatsapp-logo" weight="fill" class="size-4" />WhatsApp <b class="text-white">{contacto.whatsapp}</b></a>
-        </div>
-      </div>
-    </div>
-
-    <header class="sticky top-0 z-40 border-b border-rule bg-white/95 backdrop-blur-sm">
-      <div class="wrap flex h-[68px] items-center gap-6 md:h-[76px]">
-        <a href={u('/')} class="mr-auto flex items-center gap-3">
-          <Logo class="size-10 md:size-11" />
-          <span class="leading-tight">
-            <span class="block font-display text-[19px] font-bold uppercase tracking-[0.01em] md:text-[21px]">Hospital Dr. Arturo Oñativia</span>
-            <span class="hidden text-[13px] text-steel sm:block">Ministerio de Salud Pública · Salta</span>
-          </span>
-        </a>
-        <nav aria-label="Principal" class="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Principal" class="hidden items-center md:flex">
           {nav.map((n) => (
             <a
               href={u(n.href)}
               aria-current={activo === n.id ? 'page' : undefined}
-              class="plate px-3 py-2 font-semibold text-steel hover:bg-paper hover:text-ink aria-[current=page]:text-sign aria-[current=page]:underline aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
+              class="px-3 py-2 text-[13px] text-ink/80 transition-colors hover:text-ink aria-[current=page]:font-semibold aria-[current=page]:text-ink"
             >{n.label}</a>
           ))}
+          <a href={u('/turnos#guardia')} class="ml-2 flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold text-alarm">
+            <span class="size-2 rounded-full bg-alarm" aria-hidden="true"></span>
+            Guardia 24 h
+          </a>
         </nav>
-        <a href={u('/turnos')} class="press plate hidden items-center gap-2 bg-cross px-4 py-2.5 font-semibold text-white hover:bg-cross-deep md:flex">
-          <Icon name="calendar-check" weight="bold" class="size-5" />Pedir turno
-        </a>
-        <button id="menuOpen" type="button" class="press plate flex size-11 items-center justify-center border border-rule lg:hidden" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
-          <Icon name="list" weight="bold" class="size-6" />
+        <a href={u('/turnos')} class="btn btn-primary ml-3 hidden min-h-8! px-3.5! text-[13px]! md:inline-flex">Pedir turno</a>
+        <button id="menuOpen" type="button" class="press -mr-2 flex size-11 items-center justify-center md:hidden" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
+          <Icon name="list" class="size-6" />
         </button>
       </div>
     </header>
 
-    <dialog id="menu" class="m-0 ml-auto h-dvh max-h-none w-[min(380px,90vw)] max-w-none bg-white p-0 backdrop:bg-ink/50">
-      <div class="flex h-full flex-col pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
-        <div class="flex items-center justify-between border-b border-rule px-5 py-3">
-          <span class="sign-text text-xl">Menú</span>
-          <button type="button" data-close class="press plate flex size-11 items-center justify-center border border-rule" aria-label="Cerrar menú"><Icon name="x" weight="bold" class="size-6" /></button>
+    <!-- Menú móvil: pantalla completa, enlaces grandes que aparecen escalonados -->
+    <dialog id="menu" class="m-0 h-dvh max-h-none w-full max-w-none bg-white p-0 open:flex backdrop:bg-transparent">
+      <div class="flex w-full flex-col pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+        <div class="flex h-[52px] items-center justify-between px-5">
+          <span class="flex items-center gap-2.5"><Logo class="size-7" /><span class="text-[15px] font-semibold">Hospital Oñativia</span></span>
+          <button type="button" data-close class="press -mr-2 flex size-11 items-center justify-center" aria-label="Cerrar menú"><Icon name="x" class="size-6" /></button>
         </div>
-        <nav class="flex flex-col p-3" aria-label="Menú">
-          <a href={u('/')} class="plate flex items-center justify-between px-3 py-4 text-lg font-semibold hover:bg-paper">Inicio <Icon name="arrow-right" weight="bold" class="size-5 text-sign" /></a>
-          {nav.map((n) => (
-            <a href={u(n.href)} class="plate flex items-center justify-between px-3 py-4 text-lg font-semibold hover:bg-paper">{n.label} <Icon name="arrow-right" weight="bold" class="size-5 text-sign" /></a>
+        <nav class="menu-list flex flex-col px-8 pt-6" aria-label="Menú">
+          <a href={u('/')} style="--i:0" class="py-2 text-[28px] font-semibold tracking-[-0.025em]">Inicio</a>
+          {nav.map((n, i) => (
+            <a href={u(n.href)} style={`--i:${i + 1}`} class="py-2 text-[28px] font-semibold tracking-[-0.025em]">{n.label}</a>
           ))}
+          <a href={u('/turnos#guardia')} style="--i:4" class="py-2 text-[28px] font-semibold tracking-[-0.025em] text-alarm">Guardia 24 h</a>
         </nav>
-        <div class="mt-auto space-y-2 border-t border-rule p-5 text-[15px] text-steel">
-          <p><b class="text-ink">{contacto.direccion}</b></p>
-          <p>Conmutador {contacto.conmutador}</p>
+        <div class="menu-list mt-auto space-y-1 px-8 pb-8 text-[15px] text-mute">
+          <p style="--i:5">{contacto.direccion}</p>
+          <p style="--i:6">Turnos 148 · WhatsApp {contacto.whatsapp}</p>
         </div>
       </div>
     </dialog>
@@ -103,46 +92,65 @@ const nav = [
       <slot />
     </main>
 
-    <footer class="mt-24 bg-sign-night text-white/75">
-      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
-        <div>
-          <div class="flex items-center gap-3">
-            <Logo class="size-12" />
-            <span class="sign-text text-2xl text-white">Hospital Dr. Arturo Oñativia</span>
+    <footer class="mt-20 bg-mist text-[12px] leading-[1.5] text-mute">
+      <div class="wrap py-10">
+        <p class="border-b border-hair pb-4">Propuesta de rediseño del sitio del Hospital Dr. Arturo Oñativia. Fotos: Prensa del Gobierno de Salta. La foto del frente es una restauración digital.</p>
+        <div class="grid gap-8 py-6 sm:grid-cols-3">
+          <div>
+            <p class="mb-2 font-semibold text-ink">Pacientes</p>
+            <ul class="space-y-2">
+              <li><a href={u('/turnos')} class="hover:underline">Pedir turno</a></li>
+              <li><a href={u('/turnos#guardia')} class="hover:underline">Guardia 24 horas</a></li>
+              <li><a href={u('/especialidades')} class="hover:underline">Especialidades</a></li>
+            </ul>
           </div>
-          <p class="mt-4 max-w-sm text-[15px]">Hospital Público de Gestión Descentralizada. Ministerio de Salud Pública de la Provincia de Salta.</p>
+          <div>
+            <p class="mb-2 font-semibold text-ink">El hospital</p>
+            <ul class="space-y-2">
+              <li><a href={u('/el-hospital')} class="hover:underline">Historia</a></li>
+              <li><a href={u('/el-hospital#investigacion')} class="hover:underline">Investigación y docencia</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="mb-2 font-semibold text-ink">Contacto</p>
+            <ul class="space-y-2">
+              <li>{contacto.direccion}</li>
+              <li>Turnos 148 · WhatsApp {contacto.whatsapp}</li>
+              <li>Conmutador {contacto.conmutador}</li>
+            </ul>
+          </div>
         </div>
-        <div class="space-y-2 text-[15px]">
-          <p class="sign-text mb-3 text-lg text-white">Contacto</p>
-          <p>{contacto.direccion}</p>
-          <p>Turnos <b class="text-white">148</b> · WhatsApp <b class="text-white">{contacto.whatsapp}</b></p>
-          <p>Conmutador {contacto.conmutador}</p>
-          <p><a href={contacto.mapa} target="_blank" rel="noopener" class="underline underline-offset-4 hover:text-white">Ver en el mapa</a></p>
+        <div class="flex flex-wrap items-center justify-between gap-3 border-t border-hair pt-4">
+          <span>© 2026 Hospital Dr. Arturo Oñativia. Ministerio de Salud Pública de Salta.</span>
+          <a href={contacto.mapa} target="_blank" rel="noopener" class="hover:underline">Ver en el mapa</a>
         </div>
-        <div class="space-y-2 text-[15px]">
-          <p class="sign-text mb-3 text-lg text-white">Secciones</p>
-          {nav.map((n) => <p><a href={u(n.href)} class="hover:text-white hover:underline">{n.label}</a></p>)}
-        </div>
-      </div>
-      <div class="wrap flex flex-wrap justify-between gap-3 border-t border-white/10 py-6 text-[13px] text-white/55">
-        <span>Propuesta de rediseño. Fotos: Prensa del Gobierno de Salta.</span>
-        <span>© 2026 Hospital Dr. Arturo Oñativia</span>
       </div>
     </footer>
 
-    <!-- Barra fija en el celular: llamar o escribir sin buscar el número -->
-    <div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-[1fr_1.3fr] gap-2 border-t border-rule bg-white px-3 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] md:hidden">
-      <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="press plate flex min-h-12 items-center justify-center gap-2 bg-cross-tint font-semibold text-cross-deep"><Icon name="whatsapp-logo" weight="fill" class="size-5" />WhatsApp</a>
-      <a href="tel:148" class="press plate flex min-h-12 items-center justify-center gap-2 bg-cross font-semibold text-white"><Icon name="phone" weight="fill" class="size-5" />Turnos 148</a>
-    </div>
+    {!sinBarra && (
+      <!-- Barra de acciones en el celular, en material translúcido -->
+      <div class="material fixed inset-x-0 bottom-0 z-40 grid grid-cols-[1fr_1.35fr] gap-2 border-t border-black/5 px-3 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] md:hidden">
+        <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="btn bg-wa-tint text-[16px]! text-wa"><Icon name="whatsapp-logo" weight="fill" class="size-5" />WhatsApp</a>
+        <a href="tel:148" class="btn btn-primary text-[16px]!"><Icon name="phone" weight="fill" class="size-5" />Turnos 148</a>
+      </div>
+    )}
 
+    <style>
+      dialog[open] { animation: menu-in 260ms var(--ease-out-strong); }
+      dialog[open] .menu-list > * { animation: item-in 380ms var(--ease-out-strong) both; animation-delay: calc(60ms + var(--i, 0) * 40ms); }
+      @keyframes menu-in { from { opacity: 0; } }
+      @keyframes item-in { from { opacity: 0; transform: translateY(-8px); } }
+      @media (prefers-reduced-motion: reduce) {
+        dialog[open], dialog[open] .menu-list > * { animation: none; }
+      }
+    </style>
     <script>
       const menu = document.getElementById('menu') as HTMLDialogElement | null;
       const open = document.getElementById('menuOpen');
       open?.addEventListener('click', () => { menu?.showModal(); open.setAttribute('aria-expanded', 'true'); });
       menu?.addEventListener('click', (e) => {
         const t = e.target as HTMLElement;
-        if (t === menu || t.closest('[data-close]') || t.closest('a')) { menu.close(); }
+        if (t.closest('[data-close]') || t.closest('a')) menu.close();
       });
       menu?.addEventListener('close', () => open?.setAttribute('aria-expanded', 'false'));
     </script>
