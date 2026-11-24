@@ -33,15 +33,26 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" id="themeColor" />
+    <!-- Aplica el tema guardado o el del sistema antes de pintar, para evitar el destello -->
+    <script is:inline>
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem('tema'); } catch (e) {}
+        var dark = t ? t === 'oscuro' : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', dark);
+        var m = document.getElementById('themeColor');
+        if (m) m.setAttribute('content', dark ? '#0b0b0c' : '#ffffff');
+      })();
+    </script>
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
   </head>
   <body class:list={[!sinBarra && 'pb-[calc(76px+env(safe-area-inset-bottom))] md:pb-0']}>
-    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:shadow">Saltar al contenido</a>
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-canvas focus:px-4 focus:py-2 focus:shadow">Saltar al contenido</a>
 
-    <header class="material sticky top-0 z-50 border-b border-black/5 pt-[env(safe-area-inset-top)]">
+    <header class="site-header material sticky top-0 z-50 border-b border-ink/[.08] pt-[env(safe-area-inset-top)]">
       <div class="wrap-wide flex h-[52px] items-center gap-2">
         <a href={u('/')} class="mr-auto flex items-center gap-2.5 py-2" aria-label="Hospital Dr. Arturo Oñativia, inicio">
           <Logo class="size-7" />
@@ -52,7 +63,7 @@ const nav = [
             <a
               href={u(n.href)}
               aria-current={activo === n.id ? 'page' : undefined}
-              class="px-3 py-2 text-[13px] text-ink/80 transition-colors hover:text-ink aria-[current=page]:font-semibold aria-[current=page]:text-ink"
+              class="relative px-3 py-2 text-[13px] text-ink/75 transition-colors duration-200 hover:text-ink aria-[current=page]:font-semibold aria-[current=page]:text-ink after:absolute after:inset-x-3 after:-bottom-[9px] after:h-[2px] after:origin-center after:scale-x-0 after:rounded-full after:bg-ink after:transition-transform after:duration-300 aria-[current=page]:after:scale-x-100"
             >{n.label}</a>
           ))}
           <a href={u('/turnos#guardia')} class="ml-2 flex items-center gap-1.5 px-3 py-2 text-[13px] font-semibold text-alarm">
@@ -60,7 +71,11 @@ const nav = [
             Guardia 24 h
           </a>
         </nav>
-        <a href={u('/turnos')} class="btn btn-primary ml-3 hidden min-h-8! px-3.5! text-[13px]! md:inline-flex">Pedir turno</a>
+        <a href={u('/turnos')} class="btn btn-primary ml-2 hidden min-h-8! px-3.5! text-[13px]! md:inline-flex">Pedir turno</a>
+        <button type="button" data-tema class="press ml-1 flex size-11 items-center justify-center rounded-full text-ink/75 transition-colors hover:bg-ink/[.06] hover:text-ink md:ml-2 md:size-9" aria-label="Cambiar a modo oscuro">
+          <Icon name="moon" class="size-[20px] dark:hidden" />
+          <Icon name="sun" class="hidden size-[20px] dark:block" />
+        </button>
         <button id="menuOpen" type="button" class="press -mr-2 flex size-11 items-center justify-center md:hidden" aria-label="Abrir menú" aria-controls="menu" aria-expanded="false">
           <Icon name="list" class="size-6" />
         </button>
@@ -68,7 +83,7 @@ const nav = [
     </header>
 
     <!-- Menú móvil: pantalla completa, enlaces grandes que aparecen escalonados -->
-    <dialog id="menu" class="m-0 h-dvh max-h-none w-full max-w-none bg-white p-0 open:flex backdrop:bg-transparent">
+    <dialog id="menu" class="m-0 h-dvh max-h-none w-full max-w-none bg-canvas p-0 text-ink open:flex backdrop:bg-transparent">
       <div class="flex w-full flex-col pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
         <div class="flex h-[52px] items-center justify-between px-5">
           <span class="flex items-center gap-2.5"><Logo class="size-7" /><span class="text-[15px] font-semibold">Hospital Oñativia</span></span>
@@ -129,7 +144,7 @@ const nav = [
 
     {!sinBarra && (
       <!-- Barra de acciones en el celular, en material translúcido -->
-      <div class="material fixed inset-x-0 bottom-0 z-40 grid grid-cols-[1fr_1.35fr] gap-2 border-t border-black/5 px-3 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] md:hidden">
+      <div class="material fixed inset-x-0 bottom-0 z-40 grid grid-cols-[1fr_1.35fr] gap-2 border-t border-ink/[.08] px-3 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] md:hidden">
         <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="btn bg-wa-tint text-[16px]! text-wa"><Icon name="whatsapp-logo" weight="fill" class="size-5" />WhatsApp</a>
         <a href="tel:148" class="btn btn-primary text-[16px]!"><Icon name="phone" weight="fill" class="size-5" />Turnos 148</a>
       </div>
@@ -145,6 +160,47 @@ const nav = [
       }
     </style>
     <script>
+      // Cambio de tema con un círculo que se expande desde el botón (View Transitions).
+      function aplicarTema(oscuro: boolean) {
+        document.documentElement.classList.toggle('dark', oscuro);
+        document.getElementById('themeColor')?.setAttribute('content', oscuro ? '#0b0b0c' : '#ffffff');
+        document.querySelectorAll('[data-tema]').forEach((b) => b.setAttribute('aria-label', oscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'));
+      }
+      aplicarTema(document.documentElement.classList.contains('dark'));
+      document.querySelectorAll<HTMLButtonElement>('[data-tema]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const oscuro = !document.documentElement.classList.contains('dark');
+          try { localStorage.setItem('tema', oscuro ? 'oscuro' : 'claro'); } catch {}
+          const root = document.documentElement;
+          const reducir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const doc = document as Document & { startViewTransition?: (cb: () => void) => { ready: Promise<void>; finished: Promise<void> } };
+          if (!doc.startViewTransition || reducir) {
+            root.classList.add('theme-fade');
+            aplicarTema(oscuro);
+            setTimeout(() => root.classList.remove('theme-fade'), 320);
+            return;
+          }
+          const r = btn.getBoundingClientRect();
+          const x = r.left + r.width / 2, y = r.top + r.height / 2;
+          const radio = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+          root.classList.add('theme-vt');
+          const t = doc.startViewTransition(() => aplicarTema(oscuro));
+          t.ready.then(() => {
+            root.animate(
+              { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radio}px at ${x}px ${y}px)`] },
+              { duration: 560, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', pseudoElement: '::view-transition-new(root)' },
+            );
+          });
+          t.finished.finally(() => root.classList.remove('theme-vt'));
+        });
+      });
+      // Si la persona no eligió un tema, seguir el del sistema.
+      matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        let elegido = null;
+        try { elegido = localStorage.getItem('tema'); } catch {}
+        if (!elegido) aplicarTema(e.matches);
+      });
+
       const menu = document.getElementById('menu') as HTMLDialogElement | null;
       const open = document.getElementById('menuOpen');
       open?.addEventListener('click', () => { menu?.showModal(); open.setAttribute('aria-expanded', 'true'); });

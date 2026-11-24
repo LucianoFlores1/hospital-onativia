@@ -57,7 +57,7 @@ export default function Buscador({ servicios, base, conmutador }: { servicios: I
               type="button"
               aria-pressed={cat === c}
               onClick={() => setCat(c)}
-              className="shrink-0 rounded-full px-4 py-1.5 text-[15px] font-medium text-ink-2 transition-[background-color,box-shadow,color] duration-200 aria-pressed:bg-white aria-pressed:text-ink aria-pressed:shadow-[0_1px_3px_rgb(0_0_0/0.12)]"
+              className="shrink-0 rounded-full px-4 py-1.5 text-[15px] font-medium text-ink-2 transition-[background-color,box-shadow,color] duration-200 aria-pressed:bg-raised aria-pressed:text-ink aria-pressed:shadow-[0_1px_3px_rgb(0_0_0/0.12)]"
             >
               {c}
             </button>
@@ -83,7 +83,7 @@ export default function Buscador({ servicios, base, conmutador }: { servicios: I
             <ul className="card overflow-hidden bg-mist">
               {g.items.map((s) => (
                 <li key={s.slug} className="border-b border-hair/70 last:border-b-0">
-                  <a href={`${base}/especialidades/${s.slug}`} className="group flex items-center gap-4 px-4 py-3.5 transition-colors hover:bg-black/[.03] active:bg-black/[.06]">
+                  <a href={`${base}/especialidades/${s.slug}`} className="group flex items-center gap-4 px-4 py-3.5 transition-colors hover:bg-ink/[.04] active:bg-ink/[.07]">
                     <span className="min-w-0 flex-1">
                       <span className="block text-[17px] font-semibold tracking-[-0.015em]">{s.nombre}</span>
                       <span className="block text-[15px] leading-snug text-mute">{s.resumen}</span>

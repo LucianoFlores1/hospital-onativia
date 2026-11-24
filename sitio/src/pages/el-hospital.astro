@@ -27,7 +27,7 @@ const hitos = [
     </div>
   </section>
 
-  <section class="py-16 md:py-24">
+  <section class="sec">
     <div class="wrap grid gap-12 md:grid-cols-[minmax(0,.85fr)_minmax(0,1.15fr)]">
       <div>
         <h2 class="t-h2">Historia.</h2>
@@ -41,7 +41,7 @@ const hitos = [
       <ol class="relative border-l border-hair pl-8">
         {hitos.map(([a, t, d]) => (
           <li class="reveal relative pb-9 last:pb-0">
-            <span class="absolute top-2 -left-[37px] size-2.5 rounded-full bg-accent ring-4 ring-white"></span>
+            <span class="absolute top-2 -left-[37px] size-2.5 rounded-full bg-accent ring-4 ring-canvas"></span>
             <p class="text-[15px] font-semibold text-accent tabular-nums">{a}</p>
             <p class="t-h3 mt-1">{t}</p>
             <p class="mt-1 text-ink-2">{d}</p>
@@ -51,7 +51,7 @@ const hitos = [
     </div>
   </section>
 
-  <section id="investigacion" class="bg-mist py-16 md:py-24">
+  <section id="investigacion" class="bg-mist sec">
     <div class="wrap-wide">
       <div class="text-center">
         <h2 class="t-h2">Investigación y docencia.</h2>
@@ -63,8 +63,8 @@ const hitos = [
           ['users-three', 'Yodo en escuelas', 'Más de 20 profesionales estudian el bocio en niños de 6 a 12 años para actualizar los datos de la provincia.', 'escuela'],
           ['graduation-cap', 'Residencias', 'Endocrinología y Nutrición, Nutrición Clínica y Nefrología. Inscripción en febrero por SISA.', 'consulta'],
         ].map(([ic, t, d, f]) => (
-          <div class="reveal tile flex flex-col overflow-hidden bg-white">
-            <div class="p-8">
+          <div class="reveal tile flex flex-col overflow-hidden bg-surface">
+            <div class="pad">
               <Icon name={ic} class="size-8 text-accent" />
               <p class="t-h3 mt-4">{t}</p>
               <p class="mt-2 text-ink-2">{d}</p>

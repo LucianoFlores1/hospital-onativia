@@ -1,38 +1,38 @@
 ---
-// Accesos rápidos: la navegación por destino, como la fila de categorías de la Apple Store.
-// En el celular se desliza horizontalmente; en escritorio entra completa en una línea.
+// Accesos rápidos por destino, como la fila de categorías de la Apple Store.
+// Celular: grilla de 4 x 2, todo a la vista sin deslizar. Escritorio: una sola fila.
 import Icon from './Icon.astro';
 import { contacto } from '../data/servicios';
 import { u } from '../lib/url';
 
 const accesos = [
   { label: 'Pedir turno', icono: 'calendar-check', href: u('/turnos') },
-  { label: 'Guardia 24 h', icono: 'siren', href: u('/turnos#guardia'), alarma: true },
+  { label: 'Guardia', icono: 'siren', href: u('/turnos#guardia'), alarma: true },
   { label: 'Hemodiálisis', icono: 'drop', href: u('/especialidades/hemodialisis') },
-  { label: 'Endocrinología', icono: 'stethoscope', href: u('/especialidades/endocrinologia') },
+  { label: 'Endocrino­logía', icono: 'stethoscope', href: u('/especialidades/endocrinologia') },
   { label: 'Diabetes', icono: 'heartbeat', href: u('/especialidades/diabetes') },
   { label: 'Tiroides', icono: 'first-aid', href: u('/especialidades/cirugia-tiroides') },
-  { label: 'Especialidades', icono: 'list-magnifying-glass', href: u('/especialidades') },
+  { label: 'Todas', icono: 'list-magnifying-glass', href: u('/especialidades') },
   { label: 'Cómo llegar', icono: 'map-pin', href: contacto.mapa, externo: true },
 ];
 ---
-<nav aria-label="Accesos rápidos" class="-mx-5 overflow-x-auto overscroll-x-contain px-5 [scrollbar-width:none] md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden">
-  <ul class="flex min-w-max justify-center gap-2 md:min-w-0 md:gap-0">
+<nav aria-label="Accesos rápidos">
+  <ul class="grid grid-cols-4 gap-x-1 gap-y-2 md:flex md:justify-center md:gap-2">
     {accesos.map((a) => (
-      <li class="md:flex-1">
+      <li class="md:w-[104px]">
         <a
           href={a.href}
           target={a.externo ? '_blank' : undefined}
           rel={a.externo ? 'noopener' : undefined}
-          class="group press flex w-[92px] flex-col items-center gap-2.5 rounded-2xl px-1 py-3 text-center md:w-auto"
+          class="group flex flex-col items-center gap-2 rounded-2xl px-0.5 py-2.5 text-center transition-transform duration-150 ease-[var(--ease-out-strong)] active:scale-95"
         >
           <span class:list={[
-            'flex size-14 items-center justify-center rounded-2xl transition-colors duration-200',
-            a.alarma ? 'bg-alarm-tint text-alarm group-hover:bg-alarm group-hover:text-white' : 'bg-mist text-accent group-hover:bg-accent group-hover:text-white',
+            'flex size-[52px] items-center justify-center rounded-[16px] transition-[background-color,color,transform] duration-300 ease-[var(--ease-out-strong)] md:size-14 md:group-hover:-translate-y-0.5',
+            a.alarma ? 'bg-alarm-tint text-alarm md:group-hover:bg-alarm md:group-hover:text-white' : 'bg-mist text-accent md:group-hover:bg-btn md:group-hover:text-white',
           ]}>
-            <Icon name={a.icono} class="size-7" />
+            <Icon name={a.icono} class="size-[26px]" />
           </span>
-          <span class="text-[13px] leading-tight font-medium text-ink">{a.label}</span>
+          <span class="text-[12px] leading-tight font-medium text-ink sm:text-[13px]">{a.label}</span>
         </a>
       </li>
     ))}
