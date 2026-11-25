@@ -152,7 +152,7 @@
 
   /* Tarjetas tocables: se elevan con el mouse y se hunden al tocar */
   a.tile, a.card, .lift {
-    transition: transform 320ms var(--ease-out-strong), box-shadow 320ms ease, background-color 300ms ease;
+    transition: transform 260ms var(--ease-out-strong), box-shadow 260ms ease, background-color 260ms ease;
   }
   @media (hover: hover) and (pointer: fine) {
     a.tile:hover, a.card:hover, .lift:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
@@ -172,14 +172,24 @@
   }
 }
 
-/* Aparición al desplazarse (sin JavaScript). Sin soporte, el contenido se ve desde el inicio. */
+/* Aparición al desplazarse: una sola vez, nunca se deshace al volver hacia arriba.
+   El script de Base.astro marca con .reveal-wait solo lo que está debajo de la pantalla al cargar,
+   así lo visible de entrada nunca parpadea. Sin JavaScript, todo se ve desde el inicio.
+   Se animan `translate` y `opacity` (no `transform`) para no pisar el hover y el toque de las tarjetas. */
+.reveal-wait:not(.is-in) { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-wait:not(.is-in) { translate: 0 20px; }
+  .reveal-wait.is-in { animation: reveal-in 600ms var(--ease-out-strong) var(--d, 0ms) both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-wait.is-in { animation: fade-in 300ms ease var(--d, 0ms) both; }
+}
+@keyframes reveal-in { from { opacity: 0; translate: 0 20px; } }
+@keyframes fade-in { from { opacity: 0; } }
+
+/* Fotos grandes que se acercan apenas mientras entran (atado al scroll, corre fuera del hilo principal) */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
-    .reveal {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 40%;
-    }
     .reveal-scale {
       animation: reveal-scale linear both;
       animation-timeline: view();
@@ -187,8 +197,7 @@
     }
   }
 }
-@keyframes reveal { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
-@keyframes reveal-scale { from { transform: scale(0.94); } to { transform: none; } }
+@keyframes reveal-scale { from { scale: 0.95; } to { scale: 1; } }
 
 /* Barra de progreso de lectura en las fichas */
 .progress { transform: scaleX(0); transform-origin: left; }
@@ -207,12 +216,15 @@
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
 @keyframes vt-out { to { opacity: 0; } }
-@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+@keyframes vt-in { from { opacity: 0; translate: 0 10px; } }
+/* Lo que se repite entre páginas queda quieto; solo cambia el contenido */
 .site-header { view-transition-name: site-header; }
+.action-bar { view-transition-name: action-bar; }
+.localnav { view-transition-name: localnav; }
 
 /* Cambio de tema: círculo que se expande desde el botón */
 html.theme-vt::view-transition-old(root),
 html.theme-vt::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-html.theme-vt .site-header { view-transition-name: none; }
+html.theme-vt :is(.site-header, .action-bar, .localnav) { view-transition-name: none; }
 /* Sin View Transitions: cruce suave de colores */
 html.theme-fade, html.theme-fade * { transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease !important; }

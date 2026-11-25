@@ -57,3 +57,10 @@ export const contacto = {
   conmutador: '0387 431-5042',
   mapa: 'https://www.google.com/maps/search/?api=1&query=Hospital+Arturo+O%C3%B1ativia+Salta',
 };
+
+// Cuentas del hospital de Salta. Ojo: @hospitalonativia en Instagram es el hospital homónimo de Rafael Calzada (Buenos Aires).
+export const redes = [
+  { nombre: 'Facebook', icono: 'facebook-logo', usuario: 'Hospital.Dr.Arturo.Onativia.Salta', href: 'https://www.facebook.com/Hospital.Dr.Arturo.Onativia.Salta/' },
+  { nombre: 'Instagram', icono: 'instagram-logo', usuario: '@hosp.onativia_salta', href: 'https://www.instagram.com/hosp.onativia_salta/' },
+  { nombre: 'X', icono: 'x-logo', usuario: '@hosponativia', href: 'https://x.com/hosponativia' },
+];

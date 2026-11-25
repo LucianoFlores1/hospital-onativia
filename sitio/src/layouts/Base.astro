@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
 import Icon from '../components/Icon.astro';
-import { contacto } from '../data/servicios';
+import { contacto, redes } from '../data/servicios';
 import { u } from '../lib/url';
 
 interface Props {
@@ -99,6 +99,11 @@ const nav = [
         <div class="menu-list mt-auto space-y-1 px-8 pb-8 text-[15px] text-mute">
           <p style="--i:5">{contacto.direccion}</p>
           <p style="--i:6">Turnos 148 · WhatsApp {contacto.whatsapp}</p>
+          <div style="--i:7" class="-ml-3 flex gap-1 pt-3">
+            {redes.map((r) => (
+              <a href={r.href} target="_blank" rel="noopener" class="press flex size-11 items-center justify-center rounded-full text-ink/85 hover:bg-ink/[.06] hover:text-ink" aria-label={`${r.nombre} del hospital (${r.usuario})`}><Icon name={r.icono} class="size-6" /></a>
+            ))}
+          </div>
         </div>
       </div>
     </dialog>
@@ -133,6 +138,11 @@ const nav = [
               <li>Turnos 148 · WhatsApp {contacto.whatsapp}</li>
               <li>Conmutador {contacto.conmutador}</li>
             </ul>
+            <ul class="-ml-2.5 mt-3 flex gap-1" aria-label="Redes sociales">
+              {redes.map((r) => (
+                <li><a href={r.href} target="_blank" rel="noopener" class="press flex size-10 items-center justify-center rounded-full text-ink/75 transition-colors hover:bg-ink/[.06] hover:text-ink" aria-label={`${r.nombre} del hospital (${r.usuario})`}><Icon name={r.icono} class="size-5" /></a></li>
+              ))}
+            </ul>
           </div>
         </div>
         <div class="flex flex-wrap items-center justify-between gap-3 border-t border-hair pt-4">
@@ -144,19 +154,24 @@ const nav = [
 
     {!sinBarra && (
       <!-- Barra de acciones en el celular, en material translúcido -->
-      <div class="material fixed inset-x-0 bottom-0 z-40 grid grid-cols-[1fr_1.35fr] gap-2 border-t border-ink/[.08] px-3 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] md:hidden">
+      <div class="action-bar material fixed inset-x-0 bottom-0 z-40 grid grid-cols-[1fr_1.35fr] gap-2 border-t border-ink/[.08] px-3 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] md:hidden">
         <a href={contacto.whatsappUrl} target="_blank" rel="noopener" class="btn bg-wa-tint text-[16px]! text-wa"><Icon name="whatsapp-logo" weight="fill" class="size-5" />WhatsApp</a>
         <a href="tel:148" class="btn btn-primary text-[16px]!"><Icon name="phone" weight="fill" class="size-5" />Turnos 148</a>
       </div>
     )}
 
     <style>
-      dialog[open] { animation: menu-in 260ms var(--ease-out-strong); }
-      dialog[open] .menu-list > * { animation: item-in 380ms var(--ease-out-strong) both; animation-delay: calc(60ms + var(--i, 0) * 40ms); }
-      @keyframes menu-in { from { opacity: 0; } }
-      @keyframes item-in { from { opacity: 0; transform: translateY(-8px); } }
+      /* El menú entra y sale con el mismo fundido; display y overlay esperan a que termine al cerrar */
+      dialog {
+        opacity: 0;
+        transition: opacity 220ms var(--ease-out-strong), display 220ms allow-discrete, overlay 220ms allow-discrete;
+      }
+      dialog[open] { opacity: 1; }
+      @starting-style { dialog[open] { opacity: 0; } }
+      dialog[open] .menu-list > * { animation: item-in 380ms var(--ease-out-strong) both; animation-delay: calc(40ms + var(--i, 0) * 35ms); }
+      @keyframes item-in { from { opacity: 0; translate: 0 -8px; } }
       @media (prefers-reduced-motion: reduce) {
-        dialog[open], dialog[open] .menu-list > * { animation: none; }
+        dialog[open] .menu-list > * { animation: none; }
       }
     </style>
     <script>
@@ -209,6 +224,25 @@ const nav = [
         if (t.closest('[data-close]') || t.closest('a')) menu.close();
       });
       menu?.addEventListener('close', () => open?.setAttribute('aria-expanded', 'false'));
+
+      // Aparición al desplazarse. Primero se leen todas las posiciones y después se escribe,
+      // para no forzar un recálculo de diseño por cada elemento.
+      const pendientes = [...document.querySelectorAll<HTMLElement>('.reveal')]
+        .filter((el) => el.getBoundingClientRect().top > innerHeight * 0.9);
+      if ('IntersectionObserver' in window && pendientes.length) {
+        const io = new IntersectionObserver((entries) => {
+          const entran = entries.filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left);
+          // Lo que entra junto aparece en cascada, con un tope para que nada espere demasiado
+          entran.forEach((e, i) => {
+            const el = e.target as HTMLElement;
+            el.style.setProperty('--d', `${Math.min(i, 4) * 60}ms`);
+            el.classList.add('is-in');
+            io.unobserve(el);
+          });
+        }, { rootMargin: '0px 0px -40px 0px' });
+        pendientes.forEach((el) => { el.classList.add('reveal-wait'); io.observe(el); });
+      }
     </script>
   </body>
 </html>
